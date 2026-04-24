@@ -1,1 +1,113 @@
-wa
+```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>市川工業 E3B 7班 課題研究日記</title>
+    <link rel="stylesheet" href="Kadai.css">
+    <!-- 手書き風フォントの読み込み -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300;400;500&family=Yomogi&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="notebook-container">
+        <!-- 上部の付箋ナビ -->
+        <nav class="sticky-tabs">
+            <button onclick="showPage('page-424')" class="tab blue">4/24</button>
+            <button onclick="showPage('page-next')" class="tab pink">Next</button>
+        </nav>
+
+        <div class="notebook">
+            
+            <!-- 表紙ページ -->
+            <section id="cover" class="page cover active">
+                <div class="cover-content">
+                    <p class="school-name">市川工業の</p>
+                    <h1 class="class-id">E3B</h1>
+                    <p class="group-name">7班</p>
+                    <h2 class="project-title">課題研究<br>日記</h2>
+                    
+                    <button class="next-btn" onclick="flipPage()">
+                        <span class="arrow">➔</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- 日記本体ページ -->
+            <section id="diary-page" class="page diary">
+                <div class="paper-spread">
+                    <!-- 左側のページ -->
+                    <div class="side left-page" id="page-424">
+                        <div class="page-header">
+                            <span class="date">4/24 の記録</span>
+                        </div>
+                        <div class="content-area">
+                            <p>今日はポートフォリオの作成を開始しました！</p>
+                            <p>手書き風のフォントを入れるだけで、一気に「日記」って感じがしてワクワクしますね。</p>
+                            <ul>
+                                <li>フォントの選定 (Kiwi Maru / Yomogi)</li>
+                                <li>レイアウトの調整</li>
+                                <li>色のカスタマイズ</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 右側のページ -->
+                    <div class="side right-page">
+                        <div class="page-header">
+                            <span class="date">気づいたこと</span>
+                        </div>
+                        <div class="content-area">
+                            <p>スマホで見ても崩れないように、レスポンシブデザインを意識しました。</p>
+                            <div class="memo-box">
+                                <p>付箋を増やすときは、HTMLのボタンをコピーしてIDを合わせるだけ！</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="back-btn" onclick="backToCover()">
+                    ⬅ 表紙に戻る
+                </button>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+        // ページをめくるアニメーション
+        function flipPage() {
+            document.getElementById('cover').classList.add('flipped');
+            document.getElementById('diary-page').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('cover').classList.remove('active');
+            }, 600);
+        }
+
+        // 表紙に戻る
+        function backToCover() {
+            document.getElementById('cover').classList.add('active');
+            document.getElementById('cover').classList.remove('flipped');
+            document.getElementById('diary-page').classList.remove('active');
+        }
+
+        // 付箋クリックで移動
+        function showPage(id) {
+            const cover = document.getElementById('cover');
+            if (cover.classList.contains('active')) {
+                flipPage();
+            }
+            const target = document.getElementById(id);
+            if(target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>
+
+```
+
