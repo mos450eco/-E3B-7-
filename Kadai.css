@@ -1,73 +1,75 @@
 ```css
-/* ----------------------------------
-   フォントと基本設定
----------------------------------- */
+/* 基本のリセット */
+* {
+    box-sizing: border-box;
+}
+
 :root {
-    --bg-color: #f7f3e9; /* 少し温かみのある背景色 */
-    --paper-color: #ffffff;
-    --line-color: #d1e3ff; /* ノートの罫線の色 */
-    --text-color: #444444;
-    --accent-red: #ff7675;
-    --tab-blue: #74b9ff;
-    --tab-pink: #ff9ff3;
-    /* フォント指定 */
-    --font-main: 'Kiwi Maru', serif;
+    --bg-color: #f0ede5;
+    --paper-white: #ffffff;
+    --line-blue: #d6e4ff;
+    --pencil-color: #4a4a4a;
+    --accent-red: #e17055;
     --font-hand: 'Yomogi', cursive;
+    --font-heading: 'Kiwi Maru', serif;
 }
 
 body {
     margin: 0;
     padding: 0;
     background-color: var(--bg-color);
-    font-family: var(--font-main);
-    color: var(--text-color);
+    font-family: var(--font-heading);
+    color: var(--pencil-color);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    overflow: hidden;
 }
 
 /* ----------------------------------
-   レイアウト
+   全体のコンテナ
 ---------------------------------- */
 .notebook-container {
     position: relative;
-    width: 90%;
+    width: 90vw;
     max-width: 900px;
     height: 85vh;
-    perspective: 2000px;
+    perspective: 2500px; /* 3D感の強さ */
 }
 
-/* 付箋（タブ）の装飾 */
+/* ----------------------------------
+   付箋（タブ）
+---------------------------------- */
 .sticky-tabs {
     position: absolute;
     top: -35px;
-    left: 40px;
+    left: 30px;
     display: flex;
-    gap: 8px;
+    gap: 10px;
     z-index: 100;
 }
 
 .tab {
     border: none;
-    padding: 6px 15px;
+    padding: 8px 15px;
     font-family: var(--font-hand);
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
     border-radius: 8px 8px 0 0;
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-    transition: 0.2s ease;
+    box-shadow: 2px -2px 5px rgba(0,0,0,0.1);
+    color: white;
+    transition: 0.2s;
 }
 
-.tab:hover {
-    transform: translateY(-5px);
-}
+.tab:hover { transform: translateY(-5px); }
+.tab.blue { background-color: #74b9ff; }
+.tab.pink { background-color: #ff9ff3; }
 
-.tab.blue { background-color: var(--tab-blue); color: white; }
-.tab.pink { background-color: var(--tab-pink); color: white; }
-
-/* ノートの見た目 */
+/* ----------------------------------
+   ノート本体
+---------------------------------- */
 .notebook {
     width: 100%;
     height: 100%;
@@ -79,12 +81,12 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    transition: transform 0.8s ease-in-out;
+    background-color: var(--paper-white);
+    border-radius: 5px 15px 15px 5px;
+    box-shadow: 15px 15px 30px rgba(0,0,0,0.1);
+    transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
     backface-visibility: hidden;
-    border-radius: 4px 15px 15px 4px;
-    box-shadow: 10px 10px 20px rgba(0,0,0,0.15);
-    overflow: hidden;
-    display: none;
+    display: none; /* デフォルトは非表示 */
 }
 
 .page.active {
@@ -92,13 +94,14 @@ body {
 }
 
 /* ----------------------------------
-   表紙のデザイン（スケッチ再現）
+   表紙 (Cover)
 ---------------------------------- */
 .cover {
-    background-color: #fff;
-    border: 10px solid #4a4a4a;
+    background-color: #ffffff;
+    border: 10px solid var(--pencil-color);
     z-index: 10;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     transform-origin: left center;
@@ -109,110 +112,97 @@ body {
 }
 
 .cover-content {
-    padding: 20px;
-    border: 1px solid #ddd;
     width: 85%;
     height: 85%;
+    border: 1px solid #ddd;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
-.school-name { font-size: 1.5rem; margin: 0; font-family: var(--font-hand); }
-.class-id { font-size: 6rem; margin: 0; font-weight: 900; line-height: 1; }
-.group-name { font-size: 2.5rem; margin: 10px 0; border-bottom: 3px solid #333; font-family: var(--font-hand); }
-.project-title { font-size: 3.5rem; margin-top: 15px; color: #333; line-height: 1.1; font-family: var(--font-hand); }
+.school-name { font-size: 1.4rem; font-family: var(--font-hand); margin: 0; }
+.class-id { font-size: 6rem; margin: 0; line-height: 1; font-weight: bold; }
+.group-name { font-size: 2.2rem; margin: 10px 0; border-bottom: 3px solid var(--pencil-color); font-family: var(--font-hand); }
+.project-title { font-size: 3.5rem; margin-top: 15px; line-height: 1.2; text-align: center; font-family: var(--font-hand); }
 
 .next-btn {
     position: absolute;
-    bottom: 40px;
-    right: 40px;
+    bottom: 30px;
+    right: 30px;
     background: none;
     border: 3px solid var(--accent-red);
     color: var(--accent-red);
-    font-size: 1.8rem;
-    padding: 8px 15px;
+    font-size: 2rem;
+    padding: 10px 20px;
+    border-radius: 15px;
     cursor: pointer;
-    border-radius: 12px;
+    transition: 0.3s;
 }
 
+.next-btn:hover { background: var(--accent-red); color: white; }
+
 /* ----------------------------------
-   日記ページのデザイン
+   日記中身
 ---------------------------------- */
 .diary {
-    background-color: var(--paper-color);
+    background-color: var(--paper-white);
 }
 
 .paper-spread {
     display: flex;
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(var(--line-color) 1px, transparent 1px);
-    background-size: 100% 2.2em; /* 罫線の高さ */
-    padding-top: 0.5em;
+    background-image: linear-gradient(var(--line-blue) 1px, transparent 1px);
+    background-size: 100% 2.4em;
+    padding-top: 1em;
 }
 
 .side {
     flex: 1;
     padding: 40px;
     overflow-y: auto;
-    font-family: var(--font-hand); /* 本文はより手書き風なフォントに */
-    font-size: 1.2rem;
+    font-family: var(--font-hand);
 }
 
-.left-page {
-    border-right: 1px solid #eee;
-}
+.left-page { border-right: 1px solid #eee; }
 
-.page-header {
-    border-bottom: 2px solid #666;
-    margin-bottom: 15px;
-}
+.page-header { border-bottom: 2px solid var(--pencil-color); margin-bottom: 15px; }
+.date { font-size: 1.8rem; font-weight: bold; }
+.content-area { line-height: 2.4em; font-size: 1.2rem; }
 
-.date {
-    font-size: 1.6rem;
-    font-weight: bold;
-}
-
-.content-area {
-    line-height: 2.2em;
-}
-
-.memo-box {
+.sticky-note {
     margin-top: 20px;
     padding: 15px;
-    border: 2px dashed #ffb8b8;
-    background-color: #fff9f9;
-    transform: rotate(-1.5deg);
-    font-size: 1rem;
+    background-color: #fff9c4;
+    border-left: 5px solid #fbc02d;
+    transform: rotate(-1deg);
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.05);
 }
 
-.back-btn {
+.back-to-cover-btn {
     position: absolute;
     bottom: 20px;
     left: 20px;
     background: #f0f0f0;
-    border: none;
-    padding: 8px 12px;
-    cursor: pointer;
+    border: 1px solid #ccc;
+    padding: 5px 15px;
     border-radius: 5px;
+    cursor: pointer;
     font-family: var(--font-hand);
 }
 
 /* ----------------------------------
-   レスポンシブ（スマホ対応）
+   レスポンシブ (スマホ・iPad)
 ---------------------------------- */
-@media (max-width: 600px) {
-    .paper-spread {
-        flex-direction: column;
-    }
+@media (max-width: 768px) {
+    .paper-spread { flex-direction: column; }
     .left-page { border-right: none; border-bottom: 1px solid #eee; }
-    .class-id { font-size: 3.5rem; }
-    .project-title { font-size: 2rem; }
-    .notebook-container { height: 92vh; }
-    .side { padding: 20px; }
+    .class-id { font-size: 4rem; }
+    .project-title { font-size: 2.2rem; }
+    .notebook-container { height: 90vh; }
+    .side { padding: 25px; }
 }
 
 ```
-
