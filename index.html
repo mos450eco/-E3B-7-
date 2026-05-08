@@ -5,25 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>市川工業 E3B 7班 課題研究日記</title>
-    <!-- CSSファイルの読み込み（ここが重要です！） -->
     <link rel="stylesheet" href="Kadai.css">
-    
-    <!-- Google Fonts 読み込み -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300;400;500&family=Yomogi&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
+    <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
+    <link href="[https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400;500&family=Yomogi&display=swap](https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400;500&family=Yomogi&display=swap)" rel="stylesheet">
 </head>
 <body>
 
     <div class="notebook-container">
-        <!-- 上部の付箋 -->
         <nav class="sticky-tabs">
             <button onclick="showPage('page-424')" class="tab blue">4/24</button>
-            <button onclick="showPage('page-memo')" class="tab pink">メモ</button>
         </nav>
 
         <div class="notebook">
-            <!-- 【表紙】 -->
+            <!-- 表紙 -->
             <section id="cover" class="page cover active">
                 <div class="cover-content">
                     <p class="school-name">市川工業の</p>
@@ -37,41 +32,35 @@
                 </div>
             </section>
 
-            <!-- 【日記ページ】 -->
+            <!-- 日記ページ -->
             <section id="diary-page" class="page diary">
                 <div class="paper-spread">
-                    <!-- 左：4/24のページ -->
                     <div class="side left-page" id="page-424">
                         <div class="page-header">
                             <span class="date">4/24 の記録</span>
                         </div>
                         <div class="content-area">
-                            <p>本日の作業：ポートフォリオの立ち上げ</p>
-                            <p>手書きスケッチを元に、HTMLとCSSでノートの見た目を作っています。フォントは「よもぎフォント」を使っています。</p>
+                            <p>ここに今日の活動記録を書き込みます。</p>
+                            <p>例：今日はみんなで基板の設計について話し合いました。</p>
                             <ul>
-                                <li>HTMLファイルの作成</li>
-                                <li>CSSの外部読み込み設定</li>
-                                <li>ページめくり機能の実装</li>
+                                <li>進捗1：回路図の完成</li>
+                                <li>進捗2：部品の発注</li>
                             </ul>
                         </div>
                     </div>
 
-                    <!-- 右：メモページ -->
-                    <div class="side right-page" id="page-memo">
+                    <div class="side right-page">
                         <div class="page-header">
-                            <span class="date">Memo</span>
+                            <span class="date">メモ・感想</span>
                         </div>
                         <div class="content-area">
-                            <p>ここに今後のタスクを書きます。</p>
-                            <div class="sticky-note">
-                                <p>CSSが効かない時は、ファイル名が「Kadai.css」になっているかチェック！</p>
-                            </div>
+                            <p>ここに右側の内容を書き込めます。</p>
                         </div>
                     </div>
                 </div>
                 
-                <button class="back-to-cover-btn" onclick="backToCover()">
-                    ⬅ 表紙へ戻る
+                <button class="back-btn" onclick="backToCover()">
+                    ⬅ 表紙へ
                 </button>
             </section>
         </div>
@@ -79,25 +68,18 @@
 
     <script>
         function flipPage() {
-            const cover = document.getElementById('cover');
-            const diary = document.getElementById('diary-page');
-            
-            cover.classList.add('flipped');
-            diary.classList.add('active');
-            
+            document.getElementById('cover').classList.add('flipped');
+            document.getElementById('diary-page').classList.add('active');
             setTimeout(() => {
-                cover.classList.remove('active');
-            }, 800);
+                document.getElementById('cover').classList.remove('active');
+            }, 600);
         }
 
         function backToCover() {
-            const cover = document.getElementById('cover');
-            const diary = document.getElementById('diary-page');
-            
-            cover.classList.add('active');
+            document.getElementById('cover').classList.add('active');
             setTimeout(() => {
-                cover.classList.remove('flipped');
-                diary.classList.remove('active');
+                document.getElementById('cover').classList.remove('flipped');
+                document.getElementById('diary-page').classList.remove('active');
             }, 10);
         }
 
