@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -6,95 +6,150 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>市川工業 E3B 7班 課題研究日記</title>
     <link rel="stylesheet" href="Kadai.css">
-    <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
-    <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
-    <link href="[https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400;500&family=Yomogi&display=swap](https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400;500&family=Yomogi&display=swap)" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@500;900&family=Yomogi&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <div class="notebook-container">
-        <nav class="sticky-tabs">
-            <button onclick="showPage('page-424')" class="tab blue">4/24</button>
+        <!-- 上部の付箋ナビ -->
+        <nav class="sticky-tabs" id="nav-tabs">
+            <button onclick="jumpToPage('page-index')" class="tab gray" id="tab-index">目次</button>
+            <button onclick="jumpToPage('page-424')" class="tab blue" id="tab-424">4/24</button>
+            <button onclick="jumpToPage('page-508')" class="tab pink" id="tab-508">5/8</button>
         </nav>
 
-        <div class="notebook">
-            <!-- 表紙 -->
+        <div class="notebook" id="main-notebook">
+            <!-- ① 表紙 -->
             <section id="cover" class="page cover active">
-                <div class="cover-content">
-                    <p class="school-name">市川工業の</p>
-                    <h1 class="class-id">E3B</h1>
-                    <p class="group-name">7班</p>
-                    <h2 class="project-title">課題研究<br>日記</h2>
-                    
-                    <button class="next-btn" onclick="flipPage()">
-                        <span class="arrow-icon">➔</span>
-                    </button>
+                <div class="spine-purple">
+                    <span class="spine-text">Campus</span>
                 </div>
-            </section>
-
-            <!-- 日記ページ -->
-            <section id="diary-page" class="page diary">
-                <div class="paper-spread">
-                    <div class="side left-page" id="page-424">
-                        <div class="page-header">
-                            <span class="date">4/24 の記録</span>
-                        </div>
-                        <div class="content-area">
-                            <p>ここに今日の活動記録を書き込みます。</p>
-                            <p>例：今日はみんなで基板の設計について話し合いました。</p>
-                            <ul>
-                                <li>進捗1：回路図の完成</li>
-                                <li>進捗2：部品の発注</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="side right-page">
-                        <div class="page-header">
-                            <span class="date">メモ・感想</span>
-                        </div>
-                        <div class="content-area">
-                            <p>ここに右側の内容を書き込めます。</p>
+                <div class="cover-body">
+                    <div class="cover-design-box">
+                        <p class="school-name">市川工業の</p>
+                        <h1 class="class-id">E3B</h1>
+                        <p class="group-name">7班</p>
+                        <h2 class="project-title">課題研究<br>日記</h2>
+                        
+                        <!-- 手書きの太い矢印 -->
+                        <div class="hand-drawn-arrow" onclick="flipToPage('page-index')">
+                            <svg viewBox="0 0 100 100">
+                                <path d="M15,50 Q40,45 85,50 M60,20 Q88,48 65,80" stroke="black" stroke-width="10" fill="none" stroke-linecap="round" />
+                            </svg>
                         </div>
                     </div>
                 </div>
-                
-                <button class="back-btn" onclick="backToCover()">
-                    ⬅ 表紙へ
-                </button>
             </section>
+
+            <!-- ② 目次ページ -->
+            <section id="page-index" class="page content-page">
+                <div class="inner-page">
+                    <h3 class="index-title">目次 (INDEX)</h3>
+                    <ul class="index-list">
+                        <li onclick="jumpToPage('page-424')">4月24日：ポートフォリオの開始</li>
+                        <li onclick="jumpToPage('page-508')">5月8日：ページ機能の追加と修正</li>
+                    </ul>
+                    <div class="page-nav-bottom">
+                        <span class="back-link" onclick="backToCover()">表紙に戻る</span>
+                        <span class="next-arrow" onclick="scrollNext()">➡</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ③ 日記ページ (4/24) -->
+            <section id="page-424" class="page content-page">
+                <div class="inner-page">
+                    <div class="page-header">4/24 の記録</div>
+                    <div class="diary-text">
+                        <p>今日は課題研究のポートフォリオ作成を開始した。</p>
+                        <p>まずは全体のレイアウトと手書きフォントの設定。</p>
+                        <p>Campusノートのような見た目を目指して調整中。</p>
+                    </div>
+                    <div class="page-nav-bottom">
+                        <span class="prev-arrow" onclick="scrollPrev()">⬅</span>
+                        <span class="back-link" onclick="backToCover()">表紙に戻る</span>
+                        <span class="next-arrow" onclick="scrollNext()">➡</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ④ 日記ページ (5/8) -->
+            <section id="page-508" class="page content-page">
+                <div class="inner-page">
+                    <div class="page-header">5/8 の記録</div>
+                    <div class="diary-text">
+                        <p>今日はデザインの大幅な修正を行った。</p>
+                        <p>表紙の文字をドカンと大きくして、目次も追加した。</p>
+                        <p>付箋を押したときに、その付箋が浮き上がるようにした。</p>
+                        <p>横線のど真ん中に文字が乗るように調整するのが大変だった。</p>
+                    </div>
+                    <div class="page-nav-bottom">
+                        <span class="prev-arrow" onclick="scrollPrev()">⬅</span>
+                        <span class="back-link" onclick="backToCover()">表紙に戻る</span>
+                    </div>
+                </div>
+            </section>
+
         </div>
     </div>
 
     <script>
-        function flipPage() {
+        function flipToPage(targetId) {
             document.getElementById('cover').classList.add('flipped');
-            document.getElementById('diary-page').classList.add('active');
             setTimeout(() => {
                 document.getElementById('cover').classList.remove('active');
+                const target = document.getElementById(targetId);
+                target.classList.add('active');
+                updateTabs(targetId);
             }, 600);
         }
 
         function backToCover() {
-            document.getElementById('cover').classList.add('active');
+            const cover = document.getElementById('cover');
+            cover.classList.add('active');
             setTimeout(() => {
-                document.getElementById('cover').classList.remove('flipped');
-                document.getElementById('diary-page').classList.remove('active');
-            }, 10);
+                cover.classList.remove('flipped');
+                document.querySelectorAll('.content-page').forEach(p => p.classList.remove('active'));
+                updateTabs('none');
+            }, 50);
         }
 
-        function showPage(id) {
+        function jumpToPage(id) {
             const cover = document.getElementById('cover');
             if (cover.classList.contains('active')) {
-                flipPage();
+                flipToPage(id);
+            } else {
+                document.querySelectorAll('.content-page').forEach(p => p.classList.remove('active'));
+                document.getElementById(id).classList.add('active');
+                updateTabs(id);
             }
-            const target = document.getElementById(id);
-            if(target) {
-                target.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function updateTabs(activeId) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('tab-active'));
+            const activeTab = document.getElementById('tab-' + activeId.replace('page-', ''));
+            if (activeTab) activeTab.classList.add('tab-active');
+        }
+
+        function scrollNext() {
+            const activePage = document.querySelector('.content-page.active');
+            const next = activePage.nextElementSibling;
+            if (next && next.classList.contains('content-page')) {
+                jumpToPage(next.id);
+            }
+        }
+
+        function scrollPrev() {
+            const activePage = document.querySelector('.content-page.active');
+            const prev = activePage.previousElementSibling;
+            if (prev && prev.classList.contains('content-page')) {
+                jumpToPage(prev.id);
+            } else if (prev && prev.id === 'cover') {
+                backToCover();
             }
         }
     </script>
 </body>
 </html>
-
-```
