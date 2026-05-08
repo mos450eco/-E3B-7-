@@ -5,45 +5,63 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #f0ede5;
+    background-color: #e0ddd5;
     font-family: 'Kiwi Maru', serif;
-    color: #444;
+    color: #222;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 .notebook-container {
     position: relative;
-    width: 90vw;
-    max-width: 800px;
-    height: 80vh;
-    perspective: 2000px;
+    width: 95vw;
+    max-width: 850px;
+    height: 85vh;
+    perspective: 2500px;
 }
 
-/* 付箋 */
+/* ----------------------------------
+   付箋 (Tabs)
+---------------------------------- */
 .sticky-tabs {
     position: absolute;
-    top: -30px;
-    left: 40px;
+    top: -38px;
+    left: 80px;
     display: flex;
+    gap: 12px;
     z-index: 100;
 }
 
 .tab {
     border: none;
-    padding: 5px 15px;
+    padding: 8px 20px;
     font-family: 'Yomogi', cursive;
+    font-weight: 900;
+    font-size: 1.1rem;
     cursor: pointer;
-    border-radius: 5px 5px 0 0;
-    background-color: #74b9ff;
+    border-radius: 6px 6px 0 0;
     color: white;
     box-shadow: 2px -2px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    transform: translateY(5px); /* 通常は少し沈んでいる */
 }
 
-/* ページ共通 */
+.tab-active {
+    transform: translateY(0px) scale(1.1); /* 選択中は浮き上がる */
+    box-shadow: 0px -5px 10px rgba(0,0,0,0.2);
+    z-index: 110;
+}
+
+.tab.gray { background-color: #95a5a6; }
+.tab.blue { background-color: #3498db; }
+.tab.pink { background-color: #e84393; }
+
+/* ----------------------------------
+   ノート共通
+---------------------------------- */
 .notebook {
     width: 100%;
     height: 100%;
@@ -56,102 +74,171 @@ body {
     width: 100%;
     height: 100%;
     background-color: white;
-    border-radius: 5px 15px 15px 5px;
-    box-shadow: 10px 10px 20px rgba(0,0,0,0.1);
-    transition: transform 0.6s ease-in-out;
+    border-radius: 4px 15px 15px 4px;
+    box-shadow: 15px 15px 35px rgba(0,0,0,0.2);
+    transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
     backface-visibility: hidden;
     display: none;
 }
 
-.page.active {
-    display: block;
+.page.active { display: block; }
+
+/* ----------------------------------
+   表紙 (Campus風)
+---------------------------------- */
+.cover {
+    display: flex;
+    z-index: 50;
+    transform-origin: left center;
+    background-color: #fdfdfd;
 }
 
-/* 表紙 */
-.cover {
-    z-index: 10;
+.spine-purple {
+    width: 13%;
+    height: 100%;
+    background-color: #9b59b6;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 40px;
+    box-shadow: inset -5px 0 10px rgba(0,0,0,0.1);
+}
+
+.spine-text {
+    color: rgba(255,255,255,0.6);
+    writing-mode: vertical-rl;
+    font-size: 1.5rem;
+    letter-spacing: 5px;
+    font-weight: bold;
+}
+
+.cover-body {
+    flex: 1;
+    padding: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 8px solid #4a4a4a;
-    transform-origin: left center;
 }
 
-.cover.flipped {
-    transform: rotateY(-160deg);
-}
-
-.cover-content {
-    width: 85%;
-    height: 85%;
-    border: 1px solid #ddd;
+.cover-design-box {
+    width: 95%;
+    height: 95%;
+    border: 5px solid #333;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
+    position: relative;
 }
 
-.school-name { font-size: 1.2rem; margin: 0; font-family: 'Yomogi', cursive; }
-.class-id { font-size: 5rem; margin: 0; font-weight: bold; }
-.group-name { font-size: 2rem; margin: 10px 0; border-bottom: 2px solid #333; font-family: 'Yomogi', cursive; }
-.project-title { font-size: 3rem; margin-top: 10px; font-family: 'Yomogi', cursive; }
+.school-name { font-size: 2.2rem; margin: 0; font-family: 'Yomogi', cursive; font-weight: 900; }
+.class-id { font-size: 10rem; margin: -20px 0; font-weight: 900; color: #111; letter-spacing: -5px; }
+.group-name { font-size: 4rem; margin: 0; border-bottom: 8px solid #111; font-family: 'Yomogi', cursive; font-weight: 900; }
+.project-title { font-size: 5rem; margin-top: 20px; line-height: 1; font-family: 'Yomogi', cursive; font-weight: 900; text-align: center; }
 
-.next-btn {
+.hand-drawn-arrow {
     position: absolute;
     bottom: 30px;
     right: 30px;
-    background: none;
-    border: 2px solid #ff7675;
-    color: #ff7675;
-    font-size: 2rem;
-    padding: 5px 15px;
-    border-radius: 10px;
+    width: 100px;
+    height: 100px;
     cursor: pointer;
+    transition: transform 0.2s;
 }
+.hand-drawn-arrow:hover { transform: scale(1.1) rotate(5deg); }
 
-/* 日記ページ */
-.diary {
-    background-color: #fff;
-}
+.cover.flipped { transform: rotateY(-170deg); }
 
-.paper-spread {
-    display: flex;
+/* ----------------------------------
+   中身のページ (INDEX / DIARY)
+---------------------------------- */
+.inner-page {
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(#d6e4ff 1px, transparent 1px);
-    background-size: 100% 2.4em;
-    padding-top: 1em;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    background-image: linear-gradient(#d8e6ff 1px, transparent 1px);
+    background-size: 100% 2.8rem; /* 線の間隔 */
+    background-position: 0 1.2rem;
 }
 
-.side {
-    flex: 1;
-    padding: 30px;
-    overflow-y: auto;
+.index-title {
+    font-size: 2.5rem;
+    margin: 0 0 30px 0;
+    text-decoration: underline;
     font-family: 'Yomogi', cursive;
 }
 
-.left-page { border-right: 1px solid #eee; }
+.index-list {
+    list-style: none;
+    padding: 0;
+    font-size: 1.6rem;
+    line-height: 2.8rem; /* 線に合わせる */
+}
 
-.page-header { border-bottom: 2px solid #444; margin-bottom: 10px; }
-.date { font-size: 1.5rem; font-weight: bold; }
-.content-area { line-height: 2.4em; }
-
-.back-btn {
-    position: absolute;
-    bottom: 15px;
-    left: 15px;
-    background: #eee;
-    border: none;
-    padding: 5px 10px;
+.index-list li {
     cursor: pointer;
+    transition: color 0.2s;
+    font-weight: 900;
+}
+.index-list li:hover { color: #3498db; text-decoration: underline; }
+
+.page-header {
+    font-size: 2.2rem;
+    font-weight: 900;
+    margin-bottom: 15px;
+    border-bottom: 4px solid #333;
+    padding-bottom: 5px;
+    line-height: 1;
+}
+
+.diary-text {
+    font-size: 1.6rem;
+    line-height: 2.8rem; /* 罫線にぴったり合わせる */
+    font-family: 'Yomogi', cursive;
+    font-weight: 500;
+}
+
+.diary-text p {
+    margin: 0;
+    height: 2.8rem; /* 1行の高さ */
+    display: flex;
+    align-items: center; /* 線のど真ん中に配置 */
+}
+
+/* ----------------------------------
+   下部ナビゲーション
+---------------------------------- */
+.page-nav-bottom {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-family: 'Yomogi', cursive;
 }
 
-/* レスポンシブ */
-@media (max-width: 600px) {
-    .paper-spread { flex-direction: column; }
-    .class-id { font-size: 3.5rem; }
-    .project-title { font-size: 2rem; }
-    .side { padding: 20px; }
+.back-link {
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #666;
+    border-bottom: 1px dashed #666;
+}
+
+.next-arrow, .prev-arrow {
+    font-size: 2.5rem;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.2s;
+}
+.next-arrow:hover { transform: translateX(10px); }
+.prev-arrow:hover { transform: translateX(-10px); }
+
+/* iPad・スマホ対応 */
+@media (max-width: 768px) {
+    .class-id { font-size: 6rem; }
+    .project-title { font-size: 3rem; }
+    .inner-page { padding: 30px; }
+    .diary-text { font-size: 1.2rem; }
 }
