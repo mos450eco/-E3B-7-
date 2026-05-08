@@ -1,156 +1,185 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>市川工業 E3B 7班 課題研究日記</title>
+    <title>課題研究ポートフォリオ</title>
+    <!-- 手書き風フォントの読み込み -->
+    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@500&family=Yomogi&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Kadai.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@500;900&family=Yomogi&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="notebook-container">
-        <!-- 上部の付箋ナビ -->
-        <nav class="sticky-tabs">
-            <button onclick="showSection('cover')" class="tab gray">表紙</button>
-            <button onclick="showSection('page-index')" class="tab green">目次</button>
-            <button onclick="showSection('page-424')" class="tab blue">4/24</button>
-            <button onclick="showSection('page-508')" class="tab pink">5/8</button>
+    <!-- ノート全体のコンテナ -->
+    <div id="notebook-container">
+        
+        <!-- 付箋（タブ）ナビゲーション -->
+        <nav class="sticky-tabs" id="nav-tabs">
+            <button onclick="showPage('cover')">表紙</button>
+            <button onclick="showPage('index')">目次</button>
+            <button onclick="showPage('0424')">4/24</button>
+            <button onclick="showPage('0426')">4/26</button>
+            <button onclick="showPage('0508')" class="active">5/8</button>
         </nav>
 
-        <div class="notebook">
+        <div id="notebook" class="notebook">
             
-            <!-- ① 表紙ページ -->
-            <section id="cover" class="page cover-page active">
-                <div class="spine">Campus</div>
-                <div class="cover-front">
-                    <div class="cover-info">
-                        <p class="txt-school">市川工業の</p>
-                        <h1 class="txt-class">E3B</h1>
-                        <p class="txt-group">7班</p>
-                        <h2 class="txt-title">課題研究<br>日記</h2>
-                    </div>
-                    <!-- 手書き矢印ボタン -->
-                    <div class="cover-arrow" onclick="showSection('page-index')">
-                        <svg viewBox="0 0 100 100" class="arrow-svg"><path d="M10,50 Q40,45 85,50 M60,20 Q88,48 65,80" stroke="black" stroke-width="8" fill="none" stroke-linecap="round"/></svg>
+            <!-- 【表紙ページ】 -->
+            <div id="page-cover" class="page-content active">
+                <div class="cover-design">
+                    <div class="spine"></div> <!-- 紫の背表紙 -->
+                    <div class="cover-main">
+                        <div class="class-info">E3B 7班</div>
+                        <h1 class="main-title">課題研究<br>日記</h1>
+                        <div class="author-name">市川工業</div>
+                        <!-- 手書き風矢印 -->
+                        <div class="next-arrow" onclick="showPage('index')">
+                            <svg width="80" height="80" viewBox="0 0 100 100">
+                                <path d="M20 50 L80 50 M60 30 L80 50 L60 70" stroke="black" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <!-- ② 見開き日記ページ（共通構造） -->
-            <section id="main-content" class="page spread-page">
-                <div class="spread-container">
-                    
-                    <!-- 【左ページ：ここを編集してください】 -->
-                    <div class="page-half left-side" id="left-content">
-                        <!-- JSで中身が入れ替わります -->
+            <!-- 【中身のページ共通構造】 -->
+            <div id="page-inner" class="page-content" style="display:none;">
+                <div class="spread">
+                    <!-- 左ページ -->
+                    <div class="sheet left-page">
+                        <div class="page-number" id="left-num"></div>
+                        <div class="lines" id="left-content">
+                            <!-- ここに左側の内容が入ります -->
+                        </div>
                     </div>
-
-                    <!-- 【右ページ：ここを編集してください】 -->
-                    <div class="page-half right-side" id="right-content">
-                        <!-- JSで中身が入れ替わります -->
+                    <!-- 右ページ -->
+                    <div class="sheet right-page">
+                        <div class="page-number" id="right-num"></div>
+                        <div class="lines" id="right-content">
+                            <!-- ここに右側の内容が入ります -->
+                        </div>
                     </div>
-
                 </div>
 
                 <!-- ページ下部のナビゲーション -->
-                <div class="bottom-nav">
-                    <span class="nav-btn-back" onclick="showSection('cover')">表紙に戻る</span>
-                    <div class="nav-arrows">
-                        <span class="arrow-icon" onclick="goPrev()">⬅</span>
-                        <span class="arrow-icon" onclick="goNext()">➡</span>
+                <div class="footer-nav">
+                    <span class="back-link" onclick="showPage('cover')">表紙に戻る</span>
+                    <div class="page-arrows">
+                        <span class="arrow-btn" id="prev-btn">⬅︎</span>
+                        <span class="arrow-btn" id="next-btn">➡︎</span>
                     </div>
                 </div>
-            </section>
+            </div>
 
         </div>
     </div>
 
-    <!-- 各ページの内容データ（ここを書き換えればOK！） -->
     <script>
-        const pages = {
-            'page-index': {
+        // --- ここで日記の内容を編集できます！ ---
+        const diaryData = {
+            'index': {
                 left: `
-                    <h3 class="paper-title">目次 (INDEX)</h3>
-                    <div class="line-text" onclick="showSection('page-424')">1. 4月24日の記録</div>
-                    <div class="line-text" onclick="showSection('page-508')">2. 5月8日の記録</div>
-                    <div class="line-text">3. 未定</div>
+                    <div class="line-text title">INDEX（目次）</div>
+                    <div class="line-text" onclick="showPage('0424')">・4月24日：研究テーマの決定</div>
+                    <div class="line-text" onclick="showPage('0426')">・4月26日：先行研究の調査</div>
+                    <div class="line-text" onclick="showPage('0508')">・5月08日：ポートフォリオ作成開始</div>
+                    <div class="line-text"></div>
+                    <div class="line-text"></div>
                 `,
                 right: `
-                    <h3 class="paper-title">研究メンバー</h3>
-                    <div class="line-text">・7班 メンバーA</div>
-                    <div class="line-text">・7班 メンバーB</div>
-                    <div class="line-text">・7班 メンバーC</div>
+                    <div class="line-text"></div>
+                    <div class="line-text"></div>
+                    <div class="line-text"></div>
+                    <div class="line-text"></div>
+                    <div class="line-text"></div>
+                    <div class="line-text"></div>
                 `
             },
-            'page-424': {
+            '0424': {
                 left: `
-                    <h3 class="paper-title">4/24：研究開始</h3>
-                    <div class="line-text">今日はテーマ決めを行いました。</div>
-                    <div class="line-text">市川工業の課題について議論。</div>
-                    <div class="line-text">面白いアイデアが出ました。</div>
+                    <div class="line-text title">4月24日（水）</div>
+                    <div class="line-text">今日は最初の課題研究の時間。</div>
+                    <div class="line-text">7班のメンバーで何をするか話し合った。</div>
+                    <div class="line-text"></div>
                 `,
                 right: `
-                    <h3 class="paper-title">気づいたこと</h3>
-                    <div class="line-text">一人で考えるより、</div>
-                    <div class="line-text">班員と話すと進みが早い。</div>
-                    <div class="line-text">来週は部品の選定です。</div>
+                    <div class="line-text">【メモ】</div>
+                    <div class="line-text">・Webサイト制作に決定</div>
+                    <div class="line-text">・HTML/CSSを勉強する</div>
+                    <div class="line-text"></div>
                 `
             },
-            'page-508': {
+            '0426': {
                 left: `
-                    <h3 class="paper-title">5/8：デザイン修正</h3>
-                    <div class="line-text">Webサイトの見た目を改善。</div>
-                    <div class="line-text">見開きノートの形にしました。</div>
-                    <div class="line-text">文字を線のど真ん中に配置！</div>
+                    <div class="line-text title">4月26日（金）</div>
+                    <div class="line-text">図書館で資料を探した。</div>
+                    <div class="line-text">可愛いデザインの参考書を見つけた。</div>
                 `,
                 right: `
-                    <h3 class="paper-title">今後の予定</h3>
-                    <div class="line-text">・GitHubへアップロード</div>
-                    <div class="line-text">・内容の肉付け</div>
-                    <div class="line-text">・先生への進捗報告</div>
+                    <div class="line-text">【やること】</div>
+                    <div class="line-text">・GitHubのアカウント作成</div>
+                    <div class="line-text">・READMEの書き方を調べる</div>
+                `
+            },
+            '0508': {
+                left: `
+                    <div class="line-text title">5月8日（水）</div>
+                    <div class="line-text">ポートフォリオの作成を開始！</div>
+                    <div class="line-text">AIと相談しながらコードを書いている。</div>
+                `,
+                right: `
+                    <div class="line-text">【今日の進捗】</div>
+                    <div class="line-text">・キャンパスノート風のデザイン完成</div>
+                    <div class="line-text">・付箋の連動ができるようになった</div>
                 `
             }
         };
 
-        let currentPageKey = 'page-index';
-        const pageKeys = Object.keys(pages);
+        const pageOrder = ['index', '0424', '0426', '0508'];
 
-        function showSection(id) {
-            const cover = document.getElementById('cover');
-            const main = document.getElementById('main-content');
-            
-            if (id === 'cover') {
-                cover.classList.add('active');
-                main.classList.remove('active');
+        function showPage(pageId) {
+            const cover = document.getElementById('page-cover');
+            const inner = document.getElementById('page-inner');
+            const tabs = document.querySelectorAll('.sticky-tabs button');
+
+            // 付箋のアクティブ状態を更新
+            tabs.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('onclick').includes(pageId)) btn.classList.add('active');
+            });
+
+            if (pageId === 'cover') {
+                cover.style.display = 'block';
+                inner.style.display = 'none';
             } else {
-                cover.classList.remove('active');
-                main.classList.add('active');
-                loadPageData(id);
+                cover.style.display = 'none';
+                inner.style.display = 'block';
+                
+                // 内容を書き換え
+                document.getElementById('left-content').innerHTML = diaryData[pageId].left;
+                document.getElementById('right-content').innerHTML = diaryData[pageId].right;
+
+                // 前後の矢印設定
+                const idx = pageOrder.indexOf(pageId);
+                const prevBtn = document.getElementById('prev-btn');
+                const nextBtn = document.getElementById('next-btn');
+
+                if(idx > 0) {
+                    prevBtn.style.visibility = 'visible';
+                    prevBtn.onclick = () => showPage(pageOrder[idx-1]);
+                } else {
+                    prevBtn.style.visibility = 'hidden';
+                }
+
+                if(idx < pageOrder.length - 1) {
+                    nextBtn.style.visibility = 'visible';
+                    nextBtn.onclick = () => showPage(pageOrder[idx+1]);
+                } else {
+                    nextBtn.style.visibility = 'hidden';
+                }
             }
-        }
-
-        function loadPageData(id) {
-            currentPageKey = id;
-            document.getElementById('left-content').innerHTML = pages[id].left;
-            document.getElementById('right-content').innerHTML = pages[id].right;
-            // 付箋の状態更新
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active-tab'));
-        }
-
-        function goNext() {
-            let idx = pageKeys.indexOf(currentPageKey);
-            if (idx < pageKeys.length - 1) showSection(pageKeys[idx + 1]);
-        }
-
-        function goPrev() {
-            let idx = pageKeys.indexOf(currentPageKey);
-            if (idx > 0) showSection(pageKeys[idx - 1]);
-            else showSection('cover');
         }
     </script>
 </body>
 </html>
-
