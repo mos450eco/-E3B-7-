@@ -1,1 +1,218 @@
+```css
+/* ----------------------------------
+   フォントと基本設定
+---------------------------------- */
+:root {
+    --bg-color: #f7f3e9; /* 少し温かみのある背景色 */
+    --paper-color: #ffffff;
+    --line-color: #d1e3ff; /* ノートの罫線の色 */
+    --text-color: #444444;
+    --accent-red: #ff7675;
+    --tab-blue: #74b9ff;
+    --tab-pink: #ff9ff3;
+    /* フォント指定 */
+    --font-main: 'Kiwi Maru', serif;
+    --font-hand: 'Yomogi', cursive;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    font-family: var(--font-main);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* ----------------------------------
+   レイアウト
+---------------------------------- */
+.notebook-container {
+    position: relative;
+    width: 90%;
+    max-width: 900px;
+    height: 85vh;
+    perspective: 2000px;
+}
+
+/* 付箋（タブ）の装飾 */
+.sticky-tabs {
+    position: absolute;
+    top: -35px;
+    left: 40px;
+    display: flex;
+    gap: 8px;
+    z-index: 100;
+}
+
+.tab {
+    border: none;
+    padding: 6px 15px;
+    font-family: var(--font-hand);
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px 8px 0 0;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    transition: 0.2s ease;
+}
+
+.tab:hover {
+    transform: translateY(-5px);
+}
+
+.tab.blue { background-color: var(--tab-blue); color: white; }
+.tab.pink { background-color: var(--tab-pink); color: white; }
+
+/* ノートの見た目 */
+.notebook {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s ease-in-out;
+    backface-visibility: hidden;
+    border-radius: 4px 15px 15px 4px;
+    box-shadow: 10px 10px 20px rgba(0,0,0,0.15);
+    overflow: hidden;
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* ----------------------------------
+   表紙のデザイン（スケッチ再現）
+---------------------------------- */
+.cover {
+    background-color: #fff;
+    border: 10px solid #4a4a4a;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-origin: left center;
+}
+
+.cover.flipped {
+    transform: rotateY(-150deg);
+}
+
+.cover-content {
+    padding: 20px;
+    border: 1px solid #ddd;
+    width: 85%;
+    height: 85%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.school-name { font-size: 1.5rem; margin: 0; font-family: var(--font-hand); }
+.class-id { font-size: 6rem; margin: 0; font-weight: 900; line-height: 1; }
+.group-name { font-size: 2.5rem; margin: 10px 0; border-bottom: 3px solid #333; font-family: var(--font-hand); }
+.project-title { font-size: 3.5rem; margin-top: 15px; color: #333; line-height: 1.1; font-family: var(--font-hand); }
+
+.next-btn {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    background: none;
+    border: 3px solid var(--accent-red);
+    color: var(--accent-red);
+    font-size: 1.8rem;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+/* ----------------------------------
+   日記ページのデザイン
+---------------------------------- */
+.diary {
+    background-color: var(--paper-color);
+}
+
+.paper-spread {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(var(--line-color) 1px, transparent 1px);
+    background-size: 100% 2.2em; /* 罫線の高さ */
+    padding-top: 0.5em;
+}
+
+.side {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+    font-family: var(--font-hand); /* 本文はより手書き風なフォントに */
+    font-size: 1.2rem;
+}
+
+.left-page {
+    border-right: 1px solid #eee;
+}
+
+.page-header {
+    border-bottom: 2px solid #666;
+    margin-bottom: 15px;
+}
+
+.date {
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+.content-area {
+    line-height: 2.2em;
+}
+
+.memo-box {
+    margin-top: 20px;
+    padding: 15px;
+    border: 2px dashed #ffb8b8;
+    background-color: #fff9f9;
+    transform: rotate(-1.5deg);
+    font-size: 1rem;
+}
+
+.back-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: #f0f0f0;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-family: var(--font-hand);
+}
+
+/* ----------------------------------
+   レスポンシブ（スマホ対応）
+---------------------------------- */
+@media (max-width: 600px) {
+    .paper-spread {
+        flex-direction: column;
+    }
+    .left-page { border-right: none; border-bottom: 1px solid #eee; }
+    .class-id { font-size: 3.5rem; }
+    .project-title { font-size: 2rem; }
+    .notebook-container { height: 92vh; }
+    .side { padding: 20px; }
+}
+
+```
 
