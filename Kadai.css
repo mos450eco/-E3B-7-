@@ -1,75 +1,49 @@
-```css
-/* 基本のリセット */
 * {
     box-sizing: border-box;
-}
-
-:root {
-    --bg-color: #f0ede5;
-    --paper-white: #ffffff;
-    --line-blue: #d6e4ff;
-    --pencil-color: #4a4a4a;
-    --accent-red: #e17055;
-    --font-hand: 'Yomogi', cursive;
-    --font-heading: 'Kiwi Maru', serif;
 }
 
 body {
     margin: 0;
     padding: 0;
-    background-color: var(--bg-color);
-    font-family: var(--font-heading);
-    color: var(--pencil-color);
+    background-color: #f0ede5;
+    font-family: 'Kiwi Maru', serif;
+    color: #444;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
-/* ----------------------------------
-   全体のコンテナ
----------------------------------- */
 .notebook-container {
     position: relative;
     width: 90vw;
-    max-width: 900px;
-    height: 85vh;
-    perspective: 2500px; /* 3D感の強さ */
+    max-width: 800px;
+    height: 80vh;
+    perspective: 2000px;
 }
 
-/* ----------------------------------
-   付箋（タブ）
----------------------------------- */
+/* 付箋 */
 .sticky-tabs {
     position: absolute;
-    top: -35px;
-    left: 30px;
+    top: -30px;
+    left: 40px;
     display: flex;
-    gap: 10px;
     z-index: 100;
 }
 
 .tab {
     border: none;
-    padding: 8px 15px;
-    font-family: var(--font-hand);
-    font-size: 1rem;
-    font-weight: bold;
+    padding: 5px 15px;
+    font-family: 'Yomogi', cursive;
     cursor: pointer;
-    border-radius: 8px 8px 0 0;
-    box-shadow: 2px -2px 5px rgba(0,0,0,0.1);
+    border-radius: 5px 5px 0 0;
+    background-color: #74b9ff;
     color: white;
-    transition: 0.2s;
+    box-shadow: 2px -2px 5px rgba(0,0,0,0.1);
 }
 
-.tab:hover { transform: translateY(-5px); }
-.tab.blue { background-color: #74b9ff; }
-.tab.pink { background-color: #ff9ff3; }
-
-/* ----------------------------------
-   ノート本体
----------------------------------- */
+/* ページ共通 */
 .notebook {
     width: 100%;
     height: 100%;
@@ -81,34 +55,30 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: var(--paper-white);
+    background-color: white;
     border-radius: 5px 15px 15px 5px;
-    box-shadow: 15px 15px 30px rgba(0,0,0,0.1);
-    transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+    box-shadow: 10px 10px 20px rgba(0,0,0,0.1);
+    transition: transform 0.6s ease-in-out;
     backface-visibility: hidden;
-    display: none; /* デフォルトは非表示 */
+    display: none;
 }
 
 .page.active {
     display: block;
 }
 
-/* ----------------------------------
-   表紙 (Cover)
----------------------------------- */
+/* 表紙 */
 .cover {
-    background-color: #ffffff;
-    border: 10px solid var(--pencil-color);
     z-index: 10;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    border: 8px solid #4a4a4a;
     transform-origin: left center;
 }
 
 .cover.flipped {
-    transform: rotateY(-150deg);
+    transform: rotateY(-160deg);
 }
 
 .cover-content {
@@ -119,90 +89,69 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: relative;
+    text-align: center;
 }
 
-.school-name { font-size: 1.4rem; font-family: var(--font-hand); margin: 0; }
-.class-id { font-size: 6rem; margin: 0; line-height: 1; font-weight: bold; }
-.group-name { font-size: 2.2rem; margin: 10px 0; border-bottom: 3px solid var(--pencil-color); font-family: var(--font-hand); }
-.project-title { font-size: 3.5rem; margin-top: 15px; line-height: 1.2; text-align: center; font-family: var(--font-hand); }
+.school-name { font-size: 1.2rem; margin: 0; font-family: 'Yomogi', cursive; }
+.class-id { font-size: 5rem; margin: 0; font-weight: bold; }
+.group-name { font-size: 2rem; margin: 10px 0; border-bottom: 2px solid #333; font-family: 'Yomogi', cursive; }
+.project-title { font-size: 3rem; margin-top: 10px; font-family: 'Yomogi', cursive; }
 
 .next-btn {
     position: absolute;
     bottom: 30px;
     right: 30px;
     background: none;
-    border: 3px solid var(--accent-red);
-    color: var(--accent-red);
+    border: 2px solid #ff7675;
+    color: #ff7675;
     font-size: 2rem;
-    padding: 10px 20px;
-    border-radius: 15px;
+    padding: 5px 15px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: 0.3s;
 }
 
-.next-btn:hover { background: var(--accent-red); color: white; }
-
-/* ----------------------------------
-   日記中身
----------------------------------- */
+/* 日記ページ */
 .diary {
-    background-color: var(--paper-white);
+    background-color: #fff;
 }
 
 .paper-spread {
     display: flex;
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(var(--line-blue) 1px, transparent 1px);
+    background-image: linear-gradient(#d6e4ff 1px, transparent 1px);
     background-size: 100% 2.4em;
     padding-top: 1em;
 }
 
 .side {
     flex: 1;
-    padding: 40px;
+    padding: 30px;
     overflow-y: auto;
-    font-family: var(--font-hand);
+    font-family: 'Yomogi', cursive;
 }
 
 .left-page { border-right: 1px solid #eee; }
 
-.page-header { border-bottom: 2px solid var(--pencil-color); margin-bottom: 15px; }
-.date { font-size: 1.8rem; font-weight: bold; }
-.content-area { line-height: 2.4em; font-size: 1.2rem; }
+.page-header { border-bottom: 2px solid #444; margin-bottom: 10px; }
+.date { font-size: 1.5rem; font-weight: bold; }
+.content-area { line-height: 2.4em; }
 
-.sticky-note {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #fff9c4;
-    border-left: 5px solid #fbc02d;
-    transform: rotate(-1deg);
-    box-shadow: 3px 3px 10px rgba(0,0,0,0.05);
-}
-
-.back-to-cover-btn {
+.back-btn {
     position: absolute;
-    bottom: 20px;
-    left: 20px;
-    background: #f0f0f0;
-    border: 1px solid #ccc;
-    padding: 5px 15px;
-    border-radius: 5px;
+    bottom: 15px;
+    left: 15px;
+    background: #eee;
+    border: none;
+    padding: 5px 10px;
     cursor: pointer;
-    font-family: var(--font-hand);
+    font-family: 'Yomogi', cursive;
 }
 
-/* ----------------------------------
-   レスポンシブ (スマホ・iPad)
----------------------------------- */
-@media (max-width: 768px) {
+/* レスポンシブ */
+@media (max-width: 600px) {
     .paper-spread { flex-direction: column; }
-    .left-page { border-right: none; border-bottom: 1px solid #eee; }
-    .class-id { font-size: 4rem; }
-    .project-title { font-size: 2.2rem; }
-    .notebook-container { height: 90vh; }
-    .side { padding: 25px; }
+    .class-id { font-size: 3.5rem; }
+    .project-title { font-size: 2rem; }
+    .side { padding: 20px; }
 }
-
-```
