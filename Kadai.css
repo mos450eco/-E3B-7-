@@ -1,200 +1,156 @@
 
-/* 基本設定 */
-* {
-    box-sizing: border-box;
-}
-
 body {
+    background-color: #e8e4e1;
     margin: 0;
-    padding: 0;
-    background-color: #f0ede9; /* 暖かみのある背景色 */
     font-family: 'Yomogi', cursive;
-    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden; /* 余計なスクロールを防止 */
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* 付箋ナビゲーション */
-.sticky-tabs {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 100;
-    display: flex;
-    gap: 5px;
-}
-
-.sticky-tabs button {
-    background-color: #ff9999;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-family: 'Yomogi', cursive;
-    border-radius: 5px 5px 0 0;
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-    transition: transform 0.2s, margin-top 0.2s;
-    margin-top: 10px;
-}
-
-/* クリックされた付箋がピョコッと浮き出る */
-.sticky-tabs button.active {
-    background-color: #ff5555;
-    color: white;
-    transform: translateY(-10px);
-    margin-top: 0;
-}
-
-/* ノート全体の枠組み */
-.notebook {
+.container {
+    position: relative;
     width: 90vw;
-    max-width: 900px;
-    height: 80vh;
-    background-color: #fafafa;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    border-radius: 5px;
-    position: relative;
+    max-width: 600px;
 }
 
-/* 表紙のデザイン */
-.cover-design {
-    height: 100%;
-    background-color: #e0e0e0; /* ノートの表紙色 */
+/* 上部の付箋 */
+.top-tabs {
     display: flex;
+    gap: 10px;
+    position: absolute;
+    top: -40px;
+    left: 40px;
+    z-index: 5;
+}
+
+.top-tabs button {
+    border: none;
+    padding: 5px 15px;
+    font-family: 'Yomogi', cursive;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    transform: rotate(-2deg);
+}
+
+.tab-blue { background-color: #bde0fe; }
+.tab-green { background-color: #d8f3dc; }
+.tab-pink { background-color: #ffdae0; }
+.tab-yellow { background-color: #fff9db; }
+
+/* ノートの重なり */
+.notebook-stack {
     position: relative;
-    border: 2px solid #ccc;
+    padding: 20px;
 }
 
-.spine {
-    width: 60px;
-    background-color: #6a4c93; /* キャンパスノート風の紫の背表紙 */
-    height: 100%;
+.paper-layer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: white;
+    border: 1.5px solid #444;
+    border-radius: 5px;
 }
 
-.cover-main {
-    flex-grow: 1;
+.layer1 { transform: rotate(1deg) translate(5px, 5px); background: #f9f9f9; }
+.layer2 { transform: rotate(-1.5deg) translate(-3px, 2px); background: #f0f0f0; }
+
+.main-paper {
+    position: relative;
+    background: #fffdfa;
+    border: 2px solid #333;
+    min-height: 70vh;
+    padding: 30px;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+    z-index: 2;
+    transition: all 0.3s;
+}
+
+/* マステ */
+.tape {
+    position: absolute;
+    width: 80px;
+    height: 25px;
+    opacity: 0.6;
+    z-index: 10;
+}
+
+.tape-tr { top: -10px; right: 30px; background: #b7e4c7; transform: rotate(15deg); }
+.tape-bl { bottom: -5px; left: 20px; background: #ffccd5; transform: rotate(-10deg); }
+.tape-br { bottom: 10px; right: -20px; background: #d8f3dc; transform: rotate(-45deg); }
+
+/* 表紙の文字配置（スケッチ再現） */
+.handwriting-area {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    text-align: center;
     position: relative;
+    height: 100%;
+    background-image: linear-gradient(#d0e8ff 1px, transparent 1px);
+    background-size: 100% 40px;
 }
 
-.class-info {
-    font-size: 3rem;
-    font-weight: bold;
+.txt-school { font-size: 2.5rem; align-self: flex-start; margin: 0; }
+
+.txt-class {
+    font-size: 8rem;
     font-family: 'Kiwi Maru', serif;
-    margin-bottom: 20px;
+    margin: -10px 0;
+    transform: rotate(5deg);
+    color: #444;
+    -webkit-text-stroke: 1px #000;
 }
 
-.main-title {
-    font-size: 6rem;
-    font-weight: bold;
-    font-family: 'Kiwi Maru', serif;
-    line-height: 1.1;
-}
+.txt-group { font-size: 5rem; margin: -20px 0; transform: rotate(-5deg); align-self: flex-end; }
+.txt-title { font-size: 4rem; margin: 20px 0 0 0; font-family: 'Kiwi Maru', serif; }
+.txt-diary { font-size: 4rem; margin: 0; font-family: 'Kiwi Maru', serif; }
 
-.author-name {
-    margin-top: 40px;
-    font-size: 2rem;
-    border-bottom: 3px solid #333;
-    padding: 0 20px;
-}
-
-.next-arrow {
+/* 赤い矢印 */
+.red-arrow {
     position: absolute;
-    right: 30px;
-    bottom: 30px;
+    bottom: 0;
+    right: 0;
     cursor: pointer;
     transition: transform 0.2s;
 }
+.red-arrow:hover { transform: scale(1.1) rotate(5deg); }
 
-.next-arrow:hover {
-    transform: scale(1.1);
+/* 中身のページ */
+.line-container {
+    background-image: linear-gradient(#d0e8ff 1.5px, transparent 1.5px);
+    background-size: 100% 40px;
+    margin-top: 10px;
 }
 
-/* 見開きページ */
-.spread {
+.line {
+    height: 40px;
     display: flex;
-    height: 100%;
-    background-color: #fff;
-}
-
-.sheet {
-    flex: 1;
-    padding: 40px;
-    position: relative;
-    border: 1px solid #eee;
-    overflow-y: auto;
-}
-
-.left-page {
-    border-right: 2px solid #ddd;
-}
-
-/* 罫線の設定 */
-.lines {
-    background-image: linear-gradient(#e1e1e1 1px, transparent 1px);
-    background-size: 100% 40px; /* 1行の高さを40pxに固定 */
-    margin-top: 20px;
-}
-
-.line-text {
-    height: 40px; /* 罫線の幅と一致させる */
-    display: flex;
-    align-items: center; /* 文字を罫線のど真ん中に配置 */
+    align-items: center;
     padding-left: 10px;
-    font-size: 1.2rem;
-    color: #333;
+    font-size: 1.3rem;
 }
 
-.line-text.title {
-    font-weight: bold;
-    color: #6a4c93;
-    font-size: 1.5rem;
-}
+.clickable { cursor: pointer; color: #d64d4d; }
 
-/* 下部ナビゲーション */
-.footer-nav {
+.footer-btns {
     position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 10px 20px;
+    bottom: 10px;
+    width: calc(100% - 60px);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(255,255,255,0.9);
-    border-top: 1px solid #ddd;
 }
 
-.back-link {
-    cursor: pointer;
-    text-decoration: underline;
-    font-size: 0.9rem;
-    color: #666;
+.btn-home { font-size: 0.8rem; text-decoration: underline; cursor: pointer; }
+.page-nav { font-size: 2rem; cursor: pointer; display: flex; gap: 20px; }
+
+/* レスポンシブ */
+@media (max-width: 500px) {
+    .txt-class { font-size: 5rem; }
+    .txt-group { font-size: 3rem; }
+    .txt-title, .txt-diary { font-size: 2.5rem; }
 }
 
-.arrow-btn {
-    font-size: 2rem;
-    cursor: pointer;
-    margin-left: 20px;
-}
-
-/* スマホ対応 */
-@media (max-width: 600px) {
-    .spread {
-        flex-direction: column;
-    }
-    .main-title {
-        font-size: 3.5rem;
-    }
-    .class-info {
-        font-size: 2rem;
-    }
-    .spine {
-        width: 30px;
-    }
-}
