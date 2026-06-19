@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>市川工業 E3B 7班 課題研究日記</title>
-    <!-- 手書き風フォントの読み込み -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- 見やすさと可愛さを両立したフォントの読み込み -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@500;700&family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
-        
     <!-- CSSファイルの読み込み -->
     <link rel="stylesheet" href="Kadai.css">
 </head>
@@ -16,8 +15,11 @@
 
     <!-- ================= 📕 表紙（Cover Page） ================= -->
     <div id="cover-page" class="notebook-cover">
+        <!-- 📌 手書き設計図通りの、表紙にピコッと飛び出す4/24付箋 -->
+        <div class="cover-tab">4/24</div>
         <div class="spine"></div> <!-- 背表紙 -->
         <div class="cover-content">
+            <!-- 「市川工業の」を一番大きく大強調！ -->
             <div class="pop-text class-name">市川工業の</div>
             <div class="pop-text group-name">E3B 7班</div>
             <h1 class="pop-text main-title">課題研究日記</h1>
@@ -28,10 +30,10 @@
     <!-- ================= 📖 中身（Notebook Body） ================= -->
     <div id="main-notebook" class="notebook-body hidden">
         
-        <!-- 全てを美しく包む見開きノートコンテナ -->
+        <!-- 全てを美しく包む見開きノートコンテナ（overflow: visibleにして付箋を飛び出させる） -->
         <div class="pages-container">
             
-            <!-- 📌 付箋ナビゲーション（ノートの内側上部に綺麗に配置！） -->
+            <!-- 📌 復活！ノートの上に飛び出す手書き風付箋ナビゲーション -->
             <nav class="sticky-tabs" id="tabs-container"></nav>
 
             <!-- 見開きページエリア -->
@@ -56,7 +58,7 @@
             </div>
         </div>
 
-        <!-- ノート下部のナビゲーション -->
+        <!-- ノート下部のナビゲーション（画面内に絶対収まる位置に配置） -->
         <footer class="notebook-footer">
             <span class="footer-link" onclick="closeNotebook()">🏠 表紙に戻る</span>
             <div class="page-arrows">
@@ -236,7 +238,7 @@
                     <div class="line-text">⭐️今日の役割⭐️</div>
                     <div class="line-text">cherry：white先生から代替案を考えて欲しいと言われてたのでそれについて調べた、購入リストの書き込み</div>
                     <div class="line-text">fire：設計図を書くために調べた、GitHub大幅更新</div>
-                    <div class="line-text">sea：iPad上でのArduinoの運用方法を調べた、notebook lmの試行錯誤、プロンプト改善</div>
+                    <div class="line-text">sea：iPad上でのArduinoの運用方法を調べた、notebook lm of 試行錯誤、プロンプト改善</div>
                     <div class="line-text">slope：目玉の内部作り</div>
                     <div class="line-text">sugar：学科紹介の文の訂正</div>
                     <div class="line-text">soil：今日も来なかった</div>
@@ -308,10 +310,8 @@
             const activeTab = document.getElementById(tabId);
             if (activeTab) {
                 activeTab.classList.add('active');
-                activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             }
 
-            // ページ切り替え後にスクロール矢印の表示チェック
             setTimeout(updateScrollArrows, 60);
         }
 
@@ -321,7 +321,6 @@
                 const pageEl = document.getElementById(`${side}-page`);
                 const arrowEl = document.getElementById(`${side}-scroll-arrow`);
                 if (pageEl && arrowEl) {
-                    // 下にスクロールできる余裕があるか判定（誤差5pxを考慮）
                     const canScroll = pageEl.scrollHeight > pageEl.clientHeight + 5;
                     const isAtBottom = pageEl.scrollTop + pageEl.clientHeight >= pageEl.scrollHeight - 5;
                     
