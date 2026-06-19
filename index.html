@@ -6,128 +6,330 @@
     <title>市川工業 E3B 7班 課題研究日記</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@500&family=Yomogi&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@500;700&family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Kadai.css">
 </head>
 <body>
 
     <div id="cover-page" class="notebook-cover">
-        <div class="spine"></div> <div class="cover-content">
-            <div class="class-tag">E3B 7班</div>
-            <h1 class="main-title">課題研究<br>日記</h1>
+        <div class="spine"></div>
+        <div class="sticky-tabs" id="cover-tabs-container"></div>
+        <div class="cover-content">
+            <div class="pop-text class-name">市川工業の</div>
+            <div class="pop-text group-name">E3B 7班</div>
+            <h1 class="pop-text main-title">課題研究日記</h1>
             <button class="next-arrow-btn" onclick="openNotebook()">➡</button>
         </div>
     </div>
 
     <div id="main-notebook" class="notebook-body hidden">
-        
-        <nav class="sticky-tabs">
-            <button id="tab-index" class="tab active" onclick="switchPage('INDEX')">目次</button>
-            <button id="tab-4-24" class="tab" onclick="switchPage('4/24')">4/24</button>
-            <button id="tab-5-8" class="tab" onclick="switchPage('5/8')">5/8</button>
-        </nav>
+        <div class="notebook-main-container">
+            <nav class="sticky-tabs" id="tabs-container"></nav>
 
-        <div class="pages-container">
-            <div class="page left-page">
-                <div class="notebook-lines" id="left-content">
+            <div class="pages-container">
+                <div class="inner-pages">
+                    <div class="page-wrapper">
+                        <div class="page left-page" id="left-page" onscroll="updateScrollArrows()">
+                            <div class="notebook-lines" id="left-content"></div>
+                        </div>
+                        <div class="scroll-arrow" id="left-scroll-arrow">🔽</div>
                     </div>
-            </div>
-            <div class="page right-page">
-                <div class="notebook-lines" id="right-content">
+                    
+                    <div class="page-wrapper">
+                        <div class="page right-page" id="right-page" onscroll="updateScrollArrows()">
+                            <div class="notebook-lines" id="right-content"></div>
+                        </div>
+                        <div class="scroll-arrow" id="right-scroll-arrow">🔽</div>
                     </div>
+                </div>
             </div>
         </div>
 
         <footer class="notebook-footer">
             <span class="footer-link" onclick="closeNotebook()">🏠 表紙に戻る</span>
             <div class="page-arrows">
-                <span class="footer-arrow" onclick="prevPage()">⬅ 前へ</span>
-                <span class="footer-arrow" onclick="nextPage()">次へ ➡</span>
+                <span class="footer-arrow" onclick="prevPage()">⬅️ 前へ</span>
+                <span class="footer-arrow" onclick="nextPage()">次へ ➡️</span>
             </div>
         </footer>
     </div>
 
     <script>
-        // 💡 日記のデータをここにまとめました！
-        // 今後日記を増やすときは、ここを書き換えるだけで目次も自動で増えます。
+        // 📌 ご提示いただいた原文テキストと完全に一字一句一致させています
         const diaryData = {
             "INDEX": {
+                title: "目次",
                 left: `
-                    <h2 class="page-title">INDEX（目次）</h2>
-                    <div class="line-text">※日付を押すとそのページに飛べます</div>
+                    <div class="line-text" style="justify-content: flex-end;"><span class="footer-link" onclick="closeNotebook()">🏠 表紙に戻る</span></div>
+                    <h2 class="page-title">目次</h2>
+                    <div class="line-text"><span class="hint">※日付を押すとそのページにジャンプします</span></div>
                     <div class="line-text"></div>
                     <div class="line-text"><a href="#" onclick="switchPage('4/24'); return false;">・4月24日の記録</a></div>
                     <div class="line-text"><a href="#" onclick="switchPage('5/8'); return false;">・5月8日の記録</a></div>
+                    <div class="line-text"><a href="#" onclick="switchPage('5/15'); return false;">・5月15日の記録</a></div>
+                    <div class="line-text"><a href="#" onclick="switchPage('5/28'); return false;">・5月28日の記録</a></div>
+                    <div class="line-text"><a href="#" onclick="switchPage('6/5'); return false;">・6月5日の記録</a></div>
+                    <div class="line-text"><a href="#" onclick="switchPage('6/12'); return false;">・6月12日の記録</a></div>
                 `,
                 right: `
+                    <h2 class="page-title">班紹介</h2>
+                    <div class="line-text">【課題研究の内容】</div>
+                    <div class="line-text">『目をみて話せる学校案内ロボットの制作』です！</div>
                     <div class="line-text"></div>
-                    <div class="line-text">【研究テーマ】</div>
-                    <div class="line-text">ここに自分たちの課題研究のテーマを</div>
-                    <div class="line-text">書いておくとノートっぽくなります。</div>
+                    <div class="line-text">【メンバー】</div>
+                    <div class="line-text">班長：cherry</div>
+                    <div class="line-text">班員：fire, slope, sugar, soil, sea</div>
+                    <div class="line-text"></div>
+                    <div class="line-text">【担当の先生】</div>
+                    <div class="line-text">white先生</div>
                 `
             },
             "4/24": {
+                title: "4/24",
                 left: `
-                    <h2 class="page-title">4月24日（金）の目標</h2>
-                    <div class="line-text">・課題研究のテーマ決めと役割分担</div>
-                    <div class="line-text">・先行研究の調査</div>
+                    <h2 class="page-title">4月24日</h2>
+                    <div class="line-text">今日から本格的に課題研究を始めました。</div>
+                    <div class="line-text">ここE3Bの7班の班長はcherryです。班員はfire、slope、sugar、soil、seaの5人です。</div>
+                    <div class="line-text">ここには今日あった出来事や課題、役割などを書き込んでいきます。</div>
                     <div class="line-text"></div>
-                    <div class="line-text">【メモ】</div>
-                    <div class="line-text">まずは何をするかメンバーで話し合った。</div>
+                    <div class="line-text">私たちの課題研究の内容は、『目をみて話せる学校案内ロボットの制作』です！</div>
+                    <div class="line-text"></div>
+                    <div class="line-text">⭐️今日の役割⭐️</div>
+                    <div class="line-text">cherry：市工魅力調べ、課題調べ</div>
+                    <div class="line-text">fire：githubの設定と書き込み</div>
+                    <div class="line-text">sea：市工魅力調べ</div>
+                    <div class="line-text">slope：市工魅力調べ</div>
+                    <div class="line-text">soil：市工魅力調べ</div>
+                    <div class="line-text">sugar：市工魅力調べ</div>
                 `,
                 right: `
-                    <h2 class="page-title">本日の成果・気づいたこと</h2>
-                    <div class="line-text">みんなでアイデアを出し合って、</div>
-                    <div class="line-text">大まかな方向性が決まった。</div>
-                    <div class="line-text">次回からは具体的な実験計画を立てる。</div>
+                    <h2 class="page-title">4/24 つづき</h2>
+                    <div class="line-text">課題😞</div>
+                    <div class="line-text">・gemの作成と、gemと接続する音声認識と音声発生方法</div>
+                    <div class="line-text">・geminiを使うことでの弊害</div>
+                    <div class="line-text">・学校案内はどうやって説明するか</div>
+                    <div class="line-text">・パソコンで作りたいが、高くて無理なこと</div>
+                    <div class="line-text"></div>
+                    <div class="line-text">今日やったこと😊</div>
+                    <div class="line-text">・市工の魅力を調べた</div>
+                    <div class="line-text">・gemini APIの使い方</div>
+                    <div class="line-text">・色々試して作ってみた</div>
+                    <div class="line-text">・課題を見つけたこと</div>
                 `
             },
             "5/8": {
+                title: "5/8",
                 left: `
-                    <h2 class="page-title">5月8日（金）の目標</h2>
-                    <div class="line-text">・必要な材料のリストアップ</div>
-                    <div class="line-text">・HTML/CSSの基本勉強</div>
+                    <h2 class="page-title">5月8日</h2>
+                    <div class="line-text">今日も調べ学習メインでした</div>
                     <div class="line-text"></div>
-                    <div class="line-text">【メモ】</div>
-                    <div class="line-text">仮の文章です。後で書き直してね。</div>
+                    <div class="line-text">⭐️今日の役割⭐️</div>
+                    <div class="line-text">cherry：gemini APIの使用方法調べと実践</div>
+                    <div class="line-text">fire：githubの中身作り</div>
+                    <div class="line-text">sea：市工魅力調べ</div>
+                    <div class="line-text">slope：市工魅力調べ</div>
+                    <div class="line-text">soil：soilは来なかった</div>
+                    <div class="line-text">sugar：市工魅力調べ</div>
                 `,
                 right: `
-                    <h2 class="page-title">本日の成果・気づいたこと</h2>
-                    <div class="line-text">5月8日の成果をここに書きます。</div>
-                    <div class="line-text">線からはみ出さずに、ど真ん中に</div>
-                    <div class="line-text">文字が書けるようになっています！</div>
+                    <h2 class="page-title">5/8 つづき</h2>
+                    <div class="line-text">課題😞</div>
+                    <div class="line-text">・cherryがgemini APIの使用方法を調べて実践したがAPIを習得するのが難しかった</div>
+                    <div class="line-text">・今後ラズベリを使うにあたって学校のラズベリを試作品で使うかどうか</div>
+                    <div class="line-text">・目玉とAPIの制御を別にするか</div>
+                    <div class="line-text"></div>
+                    <div class="line-text">今日やったこと、思ったこと😊</div>
+                    <div class="line-text">・市工の魅力調べをして学校概要と市川市とのつながり、市工の魅力などを文章化した</div>
+                    <div class="line-text">・課題研究の購入品を調べてスプレッドシートに書いたことで使うものが明確になった</div>
+                    <div class="line-text">・GitHubのWebサイトを作っている</div>
+                    <div class="line-text">・5月中には目玉用のモーターを買いたいな</div>
+                `
+            },
+            "5/15": {
+                title: "5/15",
+                left: `
+                    <h2 class="page-title">５月１５日</h2>
+                    <div class="line-text">目玉を印刷する段階で止まってます</div>
+                    <div class="line-text"></div>
+                    <div class="line-text">⭐️今日の役割⭐️</div>
+                    <div class="line-text">cherry：API取得、geminiと接続確認</div>
+                    <div class="line-text">fire：githubの更新、デザイン案</div>
+                    <div class="line-text">sea：geminiの音声出力</div>
+                    <div class="line-text">slope：モーター取り外し</div>
+                    <div class="line-text">soil：三時間目の途中で来た、20分間デザイン案を考えた</div>
+                    <div class="line-text">sugar：地図作成</div>
+                `,
+                right: `
+                    <h2 class="page-title">５月１５日 つづき</h2>
+                    <div class="line-text">課題😞</div>
+                    <div class="line-text">・部品調達モーターとラズベリ3とArduinoを調達してネジをどうしようか悩んでいること</div>
+                    <div class="line-text"></div>
+                    <div class="line-text">今日やったこと😊</div>
+                    <div class="line-text">・geminiと接続の確認、デプロイ開けなかったから完成はしてない</div>
+                    <div class="line-text">・学校案内の地図作成</div>
+                    <div class="line-text">・何かについていたモーターの部品外し</div>
+                    <div class="line-text">・入力をgemini内で解決する方法を考えた</div>
+                    <div class="line-text">・デザイン案を考える</div>
+                    <div class="line-text">・学校内で部品調達！ラズパイも！</div>
+                `
+            },
+            "5/28": {
+                title: "5/28",
+                left: `
+                    <h2 class="page-title">５月28日</h2>
+                    <div class="line-text">今日は暑く班員の元気があまりなかったです</div>
+                    <div class="line-text"></div>
+                    <div class="line-text">⭐️今日の役割⭐️</div>
+                    <div class="line-text">cherry：目の部品組み立て</div>
+                    <div class="line-text">fire：デザイン案</div>
+                    <div class="line-text">sea：マップ状況を詳しくファイルに起こした。マップを文字で起こしたAIがどう動作するのか</div>
+                    <div class="line-text">slope：工具を持ってきた　特にはやってない</div>
+                    <div class="line-text">soil：今日は来なかった</div>
+                    <div class="line-text">sugar：学校の部屋の配置を考えた</div>
+                `,
+                right: `
+                    <h2 class="page-title">５月28日 つづき</h2>
+                    <div class="line-text">課題😞</div>
+                    <div class="line-text">・部品調達モーターとラズベリ3とArduinoを調達してネジをどうしようか悩んでいること</div>
+                    <div class="line-text"></div>
+                    <div class="line-text">今日やったこと、思ったこと😊</div>
+                    <div class="line-text">・目の部品の組み立て</div>
+                    <div class="line-text">・学校内のマップ作り</div>
+                    <div class="line-text">・マップを文字で起こしAIがどう動作するのかをやりマップの状況をファイルに起こした</div>
+                    <div class="line-text">・デザイン案を考える</div>
+                    <div class="line-text">・テスト週間の間に目の部品を3Dプリンターで印刷しました</div>
+                    <div class="line-text">・特に大きな進捗はなかった</div>
+                `
+            },
+            "6/5": {
+                title: "6/5",
+                left: `
+                    <h2 class="page-title">6月5日</h2>
+                    <div class="line-text">大きな進捗はなかったです</div>
+                    <div class="line-text"></div>
+                    <div class="line-text">⭐️今日の役割⭐️</div>
+                    <div class="line-text">cherry：目の部品組み立て、先生からの課題</div>
+                    <div class="line-text">fire：デザイン案とその設計図</div>
+                    <div class="line-text">sea：geminiの情報入れる、notebook LMにも情報を入れた</div>
+                    <div class="line-text">slope：特にない</div>
+                    <div class="line-text">soil：今日は来なかった</div>
+                    <div class="line-text">sugar：各学科の魅力</div>
+                `,
+                right: `
+                    <h2 class="page-title">6/5 つづき</h2>
+                    <div class="line-text">課題😞</div>
+                    <div class="line-text">・今日の課題は見つけられなかった</div>
+                    <div class="line-text"></div>
+                    <div class="line-text">今日やったこと、思ったこと😊</div>
+                    <div class="line-text">・目の部品の組み立て</div>
+                    <div class="line-text">・各学科の魅力調べ</div>
+                    <div class="line-text">・デザイン案と設計図を書いた</div>
+                    <div class="line-text">・今日は涼しかったがちょっとだるさを感じた</div>
+                    <div class="line-text">・特に進展はなかったと思います</div>
+                `
+            },
+            "6/12": {
+                title: "6/12",
+                left: `
+                    <h2 class="page-title">6月12日</h2>
+                    <div class="line-text">何を買うにも高くついてしまうのが悩み</div>
+                    <div class="line-text"></div>
+                    <div class="line-text">⭐️今日の役割⭐️</div>
+                    <div class="line-text">cherry：white先生から代替案を考えて欲しいと言われてたのでそれについて調べた、購入リストの書き込み</div>
+                    <div class="line-text">fire：設計図を書くために調べた、GitHub大幅更新</div>
+                    <div class="line-text">sea：iPad上でのArduinoの運用方法を調べた、notebook lmの試行錯誤、プロンプト改善</div>
+                    <div class="line-text">slope：目玉の内部作り</div>
+                    <div class="line-text">soil：今日も来なかった</div>
+                    <div class="line-text">sugar：学科紹介の文の訂正</div>
+                `,
+                right: `
+                    <h2 class="page-title">6/12 つづき</h2>
+                    <div class="line-text">課題😞</div>
+                    <div class="line-text">・geminiのAIが回答したものをスピーカーとして音に出す仕組みをパソコンでやるのかラズベリでやるのかgeminiで完結させるのか考えてる</div>
+                    <div class="line-text">・何を買うにも費用が高くなってしまう</div>
+                    <div class="line-text"></div>
+                    <div class="line-text">今日やったこと、思ったこと😊</div>
+                    <div class="line-text">・代替案を調べた</div>
+                    <div class="line-text">・購入リストの書き込み</div>
+                    <div class="line-text">・ロボットの設計図を書くために調べた</div>
+                    <div class="line-text">・iPad上でのArduinoの運営方法調べ</div>
+                    <div class="line-text">・notebooklmを活用しようと試行錯誤した</div>
+                    <div class="line-text">・geminiのプロンプトの改善</div>
+                    <div class="line-text">・目玉を動かすためのモーターや部品取り付け</div>
+                    <div class="line-text">・学科紹介の文の訂正</div>
+                    <div class="line-text">・GitHubの更新、今までのデザインがあまり良くなく気に入らなかったので４月２８日から６月１２日までの文章を考えてGitHubのサイトを作ろうとしています</div>
                 `
             }
         };
 
-        let currentPageKey = "INDEX";
         const pageKeys = Object.keys(diaryData);
+        let currentPageKey = "INDEX";
+
+        // 📌 表紙用と中身用の両方にタブ（付箋）を生成する関数
+        function generateTabs(containerId, isCover = false) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            pageKeys.forEach(key => {
+                const btn = document.createElement('button');
+                if (isCover) {
+                    btn.className = 'tab cover-tab';
+                } else {
+                    btn.id = "tab-" + key.replace('/', '-');
+                    btn.className = 'tab';
+                    btn.onclick = () => switchPage(key);
+                }
+                btn.innerText = diaryData[key].title;
+                container.appendChild(btn);
+            });
+        }
 
         function openNotebook() {
             document.getElementById('cover-page').classList.add('hidden');
             document.getElementById('main-notebook').classList.remove('hidden');
+            generateTabs('tabs-container', false);
             switchPage('INDEX');
         }
 
         function closeNotebook() {
             document.getElementById('main-notebook').classList.add('hidden');
             document.getElementById('cover-page').classList.remove('hidden');
+            generateTabs('cover-tabs-container', true); // 表紙に戻った時も付箋を再描写
         }
 
         function switchPage(key) {
             if (!diaryData[key]) return;
             currentPageKey = key;
             
-            // ページ内容の入れ替え
             document.getElementById('left-content').innerHTML = diaryData[key].left;
             document.getElementById('right-content').innerHTML = diaryData[key].right;
 
-            // 付箋の見た目をアクティブ（手前に出す）にする
             document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
             
-            let tabId = "tab-" + key.replace('/', '-');
-            let activeTab = document.getElementById(tabId) || document.getElementById('tab-index');
-            if (activeTab) activeTab.classList.add('active');
+            const tabId = "tab-" + key.replace('/', '-');
+            const activeTab = document.getElementById(tabId);
+            if (activeTab) {
+                activeTab.classList.add('active');
+            }
+
+            setTimeout(updateScrollArrows, 50);
+        }
+
+        function updateScrollArrows() {
+            const sides = ['left', 'right'];
+            sides.forEach(side => {
+                const pageEl = document.getElementById(`${side}-page`);
+                const arrowEl = document.getElementById(`${side}-scroll-arrow`);
+                if (pageEl && arrowEl) {
+                    const canScroll = pageEl.scrollHeight > pageEl.clientHeight + 12; 
+                    const isAtBottom = pageEl.scrollTop + pageEl.clientHeight >= pageEl.scrollHeight - 12;
+                    
+                    if (canScroll && !isAtBottom) {
+                        arrowEl.style.display = 'flex';
+                    } else {
+                        arrowEl.style.display = 'none';
+                    }
+                }
+            });
         }
 
         function nextPage() {
@@ -143,6 +345,11 @@
                 switchPage(pageKeys[index - 1]);
             }
         }
+
+        // 初期起動時に表紙の付箋を表示させる
+        window.onload = () => {
+            generateTabs('cover-tabs-container', true);
+        };
     </script>
 </body>
 </html>
