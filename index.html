@@ -4,22 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>市川工業 E3B 7班 課題研究日記</title>
-    <!-- 見やすさと可愛さを両立したフォントの読み込み -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@500;700&family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
-    <!-- CSSファイルの読み込み -->
     <link rel="stylesheet" href="Kadai.css">
 </head>
 <body>
 
-    <!-- ================= 📕 表紙（Cover Page） ================= -->
     <div id="cover-page" class="notebook-cover">
-        <!-- 📌 手書き設計図通りの、表紙にピコッと飛び出す4/24付箋 -->
-        <div class="cover-tab">4/24</div>
-        <div class="spine"></div> <!-- 背表紙 -->
+        <div class="cover-tabs-container">
+            <div class="c-tab ct-idx">目次</div>
+            <div class="c-tab ct-424">4/24</div>
+            <div class="c-tab ct-58">5/8</div>
+            <div class="c-tab ct-515">5/15</div>
+            <div class="c-tab ct-528">5/28</div>
+            <div class="c-tab ct-65">6/5</div>
+            <div class="c-tab ct-612">6/12</div>
+        </div>
+        <div class="spine"></div>
         <div class="cover-content">
-            <!-- 「市川工業の」を一番大きく大強調！ -->
             <div class="pop-text class-name">市川工業の</div>
             <div class="pop-text group-name">E3B 7班</div>
             <h1 class="pop-text main-title">課題研究日記</h1>
@@ -27,38 +30,27 @@
         </div>
     </div>
 
-    <!-- ================= 📖 中身（Notebook Body） ================= -->
     <div id="main-notebook" class="notebook-body hidden">
-        
-        <!-- 全てを美しく包む見開きノートコンテナ（overflow: visibleにして付箋を飛び出させる） -->
         <div class="pages-container">
-            
-            <!-- 📌 復活！ノートの上に飛び出す手書き風付箋ナビゲーション -->
             <nav class="sticky-tabs" id="tabs-container"></nav>
 
-            <!-- 見開きページエリア -->
             <div class="inner-pages">
-                <!-- 左ページ wrapper -->
                 <div class="page-wrapper">
                     <div class="page left-page" id="left-page" onscroll="updateScrollArrows()">
                         <div class="notebook-lines" id="left-content"></div>
                     </div>
-                    <!-- スクロールを知らせる矢印ガイド -->
                     <div class="scroll-arrow" id="left-scroll-arrow">🔽</div>
                 </div>
                 
-                <!-- 右ページ wrapper -->
                 <div class="page-wrapper">
                     <div class="page right-page" id="right-page" onscroll="updateScrollArrows()">
                         <div class="notebook-lines" id="right-content"></div>
                     </div>
-                    <!-- スクロールを知らせる矢印ガイド -->
                     <div class="scroll-arrow" id="right-scroll-arrow">🔽</div>
                 </div>
             </div>
         </div>
 
-        <!-- ノート下部のナビゲーション（画面内に絶対収まる位置に配置） -->
         <footer class="notebook-footer">
             <span class="footer-link" onclick="closeNotebook()">🏠 表紙に戻る</span>
             <div class="page-arrows">
@@ -68,7 +60,6 @@
         </footer>
     </div>
 
-    <!-- ================= 🛠️ データと動き ================= -->
     <script>
         const diaryData = {
             "INDEX": {
@@ -223,7 +214,7 @@
                     <div class="line-text">・目の部品の組み立て</div>
                     <div class="line-text">・各学科の魅力調べ</div>
                     <div class="line-text">・デザイン案と設計図を書いた</div>
-                    <div class="line-text">・今日は涼しかったがちょっとだるさを感じた</div>
+                    <div class="line-text">・今日は涼しかったがちょっとだだるさを感じた</div>
                     <div class="line-text">・特に進展はなかったと思います😭</div>
                     <div class="line-text"></div>
                     <div class="line-text">課題😞</div>
@@ -312,7 +303,8 @@
                 activeTab.classList.add('active');
             }
 
-            setTimeout(updateScrollArrows, 60);
+            // 💡 ページ切り替えの直後にスクロール状態を100%正確に判定する
+            setTimeout(updateScrollArrows, 50);
         }
 
         function updateScrollArrows() {
@@ -321,8 +313,9 @@
                 const pageEl = document.getElementById(`${side}-page`);
                 const arrowEl = document.getElementById(`${side}-scroll-arrow`);
                 if (pageEl && arrowEl) {
-                    const canScroll = pageEl.scrollHeight > pageEl.clientHeight + 5;
-                    const isAtBottom = pageEl.scrollTop + pageEl.clientHeight >= pageEl.scrollHeight - 5;
+                    // 📌 修正：文字が収まっていてスクロール不要な時は「絶対に」表示しないロジック
+                    const canScroll = pageEl.scrollHeight > pageEl.clientHeight + 12; 
+                    const isAtBottom = pageEl.scrollTop + pageEl.clientHeight >= pageEl.scrollHeight - 12;
                     
                     if (canScroll && !isAtBottom) {
                         arrowEl.style.display = 'flex';
