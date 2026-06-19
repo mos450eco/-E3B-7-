@@ -8,8 +8,8 @@
 }
 
 body {
-    background-color: #fffafb; /* さらに淡く優しい背景 */
-    font-family: 'M PLUS Rounded 1c', sans-serif; /* 企業ウケ抜群の綺麗な丸ゴシック */
+    background-color: #fffafb;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
     height: 100vh;
     overflow: hidden; 
     display: flex;
@@ -28,40 +28,49 @@ h1, h2, .class-name, .group-name {
 }
 
 /* ===================================================
-   🌸 1. 表紙のデザイン（超淡いパステル調＆文字巨大化）
+   🌸 1. 表紙のデザイン（すべてのインデックスが並ぶ）
 =================================================== */
 .notebook-cover {
     position: relative;
     width: 90vw;
     max-width: 680px;
-    height: 72vh; /* iPadに綺麗に収まる高さ */
-    background-color: #fff0f2; /* 極限まで淡くしたミルキーピンク */
+    height: 72vh; 
+    background-color: #fff0f2; 
     border-radius: 14px;
     box-shadow: 0 12px 30px rgba(244, 143, 177, 0.15);
     display: flex;
     border: 3px solid #424242;
 }
 
-/* 📌 表紙の左上に飛び出す手書き再現付箋 */
-.cover-tab {
+/* 📌 修正：表紙の上部にもノート内と同じように全ての付箋を並べるコンテナ */
+.cover-tabs-container {
     position: absolute;
     top: -33px;
-    left: 80px;
-    background-color: #cceeff; /* スケッチ通りの青い付箋 */
+    left: 70px;
+    display: flex;
+    gap: 4px;
+}
+
+.c-tab {
+    background-color: #ffccd5;
     border: 3px solid #424242;
     border-bottom: none;
-    padding: 4px 14px;
-    font-size: 1rem;
+    padding: 4px 10px;
+    font-size: 0.9rem;
     font-weight: bold;
     color: #424242;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
 }
+/* スケッチに合わせ、最初の4/24近辺だけ目立たせるための青色 */
+.ct-idx, .ct-424, .ct-58 {
+    background-color: #cceeff; 
+}
 
 .spine {
     width: 50px;
     height: 100%;
-    background-color: #f6ebf7; /* パステル調の淡いラベンダー */
+    background-color: #f6ebf7; 
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     border-right: 3px solid #424242;
@@ -82,7 +91,6 @@ h1, h2, .class-name, .group-name {
     animation: popUpAnimation 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-/* 💡 主役：「市川工業を」どこよりも大きく！ */
 .class-name {
     font-size: 4rem; 
     color: #424242;
@@ -127,27 +135,23 @@ h1, h2, .class-name, .group-name {
     text-shadow: 2px 2px 0px #fff;
     transition: transform 0.2s;
 }
-.next-arrow-btn:hover {
-    transform: scale(1.2) rotate(10deg);
-}
 
 /* ===================================================
-   📖 2. ノートの本体枠（画面に収まるサイズ＆付箋ハミ出し構造）
+   📖 2. ノートの本体枠
 =================================================== */
 .notebook-body {
     position: relative;
     width: 95vw;
     max-width: 1050px;
-    height: 86vh; /* フッターごと1画面に絶対収まるベストな高さ */
+    height: 86vh; 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding-top: 40px; /* 上に付箋が飛び出すための余白スペース */
+    padding-top: 40px; 
 }
 
-/* 白いノートメイン枠 */
 .pages-container {
-    height: 72vh; /* ノート自体の高さをiPadに最適化 */
+    height: 72vh; 
     background-color: #fff;
     border: 3px solid #424242;
     border-radius: 12px;
@@ -156,10 +160,9 @@ h1, h2, .class-name, .group-name {
     position: relative;
 }
 
-/* 📌 ノートの上に飛び出す付箋エリア */
 .sticky-tabs {
     position: absolute;
-    top: -37px; /* ノートの上の外枠を飛び出させる */
+    top: -35px; /* 黒い境界線の上にジャストで重なる配置 */
     left: 20px;
     display: flex;
     gap: 6px;
@@ -170,29 +173,27 @@ h1, h2, .class-name, .group-name {
     font-family: 'M PLUS Rounded 1c', sans-serif;
     font-size: 1.05rem;
     font-weight: bold;
-    background-color: #ffccd5; /* 通常時は可愛いパステルピンク */
+    background-color: #ffccd5; 
     color: #424242;
     border: 3px solid #424242;
-    border-bottom: none;
     padding: 4px 16px;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     cursor: pointer;
-    transition: all 0.15s;
+    transition: all 0.1s ease-in-out;
     position: relative;
-    top: 3px; /* ノートの上の黒線にわざと少し重ねる */
-}
-
-/* 💡 「手前に来ている」をCSSで完全再現！ */
-.tab.active {
-    background-color: #fff; /* 開いているページと同じ「白」に */
-    z-index: 12; /* 一番手前に引き出す */
-    height: 38px; /* 高さをミリ単位で伸ばして… */
-    border-bottom: 4px solid #fff; /* 💥 ノートの黒い枠線を上から踏み潰して消す！ */
     top: 3px;
 }
 
-/* 見開きの左右ページを包む */
+/* 💡 修正：「てまえにきて！」を完全再現する境界線踏み潰し設定 */
+.tab.active {
+    background-color: #fff !important; 
+    z-index: 99 !important; /* 他のどの要素よりも手前に引き出す */
+    height: 37px; 
+    border-bottom: 5px solid #fff !important; /* 下の黒い線を完全に真っ白な太線で塗りつぶして消す */
+    top: 2px; /* 線の真上にピタッと密着させる */
+}
+
 .inner-pages {
     flex: 1;
     display: flex;
@@ -203,7 +204,6 @@ h1, h2, .class-name, .group-name {
     overflow: hidden;
 }
 
-/* ノート中央の折り目線 */
 .inner-pages::after {
     content: "";
     position: absolute;
@@ -224,7 +224,7 @@ h1, h2, .class-name, .group-name {
 }
 
 /* ===================================================
-   📝 3. 便箋の横線（文字をど真ん中にジャストフィット）
+   📝 3. 便箋の横線
 =================================================== */
 .page {
     width: 100%;
@@ -250,10 +250,8 @@ h1, h2, .class-name, .group-name {
     padding: 0 4px;
     white-space: normal;
     word-break: break-all;
-
-    /* 💡 完璧配置：文字をわずかに下にずらして、青線の真ん中にピタッと合わせる */
     position: relative;
-    top: 3px; 
+    top: 3px; /* 線と線のど真ん中キープ */
 }
 
 .page-title {
@@ -283,7 +281,7 @@ h1, h2, .class-name, .group-name {
     border-radius: 50%;
     width: 34px;
     height: 34px;
-    display: none; 
+    display: none; /* JSの判定が通るまで初期状態は非表示 */
     align-items: center;
     justify-content: center;
     box-shadow: 0 3px 6px rgba(0,0,0,0.08);
@@ -298,7 +296,7 @@ h1, h2, .class-name, .group-name {
 }
 
 /* ===================================================
-   🔗 5. フッター（拡大不要で絶対に見える位置）
+   🔗 5. フッター
 =================================================== */
 a {
     color: #424242;
@@ -317,7 +315,7 @@ a:hover {
     padding: 8px 10px 0px 10px;
     font-size: 1rem;
     color: #555;
-    height: 4vh; /* 画面下部に固定で収まるように高さを制限 */
+    height: 4vh; 
 }
 
 .footer-link {
@@ -357,8 +355,8 @@ a:hover {
         height: auto;
         padding-top: 50px;
     }
-    .cover-tab {
-        left: 40px;
+    .cover-tabs-container {
+        left: 20px;
     }
     .pages-container {
         height: auto;
