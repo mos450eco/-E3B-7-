@@ -28,13 +28,13 @@ h1, h2, .class-name, .group-name {
 }
 
 /* ===================================================
-   🌸 1. 表紙のデザイン（A4縦長風の比率へ修正）
+   🌸 1. 表紙のデザイン
 =================================================== */
 .notebook-cover {
     position: relative;
-    width: 46vw; /* 見開き（92vw）の約半分にして、本物のA4縦長ノート比率に */
-    max-width: 480px;
-    height: 82vh; 
+    width: 90vw;
+    max-width: 680px;
+    height: 72vh; 
     background-color: #fff0f2; 
     border-radius: 14px;
     box-shadow: 0 12px 30px rgba(244, 143, 177, 0.15);
@@ -43,7 +43,7 @@ h1, h2, .class-name, .group-name {
 }
 
 .spine {
-    width: 45px;
+    width: 50px;
     height: 100%;
     background-color: #f6ebf7; 
     border-top-left-radius: 10px;
@@ -53,7 +53,7 @@ h1, h2, .class-name, .group-name {
 
 .cover-content {
     flex: 1;
-    padding: 40px 20px;
+    padding: 30px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -67,32 +67,32 @@ h1, h2, .class-name, .group-name {
 }
 
 .class-name {
-    font-size: 3.2rem; 
+    font-size: 4rem; 
     color: #424242;
     text-shadow: 3px 3px 0px #ffffff;
-    margin-top: 20px;
+    margin-top: 10px;
     animation-delay: 0.1s;
 }
 
 .group-name {
-    font-size: 2.2rem;
+    font-size: 2.6rem;
     color: #fff;
     background: #424242; 
     padding: 4px 22px;
     border-radius: 10px;
     transform: rotate(-2.5deg);
-    margin: 15px 0;
+    margin: 5px 0;
     animation-delay: 0.3s;
 }
 
 .main-title {
-    font-size: 2.4rem;
+    font-size: 2.8rem;
     color: #424242;
     border-bottom: 4px dashed #ffccd5;
     padding-bottom: 10px;
     animation-delay: 0.5s;
     width: 100%;
-    max-width: 350px;
+    max-width: 400px;
 }
 
 @keyframes popUpAnimation {
@@ -112,17 +112,17 @@ h1, h2, .class-name, .group-name {
 }
 
 /* ===================================================
-   📖 2. ノートの本体枠と付箋の重ね合わせ（比率を縦長風に改良）
+   📖 2. ノートの本体枠と付箋の重ね合わせ（完全初期化）
 =================================================== */
 .notebook-body {
     position: relative;
-    width: 92vw;
-    max-width: 960px; /* 横幅を少し狭めてA4見開き縦長感を強調 */
-    height: 88vh; 
+    width: 95vw;
+    max-width: 1050px;
+    height: 86vh; 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding-top: 45px; 
+    padding-top: 40px; 
 }
 
 .notebook-main-container {
@@ -132,7 +132,7 @@ h1, h2, .class-name, .group-name {
 
 /* 📌 ノート本体（z-index: 5） */
 .pages-container {
-    height: 74vh; 
+    height: 72vh; 
     background-color: #fff;
     border: 3px solid #424242;
     border-radius: 12px;
@@ -145,47 +145,42 @@ h1, h2, .class-name, .group-name {
 /* 📌 付箋の並ぶ枠（ノートにぴったり密着） */
 .sticky-tabs {
     position: absolute;
-    bottom: 100%; 
-    margin-bottom: -3px; /* 枠の黒線とピッタリ重ねる */
-    left: 25px;
+    bottom: 100%; /* ノート本体のトップの線に完全にくっつけます */
+    margin-bottom: -3px; /* 3pxの黒い枠線とぴったり重ねるための設定 */
+    left: 20px;
     display: flex;
-    gap: 5px;
+    gap: 6px;
 }
 
-/* 📌 全ての付箋（初期の良さ：ピンクのまま固定、色を変えない、浮かせない） */
+/* 📌 すべての付箋（最初と同じ、すべてかわいいピンク色固定・浮かせない） */
 .tab {
     position: relative;
     font-family: 'M PLUS Rounded 1c', sans-serif;
-    font-size: 1rem;
+    font-size: 1.05rem;
     font-weight: bold;
-    background-color: #fcaec1; 
+    background-color: #fcaec1; /* 初期のようなしっかりしたピンク */
     color: #424242;
     border: 3px solid #424242;
     border-bottom: none;
-    padding: 4px 14px;
+    padding: 4px 16px;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     cursor: pointer;
     height: 35px;
     
-    /* ⚠️ 通常時はノートの黒い枠線(5)の【後ろ（奥）】に完全に隠す */
+    /* ⚠️ 重要：通常時はノートの黒い枠線(5)の【後ろ（奥）】に完全に隠します */
     z-index: 4; 
 }
 
 /* 📌 選択された（開いているページ）付箋の挙動 */
 .tab.active {
-    /* 💥 白くせず、ピンク色の状態をキープ！ */
+    /* 白くせず、ピンク色のまま維持 */
     background-color: #fcaec1 !important; 
     
-    /* 🌟 手前にきて！：ノートの黒枠(5)をまたいで【手前】に飛び出させる */
+    /* 🌟 手前にきて！：ノートの黒い枠線(5)をまたいで【手前】に立ち上がらせます */
     z-index: 6 !important; 
+    
     height: 38px;
-}
-
-/* 📌 表紙のときの付箋用設定 */
-.tab.cover-tab {
-    cursor: default;
-    z-index: 4;
 }
 
 .inner-pages {
@@ -198,7 +193,6 @@ h1, h2, .class-name, .group-name {
     overflow: hidden;
 }
 
-/* センターライン */
 .inner-pages::after {
     content: "";
     position: absolute;
@@ -224,7 +218,7 @@ h1, h2, .class-name, .group-name {
 .page {
     width: 100%;
     height: 100%;
-    padding: 25px 30px;
+    padding: 20px 25px;
     overflow-y: auto; 
     background-image: linear-gradient(transparent 2.35rem, #d6f2ff 2.35rem);
     background-size: 100% 2.4rem;
@@ -238,7 +232,7 @@ h1, h2, .class-name, .group-name {
     color: #424242;
 }
 
-.line-text {
+.line-text, p {
     min-height: 2.4rem;
     display: flex;
     align-items: center; 
@@ -291,7 +285,7 @@ h1, h2, .class-name, .group-name {
 }
 
 /* ===================================================
-   🔗 5. フッター（絶対に潰れない・消えないよう高さを確保）
+   🔗 5. フッター
 =================================================== */
 a {
     color: #424242;
@@ -307,11 +301,10 @@ a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 10px;
-    font-size: 1.05rem;
+    padding: 8px 10px 0px 10px;
+    font-size: 1rem;
     color: #555;
-    height: 5vh; 
-    min-height: 35px;
+    height: 4vh; 
 }
 
 .footer-link {
@@ -326,7 +319,7 @@ a:hover {
 
 .page-arrows {
     display: flex;
-    gap: 30px;
+    gap: 25px;
 }
 
 .footer-arrow {
@@ -346,10 +339,6 @@ a:hover {
         overflow: auto;
         padding: 10px;
         height: auto;
-    }
-    .notebook-cover {
-        width: 90vw;
-        height: 75vh;
     }
     .notebook-body {
         height: auto;
