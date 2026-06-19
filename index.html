@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>市川工業 E3B 7班 課題研究日記</title>
     <!-- 手書き風フォントの読み込み -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@500&family=Yomogi&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@500;700&family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+        
     <!-- CSSファイルの読み込み -->
     <link rel="stylesheet" href="Kadai.css">
 </head>
@@ -27,18 +28,31 @@
     <!-- ================= 📖 中身（Notebook Body） ================= -->
     <div id="main-notebook" class="notebook-body hidden">
         
-        <!-- ノート上部の付箋ナビゲーション（横スクロール可能） -->
-        <nav class="sticky-tabs" id="tabs-container"></nav>
-
-        <!-- 見開き2ページコンテナ -->
+        <!-- 全てを美しく包む見開きノートコンテナ -->
         <div class="pages-container">
-            <!-- 左ページ -->
-            <div class="page left-page">
-                <div class="notebook-lines" id="left-content"></div>
-            </div>
-            <!-- 右ページ -->
-            <div class="page right-page">
-                <div class="notebook-lines" id="right-content"></div>
+            
+            <!-- 📌 付箋ナビゲーション（ノートの内側上部に綺麗に配置！） -->
+            <nav class="sticky-tabs" id="tabs-container"></nav>
+
+            <!-- 見開きページエリア -->
+            <div class="inner-pages">
+                <!-- 左ページ wrapper -->
+                <div class="page-wrapper">
+                    <div class="page left-page" id="left-page" onscroll="updateScrollArrows()">
+                        <div class="notebook-lines" id="left-content"></div>
+                    </div>
+                    <!-- スクロールを知らせる矢印ガイド -->
+                    <div class="scroll-arrow" id="left-scroll-arrow">🔽</div>
+                </div>
+                
+                <!-- 右ページ wrapper -->
+                <div class="page-wrapper">
+                    <div class="page right-page" id="right-page" onscroll="updateScrollArrows()">
+                        <div class="notebook-lines" id="right-content"></div>
+                    </div>
+                    <!-- スクロールを知らせる矢印ガイド -->
+                    <div class="scroll-arrow" id="right-scroll-arrow">🔽</div>
+                </div>
             </div>
         </div>
 
@@ -58,7 +72,7 @@
             "INDEX": {
                 title: "目次",
                 left: `
-                    <div class="line-text" style="justify-content: flex-end; border-bottom: none;"><span class="footer-link" onclick="closeNotebook()">🏠 表紙に戻る</span></div>
+                    <div class="line-text" style="justify-content: flex-end;"><span class="footer-link" onclick="closeNotebook()">🏠 表紙に戻る</span></div>
                     <h2 class="page-title">目次</h2>
                     <div class="line-text"><span class="hint">※日付を押すとそのページにジャンプします</span></div>
                     <div class="line-text"></div>
@@ -123,7 +137,7 @@
                     <div class="line-text">今日やったこと、思ったこと😊</div>
                     <div class="line-text">・市工の魅力調べをして学校概要と市川市とのつながり、市工の魅力などを文章化した</div>
                     <div class="line-text">・課題研究の購入品を調べてスプレッドシートに書いたことで使うものが明確になった</div>
-                    <div class="line-text">・GitHub의 Webサイトを作っている</div>
+                    <div class="line-text">・GitHubのWebサイトを作っている</div>
                     <div class="line-text">・5月中には目玉用のモーターを買いたいな</div>
                 `,
                 right: `
@@ -230,7 +244,8 @@
                 right: `
                     <h2 class="page-title">6/12 つづき</h2>
                     <div class="line-text">今日やったこと、思ったこと😊</div>
-                    <div class="line-text">・代替案を調べた / ・購入リストの書き込み</div>
+                    <div class="line-text">・代替案を調べた</div>
+                    <div class="line-text">・購入リストの書き込み</div>
                     <div class="line-text">・ロボットの設計図を書くために調べた</div>
                     <div class="line-text">・iPad上でのArduinoの運営方法調べ</div>
                     <div class="line-text">・notebooklmを活用しようと試行錯誤した</div>
@@ -295,6 +310,28 @@
                 activeTab.classList.add('active');
                 activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             }
+
+            // ページ切り替え後にスクロール矢印の表示チェック
+            setTimeout(updateScrollArrows, 60);
+        }
+
+        function updateScrollArrows() {
+            const sides = ['left', 'right'];
+            sides.forEach(side => {
+                const pageEl = document.getElementById(`${side}-page`);
+                const arrowEl = document.getElementById(`${side}-scroll-arrow`);
+                if (pageEl && arrowEl) {
+                    // 下にスクロールできる余裕があるか判定（誤差5pxを考慮）
+                    const canScroll = pageEl.scrollHeight > pageEl.clientHeight + 5;
+                    const isAtBottom = pageEl.scrollTop + pageEl.clientHeight >= pageEl.scrollHeight - 5;
+                    
+                    if (canScroll && !isAtBottom) {
+                        arrowEl.style.display = 'flex';
+                    } else {
+                        arrowEl.style.display = 'none';
+                    }
+                }
+            });
         }
 
         function nextPage() {
