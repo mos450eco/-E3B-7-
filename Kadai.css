@@ -28,7 +28,7 @@ h1, h2, .class-name, .group-name {
 }
 
 /* ===================================================
-   🌸 1. 表紙のデザイン（すべてのインデックスが並ぶ）
+   🌸 1. 表紙のデザイン
 =================================================== */
 .notebook-cover {
     position: relative;
@@ -42,7 +42,6 @@ h1, h2, .class-name, .group-name {
     border: 3px solid #424242;
 }
 
-/* 📌 修正：表紙の上部にもノート内と同じように全ての付箋を並べるコンテナ */
 .cover-tabs-container {
     position: absolute;
     top: -33px;
@@ -62,7 +61,6 @@ h1, h2, .class-name, .group-name {
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
 }
-/* スケッチに合わせ、最初の4/24近辺だけ目立たせるための青色 */
 .ct-idx, .ct-424, .ct-58 {
     background-color: #cceeff; 
 }
@@ -137,7 +135,7 @@ h1, h2, .class-name, .group-name {
 }
 
 /* ===================================================
-   📖 2. ノートの本体枠
+   📖 2. ノートの本体枠と付箋の重なり（完全修正）
 =================================================== */
 .notebook-body {
     position: relative;
@@ -150,6 +148,13 @@ h1, h2, .class-name, .group-name {
     padding-top: 40px; 
 }
 
+/* 📌 付箋と本体を正しく重ねるための親コンテナ */
+.notebook-main-container {
+    position: relative;
+    width: 100%;
+}
+
+/* 📌 ノート本体（z-index: 5 で黒い枠線を持つ） */
 .pages-container {
     height: 72vh; 
     background-color: #fff;
@@ -158,40 +163,43 @@ h1, h2, .class-name, .group-name {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
     display: flex;
     position: relative;
+    z-index: 5; 
 }
 
+/* 📌 付箋を並べる枠（スタッキングコンテキストを作らないよう z-index は指定しない） */
 .sticky-tabs {
     position: absolute;
-    top: -35px; /* 黒い境界線の上にジャストで重なる配置 */
+    top: -32px; 
     left: 20px;
     display: flex;
     gap: 6px;
-    z-index: 10;
 }
 
+/* 📌 通常の付箋（z-index: 4 にして、ノートの黒い枠線(5)の「後ろ」に絶対隠す） */
 .tab {
+    position: relative;
+    z-index: 4; 
     font-family: 'M PLUS Rounded 1c', sans-serif;
     font-size: 1.05rem;
     font-weight: bold;
     background-color: #ffccd5; 
     color: #424242;
     border: 3px solid #424242;
+    border-bottom: none;
     padding: 4px 16px;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     cursor: pointer;
-    transition: all 0.1s ease-in-out;
-    position: relative;
-    top: 3px;
+    height: 35px;
 }
 
-/* 💡 修正：「てまえにきて！」を完全再現する境界線踏み潰し設定 */
+/* 📌 選択された付箋（z-index: 6 にして、ノートの黒線(5)の「手前」に飛び出させる） */
 .tab.active {
+    z-index: 6 !important; 
     background-color: #fff !important; 
-    z-index: 99 !important; /* 他のどの要素よりも手前に引き出す */
-    height: 37px; 
-    border-bottom: 5px solid #fff !important; /* 下の黒い線を完全に真っ白な太線で塗りつぶして消す */
-    top: 2px; /* 線の真上にピタッと密着させる */
+    height: 38px; 
+    padding-bottom: 6px;
+    top: 2px; /* 黒い線を上から完全に踏み潰して隠す微調整 */
 }
 
 .inner-pages {
@@ -251,7 +259,7 @@ h1, h2, .class-name, .group-name {
     white-space: normal;
     word-break: break-all;
     position: relative;
-    top: 3px; /* 線と線のど真ん中キープ */
+    top: 3px; 
 }
 
 .page-title {
@@ -281,7 +289,7 @@ h1, h2, .class-name, .group-name {
     border-radius: 50%;
     width: 34px;
     height: 34px;
-    display: none; /* JSの判定が通るまで初期状態は非表示 */
+    display: none; 
     align-items: center;
     justify-content: center;
     box-shadow: 0 3px 6px rgba(0,0,0,0.08);
