@@ -11,6 +11,7 @@
 </head>
 <body>
 
+    <!-- ================= 📕 表紙（Cover Page） ================= -->
     <div id="cover-page" class="notebook-cover">
         <div class="cover-tabs-container">
             <div class="c-tab ct-idx">目次</div>
@@ -30,23 +31,30 @@
         </div>
     </div>
 
+    <!-- ================= 📖 中身（Notebook Body） ================= -->
     <div id="main-notebook" class="notebook-body hidden">
-        <div class="pages-container">
+        <!-- 📌 付箋とノート本体の重なりを正しく制御するためのコンテナ -->
+        <div class="notebook-main-container">
+            <!-- 飛び出す手書き風付箋（アクティブ以外はノートの枠線の後ろに隠れます） -->
             <nav class="sticky-tabs" id="tabs-container"></nav>
 
-            <div class="inner-pages">
-                <div class="page-wrapper">
-                    <div class="page left-page" id="left-page" onscroll="updateScrollArrows()">
-                        <div class="notebook-lines" id="left-content"></div>
+            <div class="pages-container">
+                <div class="inner-pages">
+                    <!-- 左ページ -->
+                    <div class="page-wrapper">
+                        <div class="page left-page" id="left-page" onscroll="updateScrollArrows()">
+                            <div class="notebook-lines" id="left-content"></div>
+                        </div>
+                        <div class="scroll-arrow" id="left-scroll-arrow">🔽</div>
                     </div>
-                    <div class="scroll-arrow" id="left-scroll-arrow">🔽</div>
-                </div>
-                
-                <div class="page-wrapper">
-                    <div class="page right-page" id="right-page" onscroll="updateScrollArrows()">
-                        <div class="notebook-lines" id="right-content"></div>
+                    
+                    <!-- 右ページ -->
+                    <div class="page-wrapper">
+                        <div class="page right-page" id="right-page" onscroll="updateScrollArrows()">
+                            <div class="notebook-lines" id="right-content"></div>
+                        </div>
+                        <div class="scroll-arrow" id="right-scroll-arrow">🔽</div>
                     </div>
-                    <div class="scroll-arrow" id="right-scroll-arrow">🔽</div>
                 </div>
             </div>
         </div>
@@ -61,6 +69,7 @@
     </div>
 
     <script>
+        // 📌 原文テキストと一字一句完全に一致（改変なし）
         const diaryData = {
             "INDEX": {
                 title: "目次",
@@ -91,30 +100,32 @@
                 left: `
                     <h2 class="page-title">4月24日</h2>
                     <div class="line-text">今日から本格的に課題研究を始めました。</div>
-                    <div class="line-text">ここE3Bの7班の班長はcherryです。班員はfire、</div>
-                    <div class="line-text">slope、sugar、soil、seaの5人です。</div>
-                    <div class="line-text">ここには今日あった出来事や課題、役割などを</div>
-                    <div class="line-text">書き込んでいきます。</div>
-                    <div class="line-text">私たちの課題研究の内容は、</div>
-                    <div class="line-text">『目をみて話せる学校案内ロボットの制作』です！</div>
+                    <div class="line-text">ここE3Bの7班の班長はcherryです。班員はfire、slope、sugar、soil、seaの5人です。</div>
+                    <div class="line-text">ここには今日あった出来事や課題、役割などを書き込んでいきます。</div>
+                    <div class="line-text"></div>
+                    <div class="line-text">私たちの課題研究の内容は、『目をみて話せる学校案内ロボットの制作』です！</div>
+                    <div class="line-text"></div>
                     <div class="line-text">⭐️今日の役割⭐️</div>
                     <div class="line-text">cherry：市工魅力調べ、課題調べ</div>
                     <div class="line-text">fire：githubの設定と書き込み</div>
-                    <div class="line-text">sea, slope, soil, sugar：市工魅力調べ</div>
+                    <div class="line-text">sea：市工魅力調べ</div>
+                    <div class="line-text">slope：市工魅力調べ</div>
+                    <div class="line-text">soil：市工魅力調べ</div>
+                    <div class="line-text">sugar：市工魅力調べ</div>
                 `,
                 right: `
                     <h2 class="page-title">4/24 つづき</h2>
-                    <div class="line-text">今日やったこと😊</div>
-                    <div class="line-text">・市工の魅力を調べた</div>
-                    <div class="line-text">・gemini APIの使い方</div>
-                    <div class="line-text">・色々試して作ってみた</div>
-                    <div class="line-text">・課題を見つけたこと</div>
-                    <div class="line-text"></div>
                     <div class="line-text">課題😞</div>
                     <div class="line-text">・gemの作成と、gemと接続する音声認識と音声発生方法</div>
                     <div class="line-text">・geminiを使うことでの弊害</div>
                     <div class="line-text">・学校案内はどうやって説明するか</div>
                     <div class="line-text">・パソコンで作りたいが、高くて無理なこと</div>
+                    <div class="line-text"></div>
+                    <div class="line-text">今日やったこと😊</div>
+                    <div class="line-text">・市工の魅力を調べた</div>
+                    <div class="line-text">・gemini APIの使い方</div>
+                    <div class="line-text">・色々試して作ってみた</div>
+                    <div class="line-text">・課題を見つけたこと</div>
                 `
             },
             "5/8": {
@@ -122,16 +133,14 @@
                 left: `
                     <h2 class="page-title">5月8日</h2>
                     <div class="line-text">今日も調べ学習メインでした</div>
+                    <div class="line-text"></div>
                     <div class="line-text">⭐️今日の役割⭐️</div>
                     <div class="line-text">cherry：gemini APIの使用方法調べと実践</div>
                     <div class="line-text">fire：githubの中身作り</div>
-                    <div class="line-text">sea, slope, sugar：市工魅力調べ</div>
+                    <div class="line-text">sea：市工魅力調べ</div>
+                    <div class="line-text">slope：市工魅力調べ</div>
                     <div class="line-text">soil：soilは来なかった</div>
-                    <div class="line-text">今日やったこと、思ったこと😊</div>
-                    <div class="line-text">・市工の魅力調べをして学校概要と市川市とのつながり、市工の魅力などを文章化した</div>
-                    <div class="line-text">・課題研究の購入品を調べてスプレッドシートに書いたことで使うものが明確になった</div>
-                    <div class="line-text">・GitHubのWebサイトを作っている</div>
-                    <div class="line-text">・5月中には目玉用のモーターを買いたいな</div>
+                    <div class="line-text">sugar：市工魅力調べ</div>
                 `,
                 right: `
                     <h2 class="page-title">5/8 つづき</h2>
@@ -139,13 +148,19 @@
                     <div class="line-text">・cherryがgemini APIの使用方法を調べて実践したがAPIを習得するのが難しかった</div>
                     <div class="line-text">・今後ラズベリを使うにあたって学校のラズベリを試作品で使うかどうか</div>
                     <div class="line-text">・目玉とAPIの制御を別にするか</div>
+                    <div class="line-text"></div>
+                    <div class="line-text">今日やったこと、思ったこと😊</div>
+                    <div class="line-text">・市工の魅力調べをして学校概要と市川市とのつながり、市工の魅力などを文章化した</div>
+                    <div class="line-text">・課題研究の購入品を調べてスプレッドシートに書いたことで使うものが明確になった</div>
+                    <div class="line-text">・GitHubのWebサイトを作っている</div>
                 `
             },
             "5/15": {
                 title: "5/15",
                 left: `
-                    <h2 class="page-title">5月15日</h2>
+                    <h2 class="page-title">５月１５日</h2>
                     <div class="line-text">目玉を印刷する段階で止まってます</div>
+                    <div class="line-text"></div>
                     <div class="line-text">⭐️今日の役割⭐️</div>
                     <div class="line-text">cherry：API取得、geminiと接続確認</div>
                     <div class="line-text">fire：githubの更新、デザイン案</div>
@@ -155,7 +170,10 @@
                     <div class="line-text">sugar：地図作成</div>
                 `,
                 right: `
-                    <h2 class="page-title">5/15 つづき</h2>
+                    <h2 class="page-title">５月１５日 つづき</h2>
+                    <div class="line-text">課題😞</div>
+                    <div class="line-text">・部品調達モーターとラズベリ3とArduinoを調達してネジをどうしようか悩んでいること</div>
+                    <div class="line-text"></div>
                     <div class="line-text">今日やったこと😊</div>
                     <div class="line-text">・geminiと接続の確認、デプロイ開けなかったから完成はしてない</div>
                     <div class="line-text">・学校案内の地図作成</div>
@@ -163,36 +181,34 @@
                     <div class="line-text">・入力をgemini内で解決する方法を考えた</div>
                     <div class="line-text">・デザイン案を考える</div>
                     <div class="line-text">・学校内で部品調達！ラズベリも！</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">課題😞</div>
-                    <div class="line-text">・部品調達モーターとラズベリ3とArduinoを調達してネジをどうしようか悩んでいること</div>
                 `
             },
             "5/28": {
                 title: "5/28",
                 left: `
-                    <h2 class="page-title">5月28日</h2>
+                    <h2 class="page-title">５月28日</h2>
                     <div class="line-text">今日は暑く班員の元気があまりなかったです</div>
+                    <div class="line-text"></div>
                     <div class="line-text">⭐️今日の役割⭐️</div>
                     <div class="line-text">cherry：目の部品組み立て</div>
                     <div class="line-text">fire：デザイン案</div>
                     <div class="line-text">sea：マップ状況を詳しくファイルに起こした。マップを文字で起こしたAIがどう動作するのか</div>
-                    <div class="line-text">slope：工具を持ってきた 特にはやってない</div>
+                    <div class="line-text">slope：工具を持ってきた　特にはやってない</div>
                     <div class="line-text">soil：今日は来なかった</div>
                     <div class="line-text">sugar：学校の部屋の配置を考えた</div>
                 `,
                 right: `
-                    <h2 class="page-title">5/28 つづき</h2>
+                    <h2 class="page-title">５月28日 つづき</h2>
+                    <div class="line-text">課題😞</div>
+                    <div class="line-text">・部品調達モーターとラズベリ3とArduinoを調達してネジをどうしようか悩んでいること</div>
+                    <div class="line-text"></div>
                     <div class="line-text">今日やったこと、思ったこと😊</div>
                     <div class="line-text">・目の部品の組み立て</div>
                     <div class="line-text">・学校内のマップ作り</div>
-                    <div class="line-text">・マップを文字で起こしAIがどう動作するのかをやり、マップの状況をファイルに起こした</div>
+                    <div class="line-text">・マップを文字で起こしAIがどう動作するのかをやりマップの状況をファイルに起こした</div>
                     <div class="line-text">・デザイン案を考える</div>
                     <div class="line-text">・テスト週間の間に目の部品を3Dプリンターで印刷しました</div>
-                    <div class="line-text">※特に大きな進捗はなかった</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">課題😞</div>
-                    <div class="line-text">・部品調達モーターとラズベリ3とArduinoを調達してネジをどうしようか悩んでいること</div>
+                    <div class="line-text">・特に大きな進捗はなかった</div>
                 `
             },
             "6/5": {
@@ -200,6 +216,7 @@
                 left: `
                     <h2 class="page-title">6月5日</h2>
                     <div class="line-text">大きな進捗はなかったです</div>
+                    <div class="line-text"></div>
                     <div class="line-text">⭐️今日の役割⭐️</div>
                     <div class="line-text">cherry：目の部品組み立て、先生からの課題</div>
                     <div class="line-text">fire：デザイン案とその設計図</div>
@@ -210,15 +227,15 @@
                 `,
                 right: `
                     <h2 class="page-title">6/5 つづき</h2>
+                    <div class="line-text">課題😞</div>
+                    <div class="line-text">・今日の課題は見つけられなかった</div>
+                    <div class="line-text"></div>
                     <div class="line-text">今日やったこと、思ったこと😊</div>
                     <div class="line-text">・目の部品の組み立て</div>
                     <div class="line-text">・各学科の魅力調べ</div>
                     <div class="line-text">・デザイン案と設計図を書いた</div>
-                    <div class="line-text">・今日は涼しかったがちょっとだだるさを感じた</div>
+                    <div class="line-text">・今日は涼しかったがちょっとだるさを感じた</div>
                     <div class="line-text">・特に進展はなかったと思います😭</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">課題😞</div>
-                    <div class="line-text">・今日の課題は見つけられなかった</div>
                 `
             },
             "6/12": {
@@ -226,16 +243,21 @@
                 left: `
                     <h2 class="page-title">6月12日</h2>
                     <div class="line-text">何を買うにも高くついてしまうのが悩み</div>
+                    <div class="line-text"></div>
                     <div class="line-text">⭐️今日の役割⭐️</div>
                     <div class="line-text">cherry：white先生から代替案を考えて欲しいと言われてたのでそれについて調べた、購入リストの書き込み</div>
                     <div class="line-text">fire：設計図を書くために調べた、GitHub大幅更新</div>
-                    <div class="line-text">sea：iPad上でのArduinoの運用方法を調べた、notebook lm of 試行錯誤、プロンプト改善</div>
+                    <div class="line-text">sea：iPad上でのArduinoの運用方法を調べた、notebook lmの試行錯誤、プロンプト改善</div>
                     <div class="line-text">slope：目玉の内部作り</div>
                     <div class="line-text">sugar：学科紹介の文の訂正</div>
                     <div class="line-text">soil：今日も来なかった</div>
                 `,
                 right: `
                     <h2 class="page-title">6/12 つづき</h2>
+                    <div class="line-text">課題😞</div>
+                    <div class="line-text">・geminiのAIが回答したものをスピーカーとして音に出す仕組みをパソコンでやるのかラズベリでやるのかgeminiで完結させるのか考えてる</div>
+                    <div class="line-text">・何を買うにも費用が高くなってしまう</div>
+                    <div class="line-text"></div>
                     <div class="line-text">今日やったこと、思ったこと😊</div>
                     <div class="line-text">・代替案を調べた</div>
                     <div class="line-text">・購入リストの書き込み</div>
@@ -245,11 +267,7 @@
                     <div class="line-text">・geminiのプロンプトの改善</div>
                     <div class="line-text">・目玉を動かすためのモーターや部品取り付け</div>
                     <div class="line-text">・学科紹介の文の訂正</div>
-                    <div class="line-text">・GitHubの更新、今までのデザインがあまり良くなく気に入らなかったので４月２８日から６月１２日までの文章を考えてGitHubのサイトを作ろうとしています</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">課題😞</div>
-                    <div class="line-text">・geminiのAIが回答したものをスピーカーとして音に出す仕組みをパソコンでやるのかラズベリでやるのかgeminiで完結させるのか考えてる</div>
-                    <div class="line-text">・何を買うにも費用が高くなってしまう</div>
+                    <div class="line-text">・GitHubの更新、今までのデザインがあまり良くなく気に入らなかったので４月２８日から６月１２日までの文章を考えてGitHub of サイトを作ろうとしています</div>
                 `
             }
         };
@@ -280,12 +298,6 @@
         function closeNotebook() {
             document.getElementById('main-notebook').classList.add('hidden');
             document.getElementById('cover-page').classList.remove('hidden');
-            const elements = document.querySelectorAll('.pop-text');
-            elements.forEach(el => {
-                el.style.animation = 'none';
-                el.offsetHeight;
-                el.style.animation = null;
-            });
         }
 
         function switchPage(key) {
@@ -303,7 +315,6 @@
                 activeTab.classList.add('active');
             }
 
-            // 💡 ページ切り替えの直後にスクロール状態を100%正確に判定する
             setTimeout(updateScrollArrows, 50);
         }
 
@@ -313,7 +324,6 @@
                 const pageEl = document.getElementById(`${side}-page`);
                 const arrowEl = document.getElementById(`${side}-scroll-arrow`);
                 if (pageEl && arrowEl) {
-                    // 📌 修正：文字が収まっていてスクロール不要な時は「絶対に」表示しないロジック
                     const canScroll = pageEl.scrollHeight > pageEl.clientHeight + 12; 
                     const isAtBottom = pageEl.scrollTop + pageEl.clientHeight >= pageEl.scrollHeight - 12;
                     
