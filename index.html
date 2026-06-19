@@ -13,7 +13,6 @@
 
     <div id="cover-page" class="notebook-cover">
         <div class="spine"></div>
-        <div class="sticky-tabs" id="cover-tabs-container"></div>
         <div class="cover-content">
             <div class="pop-text class-name">市川工業の</div>
             <div class="pop-text group-name">E3B 7班</div>
@@ -55,7 +54,7 @@
     </div>
 
     <script>
-        // 📌 ご提示いただいた原文テキストと完全に一字一句一致させています
+        // 📌 原文テキストと一字一句完全に一致
         const diaryData = {
             "INDEX": {
                 title: "目次",
@@ -79,9 +78,6 @@
                     <div class="line-text">【メンバー】</div>
                     <div class="line-text">班長：cherry</div>
                     <div class="line-text">班員：fire, slope, sugar, soil, sea</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">【担当の先生】</div>
-                    <div class="line-text">white先生</div>
                 `
             },
             "4/24": {
@@ -162,7 +158,7 @@
                 right: `
                     <h2 class="page-title">５月１５日 つづき</h2>
                     <div class="line-text">課題😞</div>
-                    <div class="line-text">・部品調達モーターとラズベリ3とArduinoを調達してネジをどうしようか悩んでいること</div>
+                    <div class="line-text">・部品調達モーターとラズベリ3 shifting Arduinoを調達してネジをどうしようか悩んでいること</div>
                     <div class="line-text"></div>
                     <div class="line-text">今日やったこと😊</div>
                     <div class="line-text">・geminiと接続の確認、デプロイ開けなかったから完成はしてない</div>
@@ -170,7 +166,7 @@
                     <div class="line-text">・何かについていたモーターの部品外し</div>
                     <div class="line-text">・入力をgemini内で解決する方法を考えた</div>
                     <div class="line-text">・デザイン案を考える</div>
-                    <div class="line-text">・学校内で部品調達！ラズパイも！</div>
+                    <div class="line-text">・学校内で部品調達！ラズベリも！</div>
                 `
             },
             "5/28": {
@@ -225,7 +221,7 @@
                     <div class="line-text">・各学科の魅力調べ</div>
                     <div class="line-text">・デザイン案と設計図を書いた</div>
                     <div class="line-text">・今日は涼しかったがちょっとだるさを感じた</div>
-                    <div class="line-text">・特に進展はなかったと思います</div>
+                    <div class="line-text">・特に進展はなかったと思います😭</div>
                 `
             },
             "6/12": {
@@ -265,20 +261,15 @@
         const pageKeys = Object.keys(diaryData);
         let currentPageKey = "INDEX";
 
-        // 📌 表紙用と中身用の両方にタブ（付箋）を生成する関数
-        function generateTabs(containerId, isCover = false) {
-            const container = document.getElementById(containerId);
+        function generateTabs() {
+            const container = document.getElementById('tabs-container');
             container.innerHTML = '';
             pageKeys.forEach(key => {
                 const btn = document.createElement('button');
-                if (isCover) {
-                    btn.className = 'tab cover-tab';
-                } else {
-                    btn.id = "tab-" + key.replace('/', '-');
-                    btn.className = 'tab';
-                    btn.onclick = () => switchPage(key);
-                }
+                btn.id = "tab-" + key.replace('/', '-');
+                btn.className = 'tab';
                 btn.innerText = diaryData[key].title;
+                btn.onclick = () => switchPage(key);
                 container.appendChild(btn);
             });
         }
@@ -286,14 +277,13 @@
         function openNotebook() {
             document.getElementById('cover-page').classList.add('hidden');
             document.getElementById('main-notebook').classList.remove('hidden');
-            generateTabs('tabs-container', false);
+            generateTabs();
             switchPage('INDEX');
         }
 
         function closeNotebook() {
             document.getElementById('main-notebook').classList.add('hidden');
             document.getElementById('cover-page').classList.remove('hidden');
-            generateTabs('cover-tabs-container', true); // 表紙に戻った時も付箋を再描写
         }
 
         function switchPage(key) {
@@ -345,11 +335,6 @@
                 switchPage(pageKeys[index - 1]);
             }
         }
-
-        // 初期起動時に表紙の付箋を表示させる
-        window.onload = () => {
-            generateTabs('cover-tabs-container', true);
-        };
     </script>
 </body>
 </html>
