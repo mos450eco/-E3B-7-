@@ -9,13 +9,15 @@
 
 body {
     background-color: #fff0f3; 
-    font-family: 'Yomogi', sans-serif;
+    /* 全体の本文を読みやすい丸ゴシックに変更 */
+    font-family: 'M PLUS Rounded 1c', sans-serif;
     height: 100vh;
     overflow: hidden; 
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 
 h1, h2, .class-name, .group-name {
     font-family: 'Kiwi Maru', sans-serif;
@@ -113,7 +115,7 @@ h1, h2, .class-name, .group-name {
 }
 
 /* ===================================================
-   📖 2. 見開きノートの中身デザイン
+   📖 2. ノートの本体枠（付箋を内側に入れる構造）
 =================================================== */
 .notebook-body {
     position: relative;
@@ -124,13 +126,29 @@ h1, h2, .class-name, .group-name {
     flex-direction: column;
 }
 
+/* 白いノートのメインコンテナ */
+.pages-container {
+    flex: 1;
+    background-color: #fff;
+    border: 3px solid #424242;
+    border-radius: 8px;
+    box-shadow: 0 12px 24px rgba(244, 143, 177, 0.15);
+    display: flex;
+    flex-direction: column; /* タブと中身を縦に並べる */
+    position: relative;
+    overflow: hidden;
+}
+
+/* 📌 付箋エリア（ノートの内側上部にペタッと貼る！） */
 .sticky-tabs {
     display: flex;
-    gap: 6px;
-    padding-left: 15px;
-    padding-right: 15px;
+    gap: 8px;
+    padding: 12px 20px 0px 20px;
+    background-color: #fff;
+    border-bottom: 2px solid #424242; /* コンテンツエリアとのきれいな境界線 */
     overflow-x: auto; 
     white-space: nowrap;
+    z-index: 10;
     -webkit-overflow-scrolling: touch;
 }
 .sticky-tabs::-webkit-scrollbar {
@@ -139,41 +157,37 @@ h1, h2, .class-name, .group-name {
 
 .tab {
     font-family: 'Yomogi', sans-serif;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: bold;
     background-color: #ffccd5; 
     color: #424242;
     border: 2px solid #424242;
     border-bottom: none;
-    padding: 6px 16px;
+    padding: 6px 18px;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     cursor: pointer;
-    transition: transform 0.2s, background-color 0.2s;
-    transform: translateY(5px); 
-    flex-shrink: 0; 
+    transition: all 0.2s;
+    transform: translateY(2px); /* 境界線の黒線に重ねる */
 }
 
 .tab.active {
-    transform: translateY(0px);
     background-color: #fff; 
-    padding-bottom: 11px;
-    z-index: 5;
+    transform: translateY(2px);
+    border-bottom: 2px solid #fff; /* 下の黒線をきれいに隠す */
+    padding-bottom: 8px;
 }
 
-.pages-container {
+/* 見開きの左右ページを包むコンテナ */
+.inner-pages {
     flex: 1;
-    background-color: #fff;
-    border: 3px solid #424242;
-    border-radius: 6px;
-    box-shadow: 0 12px 24px rgba(244, 143, 177, 0.15);
     display: flex;
     position: relative;
     overflow: hidden;
 }
 
-/* ノート中央のグラデーション影（見開き用） */
-.pages-container::after {
+/* ノート中央のグラデーション影（見開き用の折り目線） */
+.inner-pages::after {
     content: "";
     position: absolute;
     left: 50%;
@@ -182,34 +196,46 @@ h1, h2, .class-name, .group-name {
     height: 100%;
     background-color: #ddd;
     box-shadow: 0 0 8px rgba(0,0,0,0.15);
+    z-index: 5;
 }
 
-.page {
+/* 左右ページそれぞれの独立ラッパー */
+.page-wrapper {
     flex: 1;
-    padding: 20px 25px;
-    overflow-y: auto; 
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 /* ===================================================
-   📝 3. 便箋の横線（スマホでも絶対にズレない新方式）
+   📝 3. 便箋の横線（下が空白でも絶対に残る新・完全ノート方式）
 =================================================== */
-.notebook-lines {
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
+.page {
+    width: 100%;
+    height: 100%;
+    padding: 20px 30px;
+    overflow-y: auto; 
+    /* 💡 ページ全体に、2.4rem間隔で下側に淡い水色の線を敷き詰める */
+    background-image: linear-gradient(transparent 2.35rem, #ccf0ff 2.35rem);
+    background-size: 100% 2.4rem;
+    background-attachment: local; /* スクロールした時も線が一緒に動く */
 }
 
-/* 枠線自体をノートの線にすることで、文字が2行に折り返されても線が勝手に付いてきます！ */
-.line-text, p {
-    min-height: 2.4rem;
-    line-height: 1.6rem;
-    display: flex;
-    align-items: center; 
-    padding: 0.4rem 6px;
+.notebook-lines {
+    min-height: 100%;
+    line-height: 2.4rem; /* 線の間隔と完全に一致させる */
     font-size: 1.05rem;
     color: #424242;
-    border-bottom: 1px solid #ccf0ff; /* 淡い水色のノート線 */
-    white-space: normal; /* スマホで長文が来ても自動で折り返す */
+}
+
+/* 💡 文字が2行になっても、各行がぴったり次の線の上に乗る設定 */
+.line-text, p {
+    min-height: 2.4rem;
+    display: flex;
+    align-items: center; 
+    padding: 0 6px;
+    white-space: normal; /* 自動で折り返す */
     word-break: break-all;
 }
 
@@ -217,8 +243,8 @@ h1, h2, .class-name, .group-name {
     font-size: 1.4rem;
     color: #ff6584;
     border-bottom: 3px dotted #ffccd5;
-    padding-bottom: 4px;
-    margin-bottom: 0.5rem;
+    padding-bottom: 2px;
+    margin-bottom: 0.4rem;
 }
 
 .hint {
@@ -227,7 +253,35 @@ h1, h2, .class-name, .group-name {
 }
 
 /* ===================================================
-   🔗 4. リンク演出
+   🔽 4. スクロールを知らせる矢印ガイド
+=================================================== */
+.scroll-arrow {
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+    font-size: 1.3rem;
+    color: #ff6584;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1.5px solid #ffccd5;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: none; /* JSでスクロール可能な時だけ flex に切り替える */
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+    z-index: 15;
+    animation: bounceArrow 0.8s infinite alternate cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    pointer-events: none;
+}
+
+@keyframes bounceArrow {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(6px); }
+}
+
+/* ===================================================
+   🔗 5. リンク設定・フッター
 =================================================== */
 a {
     color: #424242;
@@ -239,9 +293,6 @@ a:hover {
     text-decoration: underline dashed #ff6584;
 }
 
-/* ===================================================
-   フッター
-=================================================== */
 .notebook-footer {
     display: flex;
     justify-content: space-between;
@@ -276,47 +327,43 @@ a:hover {
 }
 
 /* ===================================================
-   📱 5. スマホ・iPad（縦向き）用のサイズ調整設定
+   📱 6. スマホ・iPad（縦向き）用のレスポンシブ設定
 =================================================== */
 @media (max-width: 768px) {
     body {
-        overflow: auto; /* スマホでは全体を少しスクロールできるように */
+        overflow: auto;
         padding: 10px 0;
         height: auto;
     }
-
-    .notebook-cover {
-        width: 95vw;
-        height: 85vh;
-    }
-    
-    .class-name { font-size: 1.6rem; }
-    .group-name { font-size: 2.5rem; }
-    .main-title { font-size: 2.2rem; }
-
     .notebook-body {
-        height: calc(100vh - 20px);
+        height: auto;
     }
-
-    /* 左右の見開きをやめて、縦にきれいに並べる */
     .pages-container {
-        flex-direction: column;
-        overflow-y: auto;
+        height: auto;
+        overflow: visible;
     }
-    
-    /* 中央の縦線を消す */
-    .pages-container::after {
+    .inner-pages {
+        flex-direction: column;
+        height: auto;
+        overflow: visible;
+    }
+    .inner-pages::after {
         display: none;
     }
-
-    .page {
-        flex: none;
-        overflow-y: visible; /* コンテナ側にスクロールを任せる */
-        padding: 15px 20px;
+    .page-wrapper {
+        height: auto;
+        overflow: visible;
     }
-    
-    /* 左ページ（前半）の下に少し余白を作る */
+    .page {
+        height: auto;
+        overflow-y: visible;
+        padding: 15px 20px;
+        background-attachment: scroll; /* スマホ全画面スクロール用 */
+    }
     .left-page {
         border-bottom: 2px dashed #ddd;
+    }
+    .scroll-arrow {
+        display: none !important; /* スマホで縦一列に並ぶ時は個別スクロールが起きないため隠す */
     }
 }
