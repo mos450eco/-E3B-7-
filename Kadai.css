@@ -42,29 +42,6 @@ h1, h2, .class-name, .group-name {
     border: 3px solid #424242;
 }
 
-.cover-tabs-container {
-    position: absolute;
-    top: -33px;
-    left: 70px;
-    display: flex;
-    gap: 4px;
-}
-
-.c-tab {
-    background-color: #ffccd5;
-    border: 3px solid #424242;
-    border-bottom: none;
-    padding: 4px 10px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: #424242;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-}
-.ct-idx, .ct-424, .ct-58 {
-    background-color: #cceeff; 
-}
-
 .spine {
     width: 50px;
     height: 100%;
@@ -135,7 +112,7 @@ h1, h2, .class-name, .group-name {
 }
 
 /* ===================================================
-   📖 2. ノートの本体枠と付箋の重なり（完全修正）
+   📖 2. ノートの本体枠と付箋の重ね合わせ（完全初期化）
 =================================================== */
 .notebook-body {
     position: relative;
@@ -148,13 +125,12 @@ h1, h2, .class-name, .group-name {
     padding-top: 40px; 
 }
 
-/* 📌 付箋と本体を正しく重ねるための親コンテナ */
 .notebook-main-container {
     position: relative;
     width: 100%;
 }
 
-/* 📌 ノート本体（z-index: 5 で黒い枠線を持つ） */
+/* 📌 ノート本体（z-index: 5） */
 .pages-container {
     height: 72vh; 
     background-color: #fff;
@@ -166,23 +142,23 @@ h1, h2, .class-name, .group-name {
     z-index: 5; 
 }
 
-/* 📌 付箋を並べる枠（スタッキングコンテキストを作らないよう z-index は指定しない） */
+/* 📌 付箋の並ぶ枠（ノートにぴったり密着） */
 .sticky-tabs {
     position: absolute;
-    top: -32px; 
+    bottom: 100%; /* ノート本体のトップの線に完全にくっつけます */
+    margin-bottom: -3px; /* 3pxの黒い枠線とぴったり重ねるための設定 */
     left: 20px;
     display: flex;
     gap: 6px;
 }
 
-/* 📌 通常の付箋（z-index: 4 にして、ノートの黒い枠線(5)の「後ろ」に絶対隠す） */
+/* 📌 すべての付箋（最初と同じ、すべてかわいいピンク色固定・浮かせない） */
 .tab {
     position: relative;
-    z-index: 4; 
     font-family: 'M PLUS Rounded 1c', sans-serif;
     font-size: 1.05rem;
     font-weight: bold;
-    background-color: #ffccd5; 
+    background-color: #fcaec1; /* 初期のようなしっかりしたピンク */
     color: #424242;
     border: 3px solid #424242;
     border-bottom: none;
@@ -191,15 +167,20 @@ h1, h2, .class-name, .group-name {
     border-top-right-radius: 8px;
     cursor: pointer;
     height: 35px;
+    
+    /* ⚠️ 重要：通常時はノートの黒い枠線(5)の【後ろ（奥）】に完全に隠します */
+    z-index: 4; 
 }
 
-/* 📌 選択された付箋（z-index: 6 にして、ノートの黒線(5)の「手前」に飛び出させる） */
+/* 📌 選択された（開いているページ）付箋の挙動 */
 .tab.active {
+    /* 白くせず、ピンク色のまま維持 */
+    background-color: #fcaec1 !important; 
+    
+    /* 🌟 手前にきて！：ノートの黒い枠線(5)をまたいで【手前】に立ち上がらせます */
     z-index: 6 !important; 
-    background-color: #fff !important; 
-    height: 38px; 
-    padding-bottom: 6px;
-    top: 2px; /* 黒い線を上から完全に踏み潰して隠す微調整 */
+    
+    height: 38px;
 }
 
 .inner-pages {
@@ -362,9 +343,6 @@ a:hover {
     .notebook-body {
         height: auto;
         padding-top: 50px;
-    }
-    .cover-tabs-container {
-        left: 20px;
     }
     .pages-container {
         height: auto;
