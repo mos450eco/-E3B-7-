@@ -8,10 +8,10 @@
 }
 
 body {
-    background-color: #fce4ec; /* サイト全体の背景を薄いピンクにして可愛く */
+    background-color: #fff0f3; 
     font-family: 'Yomogi', sans-serif;
     height: 100vh;
-    overflow: hidden; /* 画面全体のスクロールを完全に固定 */
+    overflow: hidden; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,56 +27,55 @@ h1, h2, .class-name, .group-name {
 }
 
 /* ===================================================
-   🌸 1. 表紙のデザイン（ピンクの可愛いノート）
+   🌸 1. 表紙のデザイン
 =================================================== */
 .notebook-cover {
     position: relative;
     width: 90vw;
-    max-width: 750px;
-    height: 85vh;
-    background-color: #ff80ab; /* 鮮やかで可愛いピンクの表紙 */
+    max-width: 700px;
+    height: 80vh;
+    background-color: #ffccd5; 
     border-radius: 12px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    box-shadow: 0 15px 35px rgba(244, 143, 177, 0.25);
     display: flex;
-    border: 3px solid #333;
+    border: 3px solid #424242;
 }
 
-/* 紫色の背表紙 */
 .spine {
     width: 55px;
     height: 100%;
-    background-color: #ba68c8; /* パステル系の紫色 */
+    background-color: #e1bee7; 
     border-top-left-radius: 9px;
     border-bottom-left-radius: 9px;
-    border-right: 3px solid #333;
+    border-right: 3px solid #424242;
 }
 
 .cover-content {
     flex: 1;
-    padding: 50px 40px;
+    padding: 40px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    text-align: center;
 }
 
-/* 表紙の文字配置と「ポンッ」と出るアニメーション */
 .pop-text {
     opacity: 0;
     animation: popUpAnimation 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .class-name {
-    font-size: 2.2rem;
+    font-size: 2rem;
     color: #fff;
-    text-shadow: 2px 2px 0px #333;
+    text-shadow: 2px 2px 0px #424242;
     animation-delay: 0.1s;
 }
 
 .group-name {
-    font-size: 4rem;
+    font-size: 3.5rem;
     color: #fff;
-    background: #333;
+    background: #424242; 
     padding: 5px 25px;
     border-radius: 10px;
     transform: rotate(-3deg);
@@ -85,27 +84,27 @@ h1, h2, .class-name, .group-name {
 }
 
 .main-title {
-    font-size: 3.5rem;
-    color: #333;
+    font-size: 3rem;
+    color: #424242;
     border-bottom: 5px dashed #fff;
     padding-bottom: 10px;
     animation-delay: 0.5s;
+    width: 100%;
+    max-width: 400px;
 }
 
-/* ポンッと浮き出るアニメーションの中身 */
 @keyframes popUpAnimation {
     0% { transform: scale(0.3); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
 }
 
-/* 表紙の右下の太い赤矢印ボタン */
 .next-arrow-btn {
     align-self: flex-end;
     background: none;
     border: none;
-    font-size: 4.5rem;
+    font-size: 4rem;
     cursor: pointer;
-    color: #ff1744; /* 可愛い赤色 */
+    color: #ff6584; 
     text-shadow: 2px 2px 0px #fff;
     transition: transform 0.2s;
 }
@@ -125,50 +124,55 @@ h1, h2, .class-name, .group-name {
     flex-direction: column;
 }
 
-/* 付箋（タブ）の並び */
 .sticky-tabs {
     display: flex;
     gap: 6px;
-    padding-left: 60px;
+    padding-left: 15px;
+    padding-right: 15px;
+    overflow-x: auto; 
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+.sticky-tabs::-webkit-scrollbar {
+    display: none;
 }
 
 .tab {
     font-family: 'Yomogi', sans-serif;
     font-size: 1.1rem;
     font-weight: bold;
-    background-color: #f48fb1; /* 付箋もピンク系 */
-    color: #333;
-    border: 2px solid #333;
+    background-color: #ffccd5; 
+    color: #424242;
+    border: 2px solid #424242;
     border-bottom: none;
     padding: 6px 16px;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     cursor: pointer;
     transition: transform 0.2s, background-color 0.2s;
-    transform: translateY(5px); /* 最初は少し下に下がっている */
+    transform: translateY(5px); 
+    flex-shrink: 0; 
 }
 
-/* 📌 選択されている付箋が手前にピョコッと浮き出る */
 .tab.active {
     transform: translateY(0px);
-    background-color: #fff; /* 選択時は白くなって目立つ */
+    background-color: #fff; 
     padding-bottom: 11px;
     z-index: 5;
 }
 
-/* 見開きページ本体 */
 .pages-container {
     flex: 1;
     background-color: #fff;
-    border: 3px solid #333;
+    border: 3px solid #424242;
     border-radius: 6px;
-    box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+    box-shadow: 0 12px 24px rgba(244, 143, 177, 0.15);
     display: flex;
     position: relative;
     overflow: hidden;
 }
 
-/* ノートの真ん中の縦線（境界線）と立体的な影 */
+/* ノート中央のグラデーション影（見開き用） */
 .pages-container::after {
     content: "";
     position: absolute;
@@ -176,45 +180,45 @@ h1, h2, .class-name, .group-name {
     top: 0;
     width: 2px;
     height: 100%;
-    background-color: #bbb;
-    box-shadow: 0 0 8px rgba(0,0,0,0.3);
+    background-color: #ddd;
+    box-shadow: 0 0 8px rgba(0,0,0,0.15);
 }
 
 .page {
     flex: 1;
-    padding: 25px 35px;
-    overflow-y: auto; /* 日記が増えたらページ内で綺麗にスクロール */
+    padding: 20px 25px;
+    overflow-y: auto; 
 }
 
 /* ===================================================
-   📝 3. 便箋の横線（罫線）と文字の完璧な配置調整
+   📝 3. 便箋の横線（スマホでも絶対にズレない新方式）
 =================================================== */
 .notebook-lines {
-    background-image: linear-gradient(#b3e5fc 1px, transparent 1px); /* 可愛い水色の罫線 */
-    background-size: 100% 2.2rem; /* 線の間隔 */
-    line-height: 2.2rem; /* 行の高さと線の間隔を完全に一致させる */
     min-height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-/* 各行の文字が線と線の「ど真ん中」に収まる絶対ルール */
+/* 枠線自体をノートの線にすることで、文字が2行に折り返されても線が勝手に付いてきます！ */
 .line-text, p {
-    height: 2.2rem;
+    min-height: 2.4rem;
+    line-height: 1.6rem;
     display: flex;
-    align-items: center; /* これで上下のド真ん中に配置 */
-    padding-left: 6px;
-    font-size: 1.15rem;
-    color: #333;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; /* 線からはみ出さないお守り */
+    align-items: center; 
+    padding: 0.4rem 6px;
+    font-size: 1.05rem;
+    color: #424242;
+    border-bottom: 1px solid #ccf0ff; /* 淡い水色のノート線 */
+    white-space: normal; /* スマホで長文が来ても自動で折り返す */
+    word-break: break-all;
 }
 
 .page-title {
-    font-size: 1.5rem;
-    color: #e91e63;
-    border-bottom: 3px dotted #f48fb1;
-    margin-bottom: 0.2rem;
-    height: 2.5rem;
+    font-size: 1.4rem;
+    color: #ff6584;
+    border-bottom: 3px dotted #ffccd5;
+    padding-bottom: 4px;
+    margin-bottom: 0.5rem;
 }
 
 .hint {
@@ -223,72 +227,96 @@ h1, h2, .class-name, .group-name {
 }
 
 /* ===================================================
-   🔗 4. 目次のリンク演出（ホバーでピンクに！）
+   🔗 4. リンク演出
 =================================================== */
 a {
-    color: #333;
+    color: #424242;
     text-decoration: none;
     font-weight: bold;
-    transition: color 0.2s;
 }
-
-/* カーソルを合わせるとピンク色の文字に変わる */
 a:hover {
-    color: #ff4081;
-    text-decoration: underline dashed #ff4081;
+    color: #ff6584;
+    text-decoration: underline dashed #ff6584;
 }
 
 /* ===================================================
-   フッター（矢印・戻るボタン）
+   フッター
 =================================================== */
 .notebook-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 25px;
-    font-size: 1.1rem;
+    padding: 10px 15px;
+    font-size: 1rem;
+    color: #666;
 }
 
 .footer-link {
     cursor: pointer;
-    color: #666;
     border-bottom: 1px dashed #666;
     padding-bottom: 2px;
 }
 .footer-link:hover {
-    color: #ff4081;
-    border-bottom-color: #ff4081;
+    color: #ff6584;
+    border-bottom-color: #ff6584;
 }
 
 .page-arrows {
     display: flex;
-    gap: 25px;
+    gap: 20px;
 }
 
 .footer-arrow {
     cursor: pointer;
     font-weight: bold;
     user-select: none;
-    transition: transform 0.1s;
 }
 .footer-arrow:hover {
-    transform: scale(1.15);
-    color: #ff4081;
+    color: #ff6584;
 }
 
-/* タブレット・スマホ用のレイアウト調整 */
+/* ===================================================
+   📱 5. スマホ・iPad（縦向き）用のサイズ調整設定
+=================================================== */
 @media (max-width: 768px) {
+    body {
+        overflow: auto; /* スマホでは全体を少しスクロールできるように */
+        padding: 10px 0;
+        height: auto;
+    }
+
+    .notebook-cover {
+        width: 95vw;
+        height: 85vh;
+    }
+    
+    .class-name { font-size: 1.6rem; }
+    .group-name { font-size: 2.5rem; }
+    .main-title { font-size: 2.2rem; }
+
+    .notebook-body {
+        height: calc(100vh - 20px);
+    }
+
+    /* 左右の見開きをやめて、縦にきれいに並べる */
     .pages-container {
         flex-direction: column;
         overflow-y: auto;
     }
+    
+    /* 中央の縦線を消す */
     .pages-container::after {
         display: none;
     }
+
     .page {
-        overflow-y: visible;
+        flex: none;
+        overflow-y: visible; /* コンテナ側にスクロールを任せる */
+        padding: 15px 20px;
     }
-    .main-title {
-        font-size: 2.5rem;
+    
+    /* 左ページ（前半）の下に少し余白を作る */
+    .left-page {
+        border-bottom: 2px dashed #ddd;
     }
 }
