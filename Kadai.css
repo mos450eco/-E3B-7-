@@ -1,4 +1,6 @@
-/* 全体のリセットとフォント設定 */
+/* ===================================================
+   全画面リセット・基本設定
+=================================================== */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,209 +8,325 @@
 }
 
 body {
-    background-color: #f4edd2; /* 生成り色（紙っぽいベージュ） */
-    font-family: 'Yomogi', sans-serif;
+    background-color: #fffafb;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
     height: 100vh;
-    overflow: hidden; /* 永遠に下にスクロールするのを防ぐ */
+    overflow: hidden; 
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px;
 }
 
-h1, h2, .class-tag {
+h1, h2, .class-name, .group-name {
     font-family: 'Kiwi Maru', sans-serif;
     font-weight: bold;
 }
 
-/* 非表示用クラス */
 .hidden {
     display: none !important;
 }
 
-/* ================= 表紙のデザイン ================= */
+/* ===================================================
+   🌸 1. 表紙のデザイン（A4縦長風の比率へ修正）
+=================================================== */
 .notebook-cover {
     position: relative;
-    width: 90vw;
-    max-width: 800px;
-    height: 85vh;
-    background-color: #e0e0e0; /* ノートの表紙っぽいグレー */
-    border-radius: 10px;
-    box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+    width: 46vw; /* 見開き（92vw）の約半分にして、本物のA4縦長ノート比率に */
+    max-width: 480px;
+    height: 82vh; 
+    background-color: #fff0f2; 
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(244, 143, 177, 0.15);
     display: flex;
+    border: 3px solid #424242;
 }
 
-/* 紫の背表紙 */
 .spine {
-    width: 60px;
+    width: 45px;
     height: 100%;
-    background-color: #7a4fc1; /* Campus風の紫色 */
+    background-color: #f6ebf7; 
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
+    border-right: 3px solid #424242;
 }
 
 .cover-content {
     flex: 1;
-    padding: 40px;
+    padding: 40px 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
-    position: relative;
+    justify-content: space-between;
+    text-align: center;
 }
 
-.class-tag {
-    font-size: 2rem;
-    align-self: flex-start;
-    border: 3px solid #333;
-    padding: 5px 15px;
-    background: #fff;
+.pop-text {
+    opacity: 0;
+    animation: popUpAnimation 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.class-name {
+    font-size: 3.2rem; 
+    color: #424242;
+    text-shadow: 3px 3px 0px #ffffff;
+    margin-top: 20px;
+    animation-delay: 0.1s;
+}
+
+.group-name {
+    font-size: 2.2rem;
+    color: #fff;
+    background: #424242; 
+    padding: 4px 22px;
+    border-radius: 10px;
+    transform: rotate(-2.5deg);
+    margin: 15px 0;
+    animation-delay: 0.3s;
 }
 
 .main-title {
-    font-size: 4.5rem;
-    color: #222;
-    text-align: center;
-    line-height: 1.2;
-    margin-top: 20px;
+    font-size: 2.4rem;
+    color: #424242;
+    border-bottom: 4px dashed #ffccd5;
+    padding-bottom: 10px;
+    animation-delay: 0.5s;
+    width: 100%;
+    max-width: 350px;
 }
 
-/* 手書き風の黒い矢印ボタン */
+@keyframes popUpAnimation {
+    0% { transform: scale(0.3); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
 .next-arrow-btn {
     align-self: flex-end;
     background: none;
     border: none;
-    font-size: 4rem;
+    font-size: 3.5rem;
     cursor: pointer;
-    color: #333;
+    color: #ff8fa3; 
+    text-shadow: 2px 2px 0px #fff;
     transition: transform 0.2s;
 }
-.next-arrow-btn:hover {
-    transform: scale(1.2);
-}
 
-/* ================= 中身（見開きノート）のデザイン ================= */
+/* ===================================================
+   📖 2. ノートの本体枠と付箋の重ね合わせ（比率を縦長風に改良）
+=================================================== */
 .notebook-body {
     position: relative;
-    width: 95vw;
-    max-width: 1000px;
-    height: 85vh;
+    width: 92vw;
+    max-width: 960px; /* 横幅を少し狭めてA4見開き縦長感を強調 */
+    height: 88vh; 
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    padding-top: 45px; 
 }
 
-/* 付箋（タブ） */
+.notebook-main-container {
+    position: relative;
+    width: 100%;
+}
+
+/* 📌 ノート本体（z-index: 5） */
+.pages-container {
+    height: 74vh; 
+    background-color: #fff;
+    border: 3px solid #424242;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    display: flex;
+    position: relative;
+    z-index: 5; 
+}
+
+/* 📌 付箋の並ぶ枠（ノートにぴったり密着） */
 .sticky-tabs {
+    position: absolute;
+    bottom: 100%; 
+    margin-bottom: -3px; /* 枠の黒線とピッタリ重ねる */
+    left: 25px;
     display: flex;
     gap: 5px;
-    padding-left: 50px;
 }
 
+/* 📌 全ての付箋（初期の良さ：ピンクのまま固定、色を変えない、浮かせない） */
 .tab {
-    font-family: 'Yomogi', sans-serif;
-    font-size: 1.1rem;
-    background-color: #ffb3ba; /* 可愛いピンク系（日付ごとに変えることも可） */
-    border: 2px solid #333;
+    position: relative;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #fcaec1; 
+    color: #424242;
+    border: 3px solid #424242;
     border-bottom: none;
-    padding: 8px 16px;
+    padding: 4px 14px;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     cursor: pointer;
-    transition: transform 0.2s, margin-top 0.2s;
-    margin-top: 5px; /* 通常時は少し下に下がっている */
+    height: 35px;
+    
+    /* ⚠️ 通常時はノートの黒い枠線(5)の【後ろ（奥）】に完全に隠す */
+    z-index: 4; 
 }
 
-/* 選択されている付箋が「手前に来る（上に浮く）」 */
+/* 📌 選択された（開いているページ）付箋の挙動 */
 .tab.active {
-    margin-top: 0px;
-    padding-bottom: 13px;
-    background-color: #ffdfba; /* 浮いた時は色が変わる */
-    z-index: 2;
+    /* 💥 白くせず、ピンク色の状態をキープ！ */
+    background-color: #fcaec1 !important; 
+    
+    /* 🌟 手前にきて！：ノートの黒枠(5)をまたいで【手前】に飛び出させる */
+    z-index: 6 !important; 
+    height: 38px;
 }
 
-/* 見開きページコンテナ */
-.pages-container {
+/* 📌 表紙のときの付箋用設定 */
+.tab.cover-tab {
+    cursor: default;
+    z-index: 4;
+}
+
+.inner-pages {
     flex: 1;
-    background-color: #fff;
-    border: 3px solid #333;
-    border-radius: 4px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     display: flex;
     position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 9px;
     overflow: hidden;
 }
 
-/* 中央の境界線 */
-.pages-container::after {
+/* センターライン */
+.inner-pages::after {
     content: "";
     position: absolute;
     left: 50%;
     top: 0;
     width: 2px;
     height: 100%;
-    background-color: #ccc;
-    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    background-color: #e0e0e0;
+    box-shadow: 0 0 6px rgba(0,0,0,0.12);
+    z-index: 5;
 }
 
-.page {
+.page-wrapper {
     flex: 1;
-    padding: 30px;
-    overflow-y: auto; /* 中身が増えたらページ内スクロール */
+    position: relative;
+    height: 100%;
+    overflow: hidden;
 }
 
-/* ノートの横線（青い罫線） */
+/* ===================================================
+   📝 3. 便箋の横線
+=================================================== */
+.page {
+    width: 100%;
+    height: 100%;
+    padding: 25px 30px;
+    overflow-y: auto; 
+    background-image: linear-gradient(transparent 2.35rem, #d6f2ff 2.35rem);
+    background-size: 100% 2.4rem;
+    background-attachment: local;
+}
+
 .notebook-lines {
-    background-image: linear-gradient(#e0ebff 1px, transparent 1px);
-    background-size: 100% 2rem; /* 線の間隔 */
-    line-height: 2rem; /* 文字の高さを線の間隔に合わせる */
     min-height: 100%;
+    line-height: 2.4rem;
+    font-size: 1.05rem;
+    color: #424242;
 }
 
-/* 各行の文字が線のど真ん中に乗るための調整 */
-.line-text, p {
-    height: 2rem;
+.line-text {
+    min-height: 2.4rem;
     display: flex;
-    align-items: center; /* 上下中央揃え */
-    padding-left: 5px;
-    font-size: 1.1rem;
-    color: #333;
+    align-items: center; 
+    padding: 0 4px;
+    white-space: normal;
+    word-break: break-all;
+    position: relative;
+    top: 3px; 
 }
 
 .page-title {
-    font-size: 1.4rem;
-    color: #555;
-    border-bottom: 2px solid #ffb3ba;
-    margin-bottom: 0.5rem;
-    height: 2.5rem;
+    font-size: 1.35rem;
+    color: #ff6584;
+    border-bottom: 3px dotted #ffccd5;
+    padding-bottom: 2px;
+    margin-bottom: 0.4rem;
 }
 
-/* リンクのデザイン */
+.hint {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+/* ===================================================
+   🔽 4. スクロール用の矢印
+=================================================== */
+.scroll-arrow {
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+    font-size: 1.2rem;
+    color: #ff6584;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1.5px solid #ffccd5;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    display: none; 
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+    z-index: 15;
+    animation: bounceArrow 0.8s infinite alternate cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    pointer-events: none;
+}
+
+@keyframes bounceArrow {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(5px); }
+}
+
+/* ===================================================
+   🔗 5. フッター（絶対に潰れない・消えないよう高さを確保）
+=================================================== */
 a {
-    color: #1e90ff;
+    color: #424242;
     text-decoration: none;
+    font-weight: bold;
 }
 a:hover {
-    text-decoration: underline;
+    color: #ff6584;
+    text-decoration: underline dashed #ff6584;
 }
 
-/* ================= フッター（ナビゲーション） ================= */
 .notebook-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    background: transparent;
-    font-size: 1.1rem;
+    padding: 5px 10px;
+    font-size: 1.05rem;
+    color: #555;
+    height: 5vh; 
+    min-height: 35px;
 }
 
 .footer-link {
     cursor: pointer;
-    color: #555;
-    border-bottom: 1px dashed #555;
+    border-bottom: 1px dashed #666;
+    padding-bottom: 2px;
+}
+.footer-link:hover {
+    color: #ff6584;
+    border-bottom-color: #ff6584;
 }
 
 .page-arrows {
     display: flex;
-    gap: 20px;
+    gap: 30px;
 }
 
 .footer-arrow {
@@ -216,23 +334,50 @@ a:hover {
     font-weight: bold;
     user-select: none;
 }
-.footer-arrow:hover, .footer-link:hover {
-    color: #000;
+.footer-arrow:hover {
+    color: #ff6584;
 }
 
-/* タブレット・スマホ用の簡易レスポンシブ */
+/* ===================================================
+   📱 6. スマホ用の設定
+=================================================== */
 @media (max-width: 768px) {
-    .pages-container {
-        flex-direction: column;
-        overflow-y: auto;
+    body {
+        overflow: auto;
+        padding: 10px;
+        height: auto;
     }
-    .pages-container::after {
+    .notebook-cover {
+        width: 90vw;
+        height: 75vh;
+    }
+    .notebook-body {
+        height: auto;
+        padding-top: 50px;
+    }
+    .pages-container {
+        height: auto;
+    }
+    .inner-pages {
+        flex-direction: column;
+        height: auto;
+    }
+    .inner-pages::after {
         display: none;
     }
-    .page {
-        overflow-y: visible;
+    .page-wrapper {
+        height: auto;
     }
-    .main-title {
-        font-size: 3rem;
+    .page {
+        height: auto;
+        overflow-y: visible;
+        padding: 15px;
+        background-attachment: scroll;
+    }
+    .left-page {
+        border-bottom: 2px dashed #ddd;
+    }
+    .scroll-arrow {
+        display: none !important;
     }
 }
