@@ -8,16 +8,15 @@
 }
 
 body {
-    background-color: #fff0f3; 
-    /* 全体の本文を読みやすい丸ゴシックに変更 */
-    font-family: 'M PLUS Rounded 1c', sans-serif;
+    background-color: #fffafb; /* さらに淡く優しい背景 */
+    font-family: 'M PLUS Rounded 1c', sans-serif; /* 企業ウケ抜群の綺麗な丸ゴシック */
     height: 100vh;
     overflow: hidden; 
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px;
 }
-
 
 h1, h2, .class-name, .group-name {
     font-family: 'Kiwi Maru', sans-serif;
@@ -29,32 +28,48 @@ h1, h2, .class-name, .group-name {
 }
 
 /* ===================================================
-   🌸 1. 表紙のデザイン
+   🌸 1. 表紙のデザイン（超淡いパステル調＆文字巨大化）
 =================================================== */
 .notebook-cover {
     position: relative;
     width: 90vw;
-    max-width: 700px;
-    height: 80vh;
-    background-color: #ffccd5; 
-    border-radius: 12px;
-    box-shadow: 0 15px 35px rgba(244, 143, 177, 0.25);
+    max-width: 680px;
+    height: 72vh; /* iPadに綺麗に収まる高さ */
+    background-color: #fff0f2; /* 極限まで淡くしたミルキーピンク */
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(244, 143, 177, 0.15);
     display: flex;
     border: 3px solid #424242;
 }
 
+/* 📌 表紙の左上に飛び出す手書き再現付箋 */
+.cover-tab {
+    position: absolute;
+    top: -33px;
+    left: 80px;
+    background-color: #cceeff; /* スケッチ通りの青い付箋 */
+    border: 3px solid #424242;
+    border-bottom: none;
+    padding: 4px 14px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #424242;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
 .spine {
-    width: 55px;
+    width: 50px;
     height: 100%;
-    background-color: #e1bee7; 
-    border-top-left-radius: 9px;
-    border-bottom-left-radius: 9px;
+    background-color: #f6ebf7; /* パステル調の淡いラベンダー */
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
     border-right: 3px solid #424242;
 }
 
 .cover-content {
     flex: 1;
-    padding: 40px 20px;
+    padding: 30px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -67,28 +82,30 @@ h1, h2, .class-name, .group-name {
     animation: popUpAnimation 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
+/* 💡 主役：「市川工業を」どこよりも大きく！ */
 .class-name {
-    font-size: 2rem;
-    color: #fff;
-    text-shadow: 2px 2px 0px #424242;
+    font-size: 4rem; 
+    color: #424242;
+    text-shadow: 3px 3px 0px #ffffff;
+    margin-top: 10px;
     animation-delay: 0.1s;
 }
 
 .group-name {
-    font-size: 3.5rem;
+    font-size: 2.6rem;
     color: #fff;
     background: #424242; 
-    padding: 5px 25px;
+    padding: 4px 22px;
     border-radius: 10px;
-    transform: rotate(-3deg);
-    margin: 10px 0;
+    transform: rotate(-2.5deg);
+    margin: 5px 0;
     animation-delay: 0.3s;
 }
 
 .main-title {
-    font-size: 3rem;
+    font-size: 2.8rem;
     color: #424242;
-    border-bottom: 5px dashed #fff;
+    border-bottom: 4px dashed #ffccd5;
     padding-bottom: 10px;
     animation-delay: 0.5s;
     width: 100%;
@@ -104,9 +121,9 @@ h1, h2, .class-name, .group-name {
     align-self: flex-end;
     background: none;
     border: none;
-    font-size: 4rem;
+    font-size: 3.5rem;
     cursor: pointer;
-    color: #ff6584; 
+    color: #ff8fa3; 
     text-shadow: 2px 2px 0px #fff;
     transition: transform 0.2s;
 }
@@ -115,78 +132,78 @@ h1, h2, .class-name, .group-name {
 }
 
 /* ===================================================
-   📖 2. ノートの本体枠（付箋を内側に入れる構造）
+   📖 2. ノートの本体枠（画面に収まるサイズ＆付箋ハミ出し構造）
 =================================================== */
 .notebook-body {
     position: relative;
     width: 95vw;
-    max-width: 1100px;
-    height: 90vh;
+    max-width: 1050px;
+    height: 86vh; /* フッターごと1画面に絶対収まるベストな高さ */
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    padding-top: 40px; /* 上に付箋が飛び出すための余白スペース */
 }
 
-/* 白いノートのメインコンテナ */
+/* 白いノートメイン枠 */
 .pages-container {
-    flex: 1;
+    height: 72vh; /* ノート自体の高さをiPadに最適化 */
     background-color: #fff;
     border: 3px solid #424242;
-    border-radius: 8px;
-    box-shadow: 0 12px 24px rgba(244, 143, 177, 0.15);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
     display: flex;
-    flex-direction: column; /* タブと中身を縦に並べる */
     position: relative;
-    overflow: hidden;
 }
 
-/* 📌 付箋エリア（ノートの内側上部にペタッと貼る！） */
+/* 📌 ノートの上に飛び出す付箋エリア */
 .sticky-tabs {
+    position: absolute;
+    top: -37px; /* ノートの上の外枠を飛び出させる */
+    left: 20px;
     display: flex;
-    gap: 8px;
-    padding: 12px 20px 0px 20px;
-    background-color: #fff;
-    border-bottom: 2px solid #424242; /* コンテンツエリアとのきれいな境界線 */
-    overflow-x: auto; 
-    white-space: nowrap;
+    gap: 6px;
     z-index: 10;
-    -webkit-overflow-scrolling: touch;
-}
-.sticky-tabs::-webkit-scrollbar {
-    display: none;
 }
 
 .tab {
-    font-family: 'Yomogi', sans-serif;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
     font-size: 1.05rem;
     font-weight: bold;
-    background-color: #ffccd5; 
+    background-color: #ffccd5; /* 通常時は可愛いパステルピンク */
     color: #424242;
-    border: 2px solid #424242;
+    border: 3px solid #424242;
     border-bottom: none;
-    padding: 6px 18px;
+    padding: 4px 16px;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s;
-    transform: translateY(2px); /* 境界線の黒線に重ねる */
+    transition: all 0.15s;
+    position: relative;
+    top: 3px; /* ノートの上の黒線にわざと少し重ねる */
 }
 
+/* 💡 「手前に来ている」をCSSで完全再現！ */
 .tab.active {
-    background-color: #fff; 
-    transform: translateY(2px);
-    border-bottom: 2px solid #fff; /* 下の黒線をきれいに隠す */
-    padding-bottom: 8px;
+    background-color: #fff; /* 開いているページと同じ「白」に */
+    z-index: 12; /* 一番手前に引き出す */
+    height: 38px; /* 高さをミリ単位で伸ばして… */
+    border-bottom: 4px solid #fff; /* 💥 ノートの黒い枠線を上から踏み潰して消す！ */
+    top: 3px;
 }
 
-/* 見開きの左右ページを包むコンテナ */
+/* 見開きの左右ページを包む */
 .inner-pages {
     flex: 1;
     display: flex;
     position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 9px;
     overflow: hidden;
 }
 
-/* ノート中央のグラデーション影（見開き用の折り目線） */
+/* ノート中央の折り目線 */
 .inner-pages::after {
     content: "";
     position: absolute;
@@ -194,53 +211,53 @@ h1, h2, .class-name, .group-name {
     top: 0;
     width: 2px;
     height: 100%;
-    background-color: #ddd;
-    box-shadow: 0 0 8px rgba(0,0,0,0.15);
+    background-color: #e0e0e0;
+    box-shadow: 0 0 6px rgba(0,0,0,0.12);
     z-index: 5;
 }
 
-/* 左右ページそれぞれの独立ラッパー */
 .page-wrapper {
     flex: 1;
     position: relative;
-    display: flex;
-    flex-direction: column;
+    height: 100%;
     overflow: hidden;
 }
 
 /* ===================================================
-   📝 3. 便箋の横線（下が空白でも絶対に残る新・完全ノート方式）
+   📝 3. 便箋の横線（文字をど真ん中にジャストフィット）
 =================================================== */
 .page {
     width: 100%;
     height: 100%;
-    padding: 20px 30px;
+    padding: 20px 25px;
     overflow-y: auto; 
-    /* 💡 ページ全体に、2.4rem間隔で下側に淡い水色の線を敷き詰める */
-    background-image: linear-gradient(transparent 2.35rem, #ccf0ff 2.35rem);
+    background-image: linear-gradient(transparent 2.35rem, #d6f2ff 2.35rem);
     background-size: 100% 2.4rem;
-    background-attachment: local; /* スクロールした時も線が一緒に動く */
+    background-attachment: local;
 }
 
 .notebook-lines {
     min-height: 100%;
-    line-height: 2.4rem; /* 線の間隔と完全に一致させる */
+    line-height: 2.4rem;
     font-size: 1.05rem;
     color: #424242;
 }
 
-/* 💡 文字が2行になっても、各行がぴったり次の線の上に乗る設定 */
 .line-text, p {
     min-height: 2.4rem;
     display: flex;
     align-items: center; 
-    padding: 0 6px;
-    white-space: normal; /* 自動で折り返す */
+    padding: 0 4px;
+    white-space: normal;
     word-break: break-all;
+
+    /* 💡 完璧配置：文字をわずかに下にずらして、青線の真ん中にピタッと合わせる */
+    position: relative;
+    top: 3px; 
 }
 
 .page-title {
-    font-size: 1.4rem;
+    font-size: 1.35rem;
     color: #ff6584;
     border-bottom: 3px dotted #ffccd5;
     padding-bottom: 2px;
@@ -248,25 +265,25 @@ h1, h2, .class-name, .group-name {
 }
 
 .hint {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #888;
 }
 
 /* ===================================================
-   🔽 4. スクロールを知らせる矢印ガイド
+   🔽 4. スクロール用の矢印
 =================================================== */
 .scroll-arrow {
     position: absolute;
     bottom: 15px;
     right: 20px;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     color: #ff6584;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     border: 1.5px solid #ffccd5;
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    display: none; /* JSでスクロール可能な時だけ flex に切り替える */
+    width: 34px;
+    height: 34px;
+    display: none; 
     align-items: center;
     justify-content: center;
     box-shadow: 0 3px 6px rgba(0,0,0,0.08);
@@ -277,11 +294,11 @@ h1, h2, .class-name, .group-name {
 
 @keyframes bounceArrow {
     0% { transform: translateY(0); }
-    100% { transform: translateY(6px); }
+    100% { transform: translateY(5px); }
 }
 
 /* ===================================================
-   🔗 5. リンク設定・フッター
+   🔗 5. フッター（拡大不要で絶対に見える位置）
 =================================================== */
 a {
     color: #424242;
@@ -297,9 +314,10 @@ a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 15px;
+    padding: 8px 10px 0px 10px;
     font-size: 1rem;
-    color: #666;
+    color: #555;
+    height: 4vh; /* 画面下部に固定で収まるように高さを制限 */
 }
 
 .footer-link {
@@ -314,7 +332,7 @@ a:hover {
 
 .page-arrows {
     display: flex;
-    gap: 20px;
+    gap: 25px;
 }
 
 .footer-arrow {
@@ -327,43 +345,44 @@ a:hover {
 }
 
 /* ===================================================
-   📱 6. スマホ・iPad（縦向き）用のレスポンシブ設定
+   📱 6. スマホ用の設定
 =================================================== */
 @media (max-width: 768px) {
     body {
         overflow: auto;
-        padding: 10px 0;
+        padding: 10px;
         height: auto;
     }
     .notebook-body {
         height: auto;
+        padding-top: 50px;
+    }
+    .cover-tab {
+        left: 40px;
     }
     .pages-container {
         height: auto;
-        overflow: visible;
     }
     .inner-pages {
         flex-direction: column;
         height: auto;
-        overflow: visible;
     }
     .inner-pages::after {
         display: none;
     }
     .page-wrapper {
         height: auto;
-        overflow: visible;
     }
     .page {
         height: auto;
         overflow-y: visible;
-        padding: 15px 20px;
-        background-attachment: scroll; /* スマホ全画面スクロール用 */
+        padding: 15px;
+        background-attachment: scroll;
     }
     .left-page {
         border-bottom: 2px dashed #ddd;
     }
     .scroll-arrow {
-        display: none !important; /* スマホで縦一列に並ぶ時は個別スクロールが起きないため隠す */
+        display: none !important;
     }
 }
