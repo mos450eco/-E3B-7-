@@ -1,156 +1,294 @@
+/* ===================================================
+   全画面リセット・基本設定
+=================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
 body {
-    background-color: #e8e4e1;
-    margin: 0;
-    font-family: 'Yomogi', cursive;
+    background-color: #fce4ec; /* サイト全体の背景を薄いピンクにして可愛く */
+    font-family: 'Yomogi', sans-serif;
+    height: 100vh;
+    overflow: hidden; /* 画面全体のスクロールを完全に固定 */
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    overflow: hidden;
 }
 
-.container {
+h1, h2, .class-name, .group-name {
+    font-family: 'Kiwi Maru', sans-serif;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ===================================================
+   🌸 1. 表紙のデザイン（ピンクの可愛いノート）
+=================================================== */
+.notebook-cover {
     position: relative;
     width: 90vw;
-    max-width: 600px;
-}
-
-/* 上部の付箋 */
-.top-tabs {
+    max-width: 750px;
+    height: 85vh;
+    background-color: #ff80ab; /* 鮮やかで可愛いピンクの表紙 */
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
     display: flex;
-    gap: 10px;
-    position: absolute;
-    top: -40px;
-    left: 40px;
-    z-index: 5;
+    border: 3px solid #333;
 }
 
-.top-tabs button {
-    border: none;
-    padding: 5px 15px;
-    font-family: 'Yomogi', cursive;
-    cursor: pointer;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-    transform: rotate(-2deg);
+/* 紫色の背表紙 */
+.spine {
+    width: 55px;
+    height: 100%;
+    background-color: #ba68c8; /* パステル系の紫色 */
+    border-top-left-radius: 9px;
+    border-bottom-left-radius: 9px;
+    border-right: 3px solid #333;
 }
 
-.tab-blue { background-color: #bde0fe; }
-.tab-green { background-color: #d8f3dc; }
-.tab-pink { background-color: #ffdae0; }
-.tab-yellow { background-color: #fff9db; }
-
-/* ノートの重なり */
-.notebook-stack {
-    position: relative;
-    padding: 20px;
-}
-
-.paper-layer {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: white;
-    border: 1.5px solid #444;
-    border-radius: 5px;
-}
-
-.layer1 { transform: rotate(1deg) translate(5px, 5px); background: #f9f9f9; }
-.layer2 { transform: rotate(-1.5deg) translate(-3px, 2px); background: #f0f0f0; }
-
-.main-paper {
-    position: relative;
-    background: #fffdfa;
-    border: 2px solid #333;
-    min-height: 70vh;
-    padding: 30px;
-    box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
-    z-index: 2;
-    transition: all 0.3s;
-}
-
-/* マステ */
-.tape {
-    position: absolute;
-    width: 80px;
-    height: 25px;
-    opacity: 0.6;
-    z-index: 10;
-}
-
-.tape-tr { top: -10px; right: 30px; background: #b7e4c7; transform: rotate(15deg); }
-.tape-bl { bottom: -5px; left: 20px; background: #ffccd5; transform: rotate(-10deg); }
-.tape-br { bottom: 10px; right: -20px; background: #d8f3dc; transform: rotate(-45deg); }
-
-/* 表紙の文字配置（スケッチ再現） */
-.handwriting-area {
+.cover-content {
+    flex: 1;
+    padding: 50px 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
-    height: 100%;
-    background-image: linear-gradient(#d0e8ff 1px, transparent 1px);
-    background-size: 100% 40px;
+    justify-content: space-between;
 }
 
-.txt-school { font-size: 2.5rem; align-self: flex-start; margin: 0; }
-
-.txt-class {
-    font-size: 8rem;
-    font-family: 'Kiwi Maru', serif;
-    margin: -10px 0;
-    transform: rotate(5deg);
-    color: #444;
-    -webkit-text-stroke: 1px #000;
+/* 表紙の文字配置と「ポンッ」と出るアニメーション */
+.pop-text {
+    opacity: 0;
+    animation: popUpAnimation 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-.txt-group { font-size: 5rem; margin: -20px 0; transform: rotate(-5deg); align-self: flex-end; }
-.txt-title { font-size: 4rem; margin: 20px 0 0 0; font-family: 'Kiwi Maru', serif; }
-.txt-diary { font-size: 4rem; margin: 0; font-family: 'Kiwi Maru', serif; }
+.class-name {
+    font-size: 2.2rem;
+    color: #fff;
+    text-shadow: 2px 2px 0px #333;
+    animation-delay: 0.1s;
+}
 
-/* 赤い矢印 */
-.red-arrow {
-    position: absolute;
-    bottom: 0;
-    right: 0;
+.group-name {
+    font-size: 4rem;
+    color: #fff;
+    background: #333;
+    padding: 5px 25px;
+    border-radius: 10px;
+    transform: rotate(-3deg);
+    margin: 10px 0;
+    animation-delay: 0.3s;
+}
+
+.main-title {
+    font-size: 3.5rem;
+    color: #333;
+    border-bottom: 5px dashed #fff;
+    padding-bottom: 10px;
+    animation-delay: 0.5s;
+}
+
+/* ポンッと浮き出るアニメーションの中身 */
+@keyframes popUpAnimation {
+    0% { transform: scale(0.3); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* 表紙の右下の太い赤矢印ボタン */
+.next-arrow-btn {
+    align-self: flex-end;
+    background: none;
+    border: none;
+    font-size: 4.5rem;
     cursor: pointer;
+    color: #ff1744; /* 可愛い赤色 */
+    text-shadow: 2px 2px 0px #fff;
     transition: transform 0.2s;
 }
-.red-arrow:hover { transform: scale(1.1) rotate(5deg); }
-
-/* 中身のページ */
-.line-container {
-    background-image: linear-gradient(#d0e8ff 1.5px, transparent 1.5px);
-    background-size: 100% 40px;
-    margin-top: 10px;
+.next-arrow-btn:hover {
+    transform: scale(1.2) rotate(10deg);
 }
 
-.line {
-    height: 40px;
+/* ===================================================
+   📖 2. 見開きノートの中身デザイン
+=================================================== */
+.notebook-body {
+    position: relative;
+    width: 95vw;
+    max-width: 1100px;
+    height: 90vh;
     display: flex;
-    align-items: center;
-    padding-left: 10px;
-    font-size: 1.3rem;
+    flex-direction: column;
 }
 
-.clickable { cursor: pointer; color: #d64d4d; }
+/* 付箋（タブ）の並び */
+.sticky-tabs {
+    display: flex;
+    gap: 6px;
+    padding-left: 60px;
+}
 
-.footer-btns {
+.tab {
+    font-family: 'Yomogi', sans-serif;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background-color: #f48fb1; /* 付箋もピンク系 */
+    color: #333;
+    border: 2px solid #333;
+    border-bottom: none;
+    padding: 6px 16px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+    transform: translateY(5px); /* 最初は少し下に下がっている */
+}
+
+/* 📌 選択されている付箋が手前にピョコッと浮き出る */
+.tab.active {
+    transform: translateY(0px);
+    background-color: #fff; /* 選択時は白くなって目立つ */
+    padding-bottom: 11px;
+    z-index: 5;
+}
+
+/* 見開きページ本体 */
+.pages-container {
+    flex: 1;
+    background-color: #fff;
+    border: 3px solid #333;
+    border-radius: 6px;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+    display: flex;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ノートの真ん中の縦線（境界線）と立体的な影 */
+.pages-container::after {
+    content: "";
     position: absolute;
-    bottom: 10px;
-    width: calc(100% - 60px);
+    left: 50%;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background-color: #bbb;
+    box-shadow: 0 0 8px rgba(0,0,0,0.3);
+}
+
+.page {
+    flex: 1;
+    padding: 25px 35px;
+    overflow-y: auto; /* 日記が増えたらページ内で綺麗にスクロール */
+}
+
+/* ===================================================
+   📝 3. 便箋の横線（罫線）と文字の完璧な配置調整
+=================================================== */
+.notebook-lines {
+    background-image: linear-gradient(#b3e5fc 1px, transparent 1px); /* 可愛い水色の罫線 */
+    background-size: 100% 2.2rem; /* 線の間隔 */
+    line-height: 2.2rem; /* 行の高さと線の間隔を完全に一致させる */
+    min-height: 100%;
+}
+
+/* 各行の文字が線と線の「ど真ん中」に収まる絶対ルール */
+.line-text, p {
+    height: 2.2rem;
+    display: flex;
+    align-items: center; /* これで上下のド真ん中に配置 */
+    padding-left: 6px;
+    font-size: 1.15rem;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* 線からはみ出さないお守り */
+}
+
+.page-title {
+    font-size: 1.5rem;
+    color: #e91e63;
+    border-bottom: 3px dotted #f48fb1;
+    margin-bottom: 0.2rem;
+    height: 2.5rem;
+}
+
+.hint {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+/* ===================================================
+   🔗 4. 目次のリンク演出（ホバーでピンクに！）
+=================================================== */
+a {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+
+/* カーソルを合わせるとピンク色の文字に変わる */
+a:hover {
+    color: #ff4081;
+    text-decoration: underline dashed #ff4081;
+}
+
+/* ===================================================
+   フッター（矢印・戻るボタン）
+=================================================== */
+.notebook-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 8px 25px;
+    font-size: 1.1rem;
 }
 
-.btn-home { font-size: 0.8rem; text-decoration: underline; cursor: pointer; }
-.page-nav { font-size: 2rem; cursor: pointer; display: flex; gap: 20px; }
-
-/* レスポンシブ */
-@media (max-width: 500px) {
-    .txt-class { font-size: 5rem; }
-    .txt-group { font-size: 3rem; }
-    .txt-title, .txt-diary { font-size: 2.5rem; }
+.footer-link {
+    cursor: pointer;
+    color: #666;
+    border-bottom: 1px dashed #666;
+    padding-bottom: 2px;
+}
+.footer-link:hover {
+    color: #ff4081;
+    border-bottom-color: #ff4081;
 }
 
+.page-arrows {
+    display: flex;
+    gap: 25px;
+}
+
+.footer-arrow {
+    cursor: pointer;
+    font-weight: bold;
+    user-select: none;
+    transition: transform 0.1s;
+}
+.footer-arrow:hover {
+    transform: scale(1.15);
+    color: #ff4081;
+}
+
+/* タブレット・スマホ用のレイアウト調整 */
+@media (max-width: 768px) {
+    .pages-container {
+        flex-direction: column;
+        overflow-y: auto;
+    }
+    .pages-container::after {
+        display: none;
+    }
+    .page {
+        overflow-y: visible;
+    }
+    .main-title {
+        font-size: 2.5rem;
+    }
+}
