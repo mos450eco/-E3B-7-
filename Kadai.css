@@ -1,6 +1,3 @@
-/* ==========================================
-   📌 全体設定 & フォント
-   ========================================== */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -9,8 +6,8 @@
 
 body {
     font-family: 'M PLUS Rounded 1c', 'Kiwi Maru', sans-serif;
-    background-color: #e6dfd3; /* 机をイメージした落ち着いた背景色 */
-    color: #333;
+    background-color: #fceade; /* あたたかみのある薄いピンクベージュの机 */
+    color: #444;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -19,32 +16,50 @@ body {
     overflow-x: hidden;
 }
 
-/* 非表示コントロール */
-.hidden {
-    display: none !important;
+.hidden { display: none !important; }
+
+/* 🛠️ 上部の四角い文房具ボタン */
+.top-stationery-bar {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+    width: 100%;
 }
 
-/* ==========================================
-   📕 1. 表紙ページ（Notebook Cover）
-   ========================================== */
+.btn-stationery {
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    transition: transform 0.1s;
+}
+.btn-stationery:hover { transform: translateY(-2px); }
+
+.btn-pink { background-color: #ff85a1; color: #fff; }
+.btn-green { background-color: #2ec4b6; color: #fff; }
+.btn-yellow { background-color: #ffb703; color: #fff; }
+
+/* 📕 1. 表紙（ピンクメイン） */
 .notebook-cover {
     width: 100%;
     max-width: 800px;
     height: 550px;
-    background-color: #6b5b95; /* 上品なパープルカラー */
+    background-color: #ff85a1; /* 明るく可愛いピンク */
     border-radius: 8px 20px 20px 8px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
     position: relative;
     display: flex;
     overflow: hidden;
-    border: 1px solid rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.05);
 }
 
-/* 背表紙のリアルな立体感 */
 .spine {
     width: 40px;
-    background: linear-gradient(to right, #4a3e66 0%, #5c4e80 30%, #6b5b95 70%, #4a3e66 100%);
-    box-shadow: inset -3px 0 5px rgba(0,0,0,0.2);
+    background: linear-gradient(to right, #e05776 0%, #ff7096 30%, #ff85a1 70%, #e05776 100%);
 }
 
 .cover-content {
@@ -54,73 +69,49 @@ body {
     justify-content: center;
     align-items: center;
     padding: 40px;
-    position: relative;
-    background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 0);
-    background-size: 24px 24px;
 }
 
-/* ポップテキストスタイル */
 .pop-text {
     color: #ffffff;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+    text-shadow: 1px 2px 4px rgba(0,0,0,0.2);
     margin-bottom: 10px;
     text-align: center;
 }
 
-.class-name {
-    font-size: 1.8rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-}
-
-.group-name {
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: #ffeb3b; /* 目立つイエロー */
-    text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-}
-
+.class-name { font-size: 1.8rem; font-weight: 500; }
+.group-name { font-size: 2.2rem; font-weight: 700; color: #fff3b0; }
 .main-title {
     font-size: 3.5rem;
     font-weight: 700;
     margin-top: 15px;
     margin-bottom: 40px;
-    letter-spacing: 0.05em;
-    border-bottom: 4px solid #ffeb3b;
+    border-bottom: 4px solid #fff3b0;
     padding-bottom: 10px;
 }
 
-/* 表紙を開くボタン */
 .next-arrow-btn {
     width: 70px;
     height: 70px;
     font-size: 2rem;
-    color: #6b5b95;
+    color: #ff85a1;
     background-color: #ffffff;
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.2s, background-color 0.2s;
+    transition: transform 0.2s;
 }
+.next-arrow-btn:hover { transform: scale(1.1); }
 
-.next-arrow-btn:hover {
-    transform: scale(1.1);
-    background-color: #ffeb3b;
-}
-
-/* ==========================================
-   📖 2. ノート本体（Notebook Body）
-   ========================================== */
+/* 📖 2. ノート本体 */
 .notebook-body {
     width: 100%;
     max-width: 950px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
 }
 
 .notebook-main-container {
@@ -128,261 +119,126 @@ body {
     width: 100%;
 }
 
-/* 📁 付箋風のインデックスタブ */
+/* 📁 1. 付箋の隙間解消（下方向にピタッとくっつけます） */
 .sticky-tabs {
-    position: absolute;
-    top: -38px;
-    left: 20px;
     display: flex;
-    gap: 5px;
-    z-index: 1;
+    gap: 4px;
+    margin-bottom: -1px; /* 隙間を無くしてノートに密着 */
+    position: relative;
+    z-index: 2;
+    padding-left: 10px;
 }
 
 .tab {
-    background-color: #d1c7bd;
-    color: #555;
+    background-color: #e2d4c9;
+    color: #666;
     border: none;
-    padding: 8px 16px;
+    padding: 8px 18px;
     font-size: 0.9rem;
     font-weight: 700;
     border-radius: 8px 8px 0 0;
     cursor: pointer;
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-    transition: background-color 0.2s, color 0.2s, transform 0.2s;
+    transition: background-color 0.2s;
 }
 
-.tab:hover {
-    background-color: #e3dac9;
-    transform: translateY(-2px);
-}
-
+.tab:hover { background-color: #f1e4d9; }
 .tab.active {
     background-color: #ffffff;
-    color: #6b5b95;
-    padding-top: 12px;
-    margin-top: -4px;
-    box-shadow: 0 -3px 6px rgba(0,0,0,0.15);
+    color: #ff7096; /* アクティブなタブはピンク文字 */
+    padding-top: 10px;
 }
 
-/* 📄 見開き用紙コンテナ */
+/* 📄 用紙エリア */
 .pages-container {
     background-color: #ffffff;
-    border-radius: 6px;
-    box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+    border-radius: 0 8px 8px 8px; /* 左上を四角にして付箋と一体化 */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
     padding: 25px 20px;
     position: relative;
-    border: 1px solid #ddd;
+    border: 1px solid #e2d4c9;
 }
 
-/* 中央のノートの折り目（グラデーション影） */
+/* 📄 2. 中央の変な影グラデを廃止し「1本のシンプルなグレー線」に変更 */
 .inner-pages {
     display: flex;
     position: relative;
-    background: linear-gradient(to right, 
-        #ffffff 0%, 
-        #ffffff 47%, 
-        #e0e0e0 49%, 
-        #b5b5b5 50%, 
-        #e0e0e0 51%, 
-        #ffffff 53%, 
-        #ffffff 100%
-    );
+    border-left: none;
 }
 
-.page-wrapper {
-    flex: 1;
-    width: 50%;
-    position: relative;
+/* 中央線 */
+.inner-pages::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: #e5e5e5; /* シンプルな薄いグレー線 */
+    transform: translateX(-50%);
+    z-index: 5;
 }
 
-/* 📝 実際のノート用紙エリア */
-.page {
-    height: 480px;
-    overflow-y: auto;
-    padding: 20px 35px;
-    scroll-behavior: smooth;
-}
+.page-wrapper { flex: 1; width: 50%; position: relative; }
+.page { height: 480px; overflow-y: auto; padding: 20px 30px; scroll-behavior: smooth; }
+.page::-webkit-scrollbar { width: 5px; }
+.page::-webkit-scrollbar-thumb { background: #ffd6ff; border-radius: 3px; }
 
-/* スクロールバーをおしゃれに隠す/整える */
-.page::-webkit-scrollbar {
-    width: 6px;
-}
-.page::-webkit-scrollbar-track {
-    background: transparent;
-}
-.page::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,0.15);
-    border-radius: 3px;
-}
+.left-page { padding-right: 35px; }
+.right-page { padding-left: 35px; }
 
-.left-page {
-    padding-right: 45px;
-}
-
-.right-page {
-    padding-left: 45px;
-}
-
-/* 📏 ノートの罫線（動的テキストに適用） */
-.notebook-lines {
-    display: flex;
-    flex-direction: column;
-}
-
-/* JavaScriptで出力される1行ずつの枠 */
+/* ノートの横罫線 */
 .line-text {
     min-height: 32px;
     line-height: 32px;
     font-size: 1.05rem;
-    border-bottom: 1px dashed #aec6cf; /* 可愛いブルーの点線 */
+    border-bottom: 1px dashed #f0c0d0; /* 可愛いピンクの破線 */
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     word-break: break-all;
 }
 
-/* タイトル行は特別に装飾 */
 .page-title {
     font-size: 1.6rem;
-    color: #4a3e66;
+    color: #ff7096;
     margin-bottom: 15px;
     padding-bottom: 5px;
-    border-bottom: 3px double #6b5b95;
+    border-bottom: 2px solid #ff85a1;
     width: 100%;
 }
 
-/* 目次のリンクなど */
-.line-text a {
-    color: #2a6f97;
-    text-decoration: none;
-    font-weight: 700;
-    transition: color 0.2s;
-}
+.line-text a { color: #ff7096; text-decoration: none; font-weight: 700; }
+.line-text a:hover { text-decoration: underline; }
+.hint { font-size: 0.85rem; color: #888; font-style: italic; }
 
-.line-text a:hover {
-    color: #ff6b6b;
-    text-decoration: underline;
-}
-
-.hint {
-    font-size: 0.85rem;
-    color: #777;
-    font-style: italic;
-}
-
-/* 🔽 下部スクロール矢印 */
 .scroll-arrow {
     position: absolute;
     bottom: 10px;
-    right: 25px;
+    right: 20px;
     font-size: 1.2rem;
     animation: bounce 1s infinite alternate;
-    display: none; /* JSの判定でflexになります */
+    display: none;
     pointer-events: none;
     z-index: 2;
 }
+@keyframes bounce { from { transform: translateY(0); } to { transform: translateY(5px); } }
 
-@keyframes bounce {
-    from { transform: translateY(0); }
-    to { transform: translateY(6px); }
-}
-
-/* ==========================================
-   👣 3. フッター（ナビゲーション）
-   ========================================== */
+/* 👣 フッター */
 .notebook-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 15px;
-    background-color: rgba(255,255,255,0.7);
-    border-radius: 6px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    padding: 12px 5px;
 }
+.footer-link { font-size: 0.95rem; font-weight: 700; color: #ff7096; cursor: pointer; }
+.footer-arrow { font-size: 0.95rem; font-weight: 700; color: #666; cursor: pointer; }
+.footer-arrow:hover { color: #ff7096; }
 
-.footer-link {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: #555;
-    cursor: pointer;
-    transition: color 0.2s;
-    user-select: none;
-}
-
-.footer-link:hover {
-    color: #6b5b95;
-}
-
-.page-arrows {
-    display: flex;
-    gap: 20px;
-}
-
-.footer-arrow {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: #555;
-    cursor: pointer;
-    user-select: none;
-    transition: color 0.2s, transform 0.1s;
-}
-
-.footer-arrow:hover {
-    color: #6b5b95;
-    transform: scale(1.05);
-}
-
-/* ==========================================
-   📱 4. レスポンシブ対応（スマホ表示）
-   ========================================== */
+/* 📱 スマホ対応 */
 @media (max-width: 768px) {
-    body {
-        padding: 10px;
-    }
-
-    .notebook-cover {
-        height: 450px;
-    }
-
-    .main-title {
-        font-size: 2.3rem;
-    }
-
-    /* スマホでは見開きを縦並び（1ページ風）にする */
-    .inner-pages {
-        flex-direction: column;
-        background: #ffffff;
-    }
-
-    .page-wrapper {
-        width: 100%;
-    }
-
-    .page {
-        height: auto;
-        max-height: 350px;
-        padding: 15px 10px;
-    }
-
-    .left-page, .right-page {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-
-    .right-page {
-        border-top: 2px dashed #ddd;
-        margin-top: 15px;
-    }
-
-    .sticky-tabs {
-        flex-wrap: wrap;
-        top: -75px;
-        left: 5px;
-    }
-
-    .tab {
-        padding: 6px 10px;
-        font-size: 0.8rem;
-    }
+    .inner-pages::before { display: none; } /* スマホ縦並び時は中央線を消す */
+    .inner-pages { flex-direction: column; }
+    .page-wrapper { width: 100%; }
+    .page { height: auto; max-height: 350px; padding: 15px 10px; }
+    .right-page { border-top: 1px dashed #ccc; margin-top: 15px; padding-top: 15px; }
 }
-
