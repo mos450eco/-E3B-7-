@@ -11,6 +11,7 @@
 </head>
 <body>
 
+    <!-- 📕 表紙ページ -->
     <div id="cover-page" class="notebook-cover">
         <div class="spine"></div>
         <div class="cover-content">
@@ -21,10 +22,21 @@
         </div>
     </div>
 
+    <!-- 📖 ノート本体 -->
     <div id="main-notebook" class="notebook-body hidden">
+        
+        <!-- 🛠️ 画面上部の固定文房具ボタンエリア -->
+        <div class="top-stationery-bar">
+            <button onclick="switchPage('MEMBER')" class="btn-stationery btn-pink">メンバー</button>
+            <button onclick="switchPage('PROGRESS')" class="btn-stationery btn-green">進捗状況</button>
+            <button onclick="switchPage('INDEX')" class="btn-stationery btn-yellow">目次へ</button>
+        </div>
+
         <div class="notebook-main-container">
+            <!-- 📁 付箋タブ -->
             <nav class="sticky-tabs" id="tabs-container"></nav>
 
+            <!-- 📄 ノート用紙 -->
             <div class="pages-container">
                 <div class="inner-pages">
                     <div class="page-wrapper">
@@ -44,8 +56,9 @@
             </div>
         </div>
 
+        <!-- 👣 フッター（表紙に戻るを削除しシンプル化） -->
         <footer class="notebook-footer">
-            <span class="footer-link" onclick="closeNotebook()">🏠 表紙に戻る</span>
+            <div></div>
             <div class="page-arrows">
                 <span class="footer-arrow" onclick="prevPage()">⬅️ 前へ</span>
                 <span class="footer-arrow" onclick="nextPage()">次へ ➡️</span>
@@ -54,7 +67,6 @@
     </div>
 
     <script>
-        // 📌 原文テキストと一字一句完全に一致
         const diaryData = {
             "INDEX": {
                 title: "目次",
@@ -79,6 +91,47 @@
                     <div class="line-text">【メンバー】</div>
                     <div class="line-text">班長：cherry</div>
                     <div class="line-text">班員：fire, slope, sugar, soil, sea</div>
+                `
+            },
+            "MEMBER": {
+                title: "メンバー",
+                left: `
+                    <h2 class="page-title">メンバー紹介</h2>
+                    <div class="line-text"><strong>担当の先生</strong></div>
+                    <div class="line-text">white 先生</div>
+                    <div class="line-text"><strong>班長（指示役 ＆ なんでも）</strong></div>
+                    <div class="line-text">cherry</div>
+                    <div class="line-text"><strong>班員（GitHub ＆ デザイン担当）</strong></div>
+                    <div class="line-text">fire (私)</div>
+                    <div class="line-text"><strong>班員（デザイン担当）</strong></div>
+                    <div class="line-text">soil</div>
+                `,
+                right: `
+                    <h2 class="page-title">メンバーつづき</h2>
+                    <div class="line-text"><strong>班員（組み立て ＆ リサーチ担当）</strong></div>
+                    <div class="line-text">slope</div>
+                    <div class="line-text"><strong>班員（リサーチ担当）</strong></div>
+                    <div class="line-text">sugar</div>
+                    <div class="line-text"><strong>班員（AI活用 ＆ リサーチ担当）</strong></div>
+                    <div class="line-text">sea</div>
+                `
+            },
+            "PROGRESS": {
+                title: "進捗",
+                left: `
+                    <h2 class="page-title">進捗状況 (15%)</h2>
+                    <div class="line-text">・調べ学習 / デザイン決定 (完了)</div>
+                    <div class="line-text">・部品購入・決定 (完了)</div>
+                    <div class="line-text">・ロボ部品印刷 (完了)</div>
+                    <div class="line-text">・ロボ設計図完成 (完了)</div>
+                    <div class="line-text">□ ロボを3Dにする (進行中)</div>
+                `,
+                right: `
+                    <h2 class="page-title">状況メモ</h2>
+                    <div class="line-text" style="color: #e53e3e;">⚠️ 部品調達が遅れ組み立てはストップ中。</div>
+                    <div class="line-text" style="color: #e53e3e;">今はリサーチやGitを先行しています。</div>
+                    <div class="line-text"></div>
+                    <div class="line-text">【最終調整に向けて準備中】</div>
                 `
             },
             "4/24": {
@@ -234,7 +287,7 @@
                     <div class="line-text">⭐️今日の役割⭐️</div>
                     <div class="line-text">cherry：white先生から代替案を考えて欲しいと言われてたのでそれについて調べた、購入リストの書き込み</div>
                     <div class="line-text">fire：設計図を書くために調べた、GitHub大幅更新</div>
-                    <div class="line-text">sea：iPad上でのArduinoの運用方法を調べた、notebook lmの試行錯誤、プロンプト改善</div>
+                    <div class="line-text">sea：iPad上でのArduinoの運用方法を調べた、notebook lm의 試行錯誤、プロンプト改善</div>
                     <div class="line-text">slope：目玉の内部作り</div>
                     <div class="line-text">soil：今日も来なかった</div>
                     <div class="line-text">sugar：学科紹介の文の訂正</div>
@@ -293,6 +346,8 @@
             const container = document.getElementById('tabs-container');
             container.innerHTML = '';
             pageKeys.forEach(key => {
+                if (key === 'MEMBER' || key === 'PROGRESS') return;
+
                 const btn = document.createElement('button');
                 btn.id = "tab-" + key.replace('/', '-');
                 btn.className = 'tab';
