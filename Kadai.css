@@ -6,7 +6,7 @@
 
 body {
     font-family: 'M PLUS Rounded 1c', 'Kiwi Maru', sans-serif;
-    background-color: #fceade; /* あたたかみのある薄いピンクベージュの机 */
+    background-color: #fceade;
     color: #444;
     min-height: 100vh;
     display: flex;
@@ -18,43 +18,39 @@ body {
 
 .hidden { display: none !important; }
 
-/* 🛠️ 上部の四角い文房具ボタン */
+/* 🛠️ 付箋タブよりも「完全に上」に独立させたボタンエリア */
 .top-stationery-bar {
     display: flex;
     gap: 12px;
-    justify-content: flex-end;
-    margin-bottom: 8px;
+    justify-content: flex-start;
+    margin-bottom: 12px; /* 付箋との間にしっかり隙間を作る */
     width: 100%;
 }
 
 .btn-stationery {
     border: none;
-    padding: 8px 16px;
-    font-size: 0.85rem;
+    padding: 8px 18px;
+    font-size: 0.9rem;
     font-weight: bold;
     border-radius: 6px;
     cursor: pointer;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-    transition: transform 0.1s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-.btn-stationery:hover { transform: translateY(-2px); }
 
 .btn-pink { background-color: #ff85a1; color: #fff; }
 .btn-green { background-color: #2ec4b6; color: #fff; }
-.btn-yellow { background-color: #ffb703; color: #fff; }
 
-/* 📕 1. 表紙（ピンクメイン） */
+/* 📕 1. 表紙（紫色を削除してピンクに変更） */
 .notebook-cover {
     width: 100%;
     max-width: 800px;
     height: 550px;
-    background-color: #ff85a1; /* 明るく可愛いピンク */
+    background-color: #ff85a1; /* 全体的にピンクへ変更 */
     border-radius: 8px 20px 20px 8px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.15);
     position: relative;
     display: flex;
     overflow: hidden;
-    border: 1px solid rgba(0,0,0,0.05);
 }
 
 .spine {
@@ -87,6 +83,7 @@ body {
     margin-bottom: 40px;
     border-bottom: 4px solid #fff3b0;
     padding-bottom: 10px;
+    color: #ffffff;
 }
 
 .next-arrow-btn {
@@ -102,9 +99,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.2s;
 }
-.next-arrow-btn:hover { transform: scale(1.1); }
 
 /* 📖 2. ノート本体 */
 .notebook-body {
@@ -119,11 +114,11 @@ body {
     width: 100%;
 }
 
-/* 📁 1. 付箋の隙間解消（下方向にピタッとくっつけます） */
+/* 📁 付箋タブ（紙と隙間なくぴったりくっつける） */
 .sticky-tabs {
     display: flex;
     gap: 4px;
-    margin-bottom: -1px; /* 隙間を無くしてノートに密着 */
+    margin-bottom: 0px; /* 隙間を完全撤去 */
     position: relative;
     z-index: 2;
     padding-left: 10px;
@@ -138,34 +133,31 @@ body {
     font-weight: 700;
     border-radius: 8px 8px 0 0;
     cursor: pointer;
-    transition: background-color 0.2s;
 }
 
-.tab:hover { background-color: #f1e4d9; }
 .tab.active {
     background-color: #ffffff;
-    color: #ff7096; /* アクティブなタブはピンク文字 */
+    color: #ff7096; /* 紫色からピンクへ修正 */
     padding-top: 10px;
 }
 
 /* 📄 用紙エリア */
 .pages-container {
     background-color: #ffffff;
-    border-radius: 0 8px 8px 8px; /* 左上を四角にして付箋と一体化 */
+    border-radius: 0 8px 8px 8px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.08);
     padding: 25px 20px;
     position: relative;
     border: 1px solid #e2d4c9;
+    margin-top: -1px; /* 付箋との境目のスキマを埋める */
 }
 
-/* 📄 2. 中央の変な影グラデを廃止し「1本のシンプルなグレー線」に変更 */
 .inner-pages {
     display: flex;
     position: relative;
-    border-left: none;
 }
 
-/* 中央線 */
+/* 中央の1本のシンプルなグレー線 */
 .inner-pages::before {
     content: "";
     position: absolute;
@@ -173,7 +165,7 @@ body {
     top: 0;
     bottom: 0;
     width: 2px;
-    background-color: #e5e5e5; /* シンプルな薄いグレー線 */
+    background-color: #e5e5e5;
     transform: translateX(-50%);
     z-index: 5;
 }
@@ -186,21 +178,21 @@ body {
 .left-page { padding-right: 35px; }
 .right-page { padding-left: 35px; }
 
-/* ノートの横罫線 */
 .line-text {
     min-height: 32px;
     line-height: 32px;
     font-size: 1.05rem;
-    border-bottom: 1px dashed #f0c0d0; /* 可愛いピンクの破線 */
+    border-bottom: 1px dashed #f0c0d0;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     word-break: break-all;
 }
 
+/* ノート内の見出し文字をすべてピンクへ修正（紫を撤去） */
 .page-title {
     font-size: 1.6rem;
-    color: #ff7096;
+    color: #ff7096; /* 紫からピンクへ修正 */
     margin-bottom: 15px;
     padding-bottom: 5px;
     border-bottom: 2px solid #ff85a1;
@@ -208,7 +200,6 @@ body {
 }
 
 .line-text a { color: #ff7096; text-decoration: none; font-weight: 700; }
-.line-text a:hover { text-decoration: underline; }
 .hint { font-size: 0.85rem; color: #888; font-style: italic; }
 
 .scroll-arrow {
@@ -216,12 +207,10 @@ body {
     bottom: 10px;
     right: 20px;
     font-size: 1.2rem;
-    animation: bounce 1s infinite alternate;
     display: none;
     pointer-events: none;
     z-index: 2;
 }
-@keyframes bounce { from { transform: translateY(0); } to { transform: translateY(5px); } }
 
 /* 👣 フッター */
 .notebook-footer {
@@ -232,11 +221,10 @@ body {
 }
 .footer-link { font-size: 0.95rem; font-weight: 700; color: #ff7096; cursor: pointer; }
 .footer-arrow { font-size: 0.95rem; font-weight: 700; color: #666; cursor: pointer; }
-.footer-arrow:hover { color: #ff7096; }
 
 /* 📱 スマホ対応 */
 @media (max-width: 768px) {
-    .inner-pages::before { display: none; } /* スマホ縦並び時は中央線を消す */
+    .inner-pages::before { display: none; }
     .inner-pages { flex-direction: column; }
     .page-wrapper { width: 100%; }
     .page { height: auto; max-height: 350px; padding: 15px 10px; }
