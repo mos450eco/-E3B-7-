@@ -1,5 +1,5 @@
 /* ===================================================
-   🪵 共通リセット & リアル木目の机
+   🪵 共通リセット ＆ リアルな木目の机
 =================================================== */
 * {
     box-sizing: border-box;
@@ -11,10 +11,9 @@ body {
     font-family: 'M PLUS Rounded 1c', sans-serif;
     height: 100vh;
     width: 100vw;
-    overflow: hidden; /* 🎯 8. 画面全体のスクロールを完全禁止（付箋ズレ対策） */
+    overflow: hidden; /* 🔒 画面のガタつき・強制スクロールを完全防御 */
 }
 
-/* 🌲 グラデーションで作るリアル木目のデスク */
 .wood-desk {
     width: 100%;
     height: 100%;
@@ -30,32 +29,173 @@ body {
 }
 
 /* ===================================================
-   📐 ノートのコンテナ（君の絵の黄金比・縦長を維持）
+   🧱 【一番の修正】付箋とノートを絶対にバラバラにしない塊
 =================================================== */
-.notebook-container {
-    position: relative;
+.notebook-app-zone {
     width: 100%;
-    max-width: 820px; /* ◀ 正方形を阻止し、スマートな縦長比率へ */
+    max-width: 920px; /* 見開きが美しく映えるiPad用サイズ */
     height: 85vh;
-    max-height: 680px;
     display: flex;
-    flex-direction: column;
-    padding-top: 50px; /* 文房具スペース */
+    flex-direction: column; /* 上部にコントロール、下にノート本体 */
+    position: relative;
 }
 
-/* 📄 ノートの用紙部分（iPad時は美しい見開き） */
+/* 📁 付箋タブと文房具を一列に並べるエリア */
+.notebook-header-control {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    padding-right: 10px;
+}
+
+/* ===================================================
+   📌 📑 ノートにガチでくっつく付箋タブ（iPad用）
+=================================================== */
+.notebook-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: -1.5px; /* ノートの枠線と完全にドッキングさせる */
+    z-index: 10;
+}
+
+.tab-item {
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #4a4a4a;
+    background-color: #f7a2b9; /* 可愛いピンクの付箋 */
+    border: 1.5px solid #4a4a4a;
+    border-bottom: none;
+    padding: 6px 14px 4px 14px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    transition: all 0.2s;
+    box-shadow: inset 0 -3px 5px rgba(0,0,0,0.05);
+}
+
+/* 🎯 現在表示しているページの付箋を白く、高くして結合 */
+body:not(:has(:target)) .t-idx,
+body:has(#index-page:target) .t-idx,
+body:has(#day-0424:target) .t-0424,
+body:has(#day-0508:target) .t-0508,
+body:has(#day-0515:target) .t-0515,
+body:has(#day-0528:target) .t-0528,
+body:has(#day-0605:target) .t-0605,
+body:has(#day-0612:target) .t-0612,
+body:has(#day-0619:target) .t-0619 {
+    background-color: #fafffd !important;
+    padding-top: 10px;
+    margin-top: -4px;
+    z-index: 30;
+    position: relative;
+}
+
+/* ===================================================
+   🧽✏️⚡ 【クオリティ超UP】リアル文房具ナビゲーション
+=================================================== */
+.stationery-nav-group {
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    margin-bottom: 2px;
+    z-index: 20;
+}
+
+/* 🧽 立体消しゴム（MONO風のスリーブ構造） */
+.eraser-stationery {
+    text-decoration: none;
+    display: inline-block;
+    background-color: #ffffff; /* 消しゴムの白いゴム頭 */
+    border: 1.5px solid #333;
+    border-radius: 2px;
+    padding-top: 4px;
+    box-shadow: 2px 3px 0px rgba(0,0,0,0.15);
+    transition: transform 0.1s;
+}
+.eraser-case {
+    display: block;
+    background-color: #dd5e53; /* スリーブ */
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 3px 10px;
+    border-top: 1.5px solid #333;
+}
+.eraser-stationery:hover { transform: translateY(-2px); }
+
+/* ✏️ リアル削り出し六角形鉛筆 */
+.pencil-stationery {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    background-color: #2cb67d; /* 鮮やかな緑の軸 */
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 4px 12px 4px 8px;
+    border: 1.5px solid #333;
+    border-left: none;
+    position: relative;
+    box-shadow: 2px 3px 0px rgba(0,0,0,0.15);
+    height: 26px;
+}
+/* 鉛筆の木の削り出し部分 */
+.pencil-stationery::before {
+    content: "";
+    position: absolute;
+    right: 100%;
+    top: -1.5px;
+    border-top: 11.5px solid transparent;
+    border-bottom: 11.5px solid transparent;
+    border-right: 14px solid #ebd3b4; 
+}
+/* 鉛筆の芯 */
+.pencil-lead {
+    position: absolute;
+    right: calc(100% + 10px);
+    top: 6px;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-right: 5px solid #333;
+}
+
+/* ⚡ 光るリアル稲妻ボタン */
+.thunder-stationery {
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #333;
+    background: linear-gradient(135deg, #ffe066 0%, #f59e0b 100%);
+    padding: 4px 10px;
+    border: 1.5px solid #333;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    box-shadow: 2px 3px 0px rgba(0,0,0,0.15);
+}
+.thunder-shape {
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    font-size: 0.9rem;
+}
+
+/* ===================================================
+   📄 ノートの用紙（ここにスッポリ綺麗に収まる）
+=================================================== */
 .notebook-paper {
     position: relative;
     width: 100%;
     height: 100%;
     background-color: #fafffd;
     border: 1.5px solid #4a4a4a;
-    border-radius: 12px;
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+    border-radius: 0px 8px 8px 8px; /* 付箋と繋がるように左上だけ角を丸めない */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     overflow: hidden;
+    z-index: 5;
 }
 
-/* 📖 各ページのベースレイアウト */
 .page-spread {
     position: absolute;
     top: 0;
@@ -68,251 +208,93 @@ body {
     z-index: 1;
 }
 
-/* 🎯 2. 【表紙バグ完全対応】初期状態は表紙。他がtargetの時は表紙を完全隔離 */
-.cover-active {
-    opacity: 1;
-    pointer-events: auto;
-    z-index: 10;
-}
-body:has(:target) .cover-active {
-    opacity: 0;
-    pointer-events: none;
-    z-index: 1;
-}
-.page-spread:target {
-    opacity: 1;
-    pointer-events: auto;
-    z-index: 5;
-}
-
-/* 📖 見開きの中央線 */
-.page-spread::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 0;
-    width: 1px;
-    height: 100%;
-    background-color: #e0e0e0;
-    z-index: 4;
-}
+/* 🚪 表紙と各ページの切り替え制御システム */
+.cover-active { opacity: 1; pointer-events: auto; z-index: 10; }
+body:has(:target) .cover-active { opacity: 0; pointer-events: none; z-index: 1; }
+.page-spread:target { opacity: 1; pointer-events: auto; z-index: 5; }
+.page-spread::after { content: ""; position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background-color: #e2e8f0; z-index: 4; }
 
 /* ===================================================
-   📋 1. 【最重要】ノートの線と線の間に文字を収める設定
+   🎨 1. 【大幅改善】薄紫色のオシャレな表紙デザイン
+=================================================== */
+.purple-cover-design {
+    width: 100%;
+    height: 100%;
+    background-color: #f3e8ff; /* 💜 優しい薄紫色 */
+    background-image: radial-gradient(#dbccc7 1px, transparent 1px);
+    background-size: 20px 20px;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cover-border-line {
+    width: 100%;
+    height: 100%;
+    border: 3px double #7c3aed; /* 紫の二重線フレーム */
+    border-radius: 6px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cover-inner-box {
+    background: #ffffff;
+    border: 1.5px solid #4a4a4a;
+    padding: 40px;
+    border-radius: 4px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    max-width: 500px;
+}
+.cover-school-tag {
+    font-size: 0.85rem;
+    color: #6b21a8;
+    border: 1px solid #c084fc;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+.cover-main-title {
+    margin: 25px 0 15px 0;
+}
+.title-sub { display: block; font-size: 1.3rem; color: #4a4a4a; font-weight: bold; }
+.title-main { font-size: 2.4rem; color: #5b21b6; margin-top: 5px; font-weight: 700; }
+.cover-sub-text { font-size: 0.85rem; color: #6b7280; margin-bottom: 30px; }
+.cover-to-index-btn {
+    text-decoration: none;
+    background-color: #7c3aed;
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    display: inline-block;
+    box-shadow: 0 4px 0 #5b21b6;
+    transition: transform 0.1s;
+}
+.cover-to-index-btn:active { transform: translateY(3px); box-shadow: none; }
+
+/* ===================================================
+   📝 ノートの本文 ＆ 文字の高さ完全同期
 =================================================== */
 .note-side-page {
     width: 50%;
     height: 100%;
-    padding: 25px 30px;
-    overflow-y: auto; /* 🎯 8. ノートの中だけをスクロールさせる */
-    
-    /* 綺麗な等間隔の横線 */
+    padding: 30px;
+    overflow-y: auto; /* 🔒 ここだけがスクロールするから、付箋は絶対に画面に残る！ */
     background-image: linear-gradient(transparent 2.35rem, #e4f2fa 2.35rem);
     background-size: 100% 2.4rem;
     background-attachment: local;
 }
 
-/* 文字全体の高さを線の間隔に完全同期（7. 急な文字変化を防止） */
-.ruled-content {
-    font-size: 0.95rem;
-    line-height: 2.4rem;
-    color: #4a4a4a;
-}
-.ruled-content p {
-    min-height: 2.4rem;
-    display: flex;
-    align-items: center; /* ◀ 線と線のド真ん中に文字が配置される！ */
-    margin: 0;
-    padding: 0;
-}
-
-/* タイトルの統一ルール */
-.page-heading {
-    font-size: 1.25rem;
-    color: #f7688d;
-    border-bottom: 1.5px dotted #f7a2b9;
-    height: 2.4rem;
-    display: flex;
-    align-items: center;
-    margin-bottom: 0px;
-}
+.ruled-content { font-size: 0.95rem; line-height: 2.4rem; color: #4a4a4a; }
+.ruled-content p { min-height: 2.4rem; display: flex; align-items: center; margin: 0; }
+.page-heading { font-size: 1.25rem; color: #f7688d; border-bottom: 1.5px dotted #f7a2b9; height: 2.4rem; display: flex; align-items: center; }
 .heading-caption { font-size: 0.8rem; color: #888; height: 1.2rem; }
 
-/* ===================================================
-   🎨 4. 本物の形に変身させたリアル文房具
-=================================================== */
-.stationery-nav-group {
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-bottom: 8px;
-    display: flex;
-    align-items: flex-end;
-    gap: 20px;
-    z-index: 50;
-}
-
-/* 🧽 リアル消しゴム */
-.eraser-stationery {
-    text-decoration: none;
-    display: inline-block;
-    background-color: #ffffff;
-    border: 1.5px solid #4a4a4a;
-    border-radius: 3px;
-    padding: 2px;
-    box-shadow: 2px 2px 0 rgba(0,0,0,0.15);
-}
-.eraser-case {
-    display: block;
-    background-color: #dd5e53; /* 赤いスリーブ */
-    color: #ffffff;
-    font-size: 0.8rem;
-    font-weight: bold;
-    padding: 3px 12px;
-    border-radius: 1px;
-}
-
-/* ✏️ リアル六角形鉛筆 */
-.pencil-stationery {
-    text-decoration: none;
-    display: inline-block;
-    background-color: #2cb67d; /* 緑の鉛筆軸 */
-    color: #ffffff;
-    font-size: 0.8rem;
-    font-weight: bold;
-    padding: 5px 15px 5px 25px;
-    border: 1.5px solid #4a4a4a;
-    border-left: none;
-    position: relative;
-    box-shadow: 2px 2px 0 rgba(0,0,0,0.15);
-}
-/* 鉛筆の削り部分の先端パーツ */
-.pencil-stationery::before {
-    content: "";
-    position: absolute;
-    right: 100%;
-    top: -1.5px;
-    border-top: 13px solid transparent;
-    border-bottom: 13px solid transparent;
-    border-right: 16px solid #f3d5b5; /* 木の色 */
-}
-.pencil-stationery::after {
-    content: "";
-    position: absolute;
-    right: calc(100% + 11px);
-    top: -1.5px;
-    border-top: 4px solid transparent;
-    border-bottom: 4px solid transparent;
-    border-right: 5px solid #4a4a4a; /* 芯の黒 */
-}
-
-/* ⚡ リアル稲妻（目次へ戻るボタン） */
-.thunder-stationery {
-    text-decoration: none;
-    font-size: 0.8rem;
-    font-weight: bold;
-    color: #4a4a4a;
-    background: #fcd34d;
-    padding: 5px 12px;
-    border: 1.5px solid #4a4a4a;
-    clip-path: polygon(30% 0%, 100% 0%, 70% 50%, 95% 50%, 15% 100%, 40% 50%, 10% 50%); /* ◀ カミナリ形にカットアウト */
-    display: inline-block;
-    box-shadow: 2px 2px 0 rgba(0,0,0,0.15);
-}
-
-/* ===================================================
-   📌 📑 日記のインデックスタブ（iPad専用）
-=================================================== */
-.notebook-tabs {
-    position: absolute;
-    bottom: 100%;
-    left: 20px;
-    display: flex;
-    gap: 3px;
-    z-index: 40;
-    margin-bottom: -1.5px;
-}
-.tab-item {
-    text-decoration: none;
-    font-size: 0.8rem;
-    font-weight: bold;
-    color: #4a4a4a;
-    background-color: #f7a2b9;
-    border: 1.5px solid #4a4a4a;
-    border-bottom: none;
-    padding: 4px 10px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-}
-/* 現在地を表示するアクティブ設定 */
-body:not(:has(:target)) .t-idx,
-body:has(#index-page:target) .t-idx,
-body:has(#day-0424:target) .t-0424,
-body:has(#day-0508:target) .t-0508,
-body:has(#day-0515:target) .t-0515,
-body:has(#day-0528:target) .t-0528,
-body:has(#day-0605:target) .t-0605,
-body:has(#day-0612:target) .t-0612,
-body:has(#day-0619:target) .t-0619 {
-    background-color: #fafffd !important;
-    padding-top: 6px;
-    margin-top: -2px;
-    z-index: 45;
-}
-
-/* ===================================================
-   📕 📕 📕 表紙専用のレイアウト
-=================================================== */
-.single-cover-sheet {
-    width: 100%;
-    height: 100%;
-    background-color: #fafffd;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-}
-.cover-main-title {
-    text-align: center;
-    border: 2px solid #4a4a4a;
-    padding: 30px 50px;
-    border-radius: 8px;
-    background: #fff;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-}
-.title-sub {
-    display: block;
-    font-size: 1.6rem; /* ◀ 2. 君の絵の通りのダイナミックサイズ */
-    font-weight: bold;
-    color: #4a4a4a;
-    margin-bottom: 5px;
-}
-.title-main {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #4a4a4a;
-    border-top: 2px solid #4a4a4a;
-    padding-top: 10px;
-    margin-top: 5px;
-}
-.cover-to-index-arrow {
-    margin-top: 40px;
-    text-decoration: none;
-    font-size: 1.4rem;
-    font-weight: bold;
-    color: #4a4a4a;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.cover-to-index-arrow .arrow-shape { font-size: 2rem; color: #f7688d; }
-
-/* ===================================================
-   ⚙️ 5. あとで編集しやすいパーツ・装飾群
-=================================================== */
-.menu-link { text-decoration: none; color: #4a4a4a; }
+/* ⚙️ パーツ類 */
+.menu-link { text-decoration: none; color: #4a4a4a; font-weight: bold; }
 .menu-link:hover { color: #f7688d; }
 .text-pink { color: #f7688d; }
 .progress-percent-num { color: #f7688d; font-size: 1.2rem; font-weight: bold; }
@@ -326,63 +308,16 @@ body:has(#day-0619:target) .t-0619 {
 .alert-text { color: #c0392b; font-size: 0.85rem; }
 
 /* ===================================================
-   📱 スマホ・完全レスポンシブ（君の絵を100%トレース）
+   📱 スマホ用レスポンシブ
 =================================================== */
 @media (max-width: 768px) {
-    body {
-        overflow-y: auto; /* スマホのみ最低限の縦スクロールを許可 */
-    }
-    .wood-desk {
-        padding: 10px;
-        align-items: flex-start;
-    }
-    .notebook-container {
-        max-width: 100%;
-        height: auto;
-        padding-top: 75px; /* 3. 上部文房具固定スペース */
-    }
-    
-    /* 3. スマホでも絶対に上部に文房具を固定 */
-    .stationery-nav-group {
-        position: fixed;
-        top: 15px;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: auto;
-        margin-bottom: 0;
-    }
-
-    /* iPad専用のタブ付箋をスマホでは完全非表示 */
-    .notebook-tabs {
-        display: none;
-    }
-
-    /* スマホ時は見開きを解除して1冊のスマートなノートへ */
-    .page-spread {
-        position: relative;
-        flex-direction: column;
-        height: auto;
-        display: none;
-    }
+    .notebook-app-zone { height: auto; }
+    .notebook-header-control { flex-direction: column; align-items: center; gap: 10px; padding: 0; }
+    .notebook-tabs { display: none; } /* スマホは文房具のみ */
+    .page-spread { position: relative; flex-direction: column; height: auto; display: none; }
     .page-spread:target { display: flex; }
     body:not(:has(:target)) .cover-active { display: flex; }
-
-    .page-spread::after { display: none; } /* 中央線を消去 */
-
-    .note-side-page {
-        width: 100%;
-        height: auto;
-        overflow-y: visible;
-        padding: 20px 20px;
-    }
-    
-    /* 6. スマホの時、右半分のダブる見出し（つづき等）を完全消去 */
-    .mobile-hide {
-        display: none !important;
-    }
-
-    /* 2. スマホ表紙の文字サイズを絵の通りに最適化 */
-    .title-sub { font-size: 1.2rem; }
-    .title-main { font-size: 1.8rem; }
-    .cover-main-title { padding: 20px; width: 100%; }
+    .page-spread::after { display: none; }
+    .note-side-page { width: 100%; height: auto; }
+    .mobile-hide { display: none !important; }
 }
