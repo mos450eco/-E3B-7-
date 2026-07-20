@@ -11,50 +11,40 @@
 </head>
 <body>
 
-    <!-- 🌲 木目調のデスク背景（画面全体） -->
     <div class="wood-desk">
-
-        <!-- 📦 付箋とノートが絶対に分離しないメインコンテナ -->
         <div class="notebook-app-zone">
             
-            <!-- 📁 上部レイアウト：付箋タブ ＆ リアル文房具の結合地帯 -->
+            <!-- 📁 上部：付箋タブ ＆ リアル文房具 -->
             <div class="notebook-header-control">
-                <!-- 📑 日記の付箋（ノートの頭に完全密着） -->
                 <nav class="notebook-tabs">
-                    <a href="#index-page" class="tab-item t-idx">目次</a>
-                    <a href="#day-0424" class="tab-item t-0424">4/24</a>
-                    <a href="#day-0508" class="tab-item t-0508">5/8</a>
-                    <a href="#day-0515" class="tab-item t-0515">5/15</a>
-                    <a href="#day-0528" class="tab-item t-0528">5/28</a>
-                    <a href="#day-0605" class="tab-item t-0605">6/5</a>
-                    <a href="#day-0612" class="tab-item t-0612">6/12</a>
-                    <a href="#day-0619" class="tab-item t-0619">6/19</a>
+                    <a href="#index-page" class="tab-item">目次</a>
+                    <a href="#day-0424" class="tab-item">4/24</a>
+                    <a href="#day-0508" class="tab-item">5/8</a>
+                    <a href="#day-0515" class="tab-item">5/15</a>
+                    <a href="#day-0528" class="tab-item">5/28</a>
+                    <a href="#day-0605" class="tab-item">6/5</a>
+                    <a href="#day-0612" class="tab-item">6/12</a>
+                    <a href="#day-0619" class="tab-item">6/19</a>
                 </nav>
 
-                <!-- 🧽✏️⚡ クオリティを劇的に上げたリアル文房具ナビ -->
                 <div class="stationery-nav-group">
-                    <!-- 消しゴム（メンバー） -->
                     <a href="#member-page" class="eraser-stationery" title="メンバー紹介">
                         <span class="eraser-case">メンバー</span>
                     </a>
-                    <!-- 鉛筆（進捗状況） -->
                     <a href="#progress-page" class="pencil-stationery" title="進捗状況">
                         <span class="pencil-lead"></span>進捗状況
                     </a>
-                    <!-- 稲妻（目次へ戻るボタン：クオリティUP） -->
                     <a href="#index-page" class="thunder-stationery" title="目次へ戻る">
-                        <span class="thunder-shape">⚡</span>目次
+                        <span class="thunder-shape"></span>目次
                     </a>
                 </div>
             </div>
 
-            <!-- 📄 ノートの用紙本体 -->
+            <!-- 📄 ノート本体 -->
             <div class="notebook-paper">
 
-                <!-- ===================================================
-                     📕 1. 表紙（オシャレな薄紫の学習帳デザイン）
-                     =================================================== -->
-                <section id="cover-page" class="page-spread cover-active">
+                <!-- 📕 1. 表紙（薄紫） -->
+                <section id="cover-page" class="page-spread page-active">
                     <div class="purple-cover-design">
                         <div class="cover-border-line">
                             <div class="cover-inner-box">
@@ -64,19 +54,13 @@
                                     <h1 class="title-main">課題研究日記</h1>
                                 </div>
                                 <p class="cover-sub-text">目をみて話せる学校案内ロボットの制作記録</p>
-                                
-                                <!-- 目次へ進む直感的な矢印 -->
-                                <a href="#index-page" class="cover-to-index-btn">
-                                    ノートを開く (目次へ) ➔
-                                </a>
+                                <a href="#index-page" class="cover-to-index-btn">ノートを開く (目次へ) ➔</a>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- ===================================================
-                     🏠 2. 目次 ＆ 班紹介
-                     =================================================== -->
+                <!-- 🏠 2. 目次 -->
                 <section id="index-page" class="page-spread">
                     <div class="note-side-page left-page">
                         <h2 class="page-heading">目次</h2>
@@ -104,38 +88,35 @@
                     </div>
                 </section>
 
-                <!-- ===================================================
-                     👥 3. メンバー紹介ページ
-                     =================================================== -->
+                <!-- 👥 3. メンバー紹介（文字を大きく、余白を撲滅！） -->
                 <section id="member-page" class="page-spread">
                     <div class="note-side-page left-page">
                         <h2 class="page-heading text-pink">メンバー</h2>
                         <div class="ruled-content">
                             <p><strong>担当の先生</strong></p>
                             <p>white 先生</p>
-                            <p><strong>班長</strong></p>
-                            <p>cherry （指示役 ＆ なんでも）</p>
-                            <p><strong>班員</strong></p>
-                            <p>fire (私) （GitHub、デザイン担当）</p>
-                            <p>soil （デザイン担当）</p>
+                            <p><strong>班長（指示役 ＆ なんでも）</strong></p>
+                            <p>cherry</p>
+                            <p><strong>班員（GitHub ＆ デザイン担当）</strong></p>
+                            <p>fire (私)</p>
+                            <p><strong>班員（デザイン担当）</strong></p>
+                            <p>soil</p>
                         </div>
                     </div>
                     <div class="note-side-page right-page">
-                        <h2 class="page-heading mobile-hide" style="opacity:0;">メンバーつづき</h2>
+                        <h2 class="page-heading text-pink">メンバーつづき</h2>
                         <div class="ruled-content">
-                            <p><strong>slope</strong></p>
-                            <p>• 組み立て、リサーチ担当</p>
-                            <p><strong>sugar</strong></p>
-                            <p>• リサーチ担当</p>
-                            <p><strong>sea</strong></p>
-                            <p>• AI活用、リサーチ担当</p>
+                            <p><strong>班員（組み立て ＆ リサーチ担当）</strong></p>
+                            <p>slope</p>
+                            <p><strong>班員（リサーチ担当）</strong></p>
+                            <p>sugar</p>
+                            <p><strong>班員（AI活用 ＆ リサーチ担当）</strong></p>
+                            <p>sea</p>
                         </div>
                     </div>
                 </section>
 
-                <!-- ===================================================
-                     📊 4. 進捗状況ページ
-                     =================================================== -->
+                <!-- 📊 4. 進捗状況 -->
                 <section id="progress-page" class="page-spread">
                     <div class="note-side-page left-page">
                         <h2 class="page-heading text-pink">進捗状況</h2>
@@ -169,207 +150,144 @@
                     </div>
                 </section>
 
-                <!-- ===================================================
-                     📅 5. 日記各ページ
-                     =================================================== -->
-                <!-- 4/24 -->
+                <!-- 📅 日記各ページ (4/24 ~ 6/19) -->
                 <section id="day-0424" class="page-spread">
                     <div class="note-side-page left-page">
                         <h2 class="page-heading">4月24日</h2>
                         <div class="ruled-content">
                             <p>今日から本格的に課題研究を始めました。</p>
                             <p>ここE3Bの7班の班長はcherryです。班員はfire、slope、sugar、soil、seaの5人です。</p>
-                            <p>ここには今日あった出来事や課題、役割などを書き込んでいきます。</p>
                             <p>私たちの課題研究の内容は、『目をみて話せる学校案内ロボットの制作』です！</p>
-                            <p></p>
                             <p><strong>⭐️今日の役割⭐️</strong></p>
-                            <p>cherry：市工魅力調べ、課題調べ</p>
-                            <p>fire：githubの設定と書き込み</p>
-                            <p>sea：市工魅力調べ</p>
-                            <p>slope：市工魅力調べ</p>
-                            <p>soil：市工魅力調べ</p>
-                            <p>sugar：市工魅力調べ</p>
+                            <p>cherry：市工魅力調べ、課題調べ / fire：githubの設定</p>
+                            <p>sea, slope, soil, sugar：市工魅力調べ</p>
                         </div>
                     </div>
                     <div class="note-side-page right-page">
                         <h2 class="page-heading mobile-hide">つづき</h2>
                         <div class="ruled-content">
                             <p><strong>課題😞</strong></p>
-                            <p>• gemの作成と、gemと接続する音声認識と音声発生方法</p>
-                            <p>• geminiを使うことでの弊害</p>
+                            <p>• gemの作成、接続する音声認識と音声発生方法</p>
                             <p>• 学校案内はどうやって説明するか</p>
-                            <p>• パソコンで作りたいが、高くて無理なこと</p>
-                            <p></p>
                             <p><strong>今日やったこと😊</strong></p>
-                            <p>• 市工の魅力を調べた</p>
-                            <p>• gemini APIの使い方</p>
-                            <p>• 色々試して作ってみた</p>
-                            <p>• 課題を見つけたこと</p>
+                            <p>• 市工の魅力を調べた / gemini APIの使い方</p>
                         </div>
                     </div>
                 </section>
 
-                <!-- 5/8 -->
                 <section id="day-0508" class="page-spread">
                     <div class="note-side-page left-page">
                         <h2 class="page-heading">5月8日</h2>
                         <div class="ruled-content">
                             <p>今日も調べ学習メインでした</p>
-                            <p></p>
                             <p><strong>⭐️今日の役割⭐️</strong></p>
-                            <p>cherry：gemini APIの使用方法調べと実践</p>
-                            <p>fire：githubの中身作り</p>
-                            <p>sea：市工魅力調べ</p>
-                            <p>slope：市工魅力調べ</p>
-                            <p>soil：soilは来なかった</p>
-                            <p>sugar：市工魅力調べ</p>
+                            <p>cherry：gemini API使用方法調べ / fire：github中身作り</p>
+                            <p>sea, slope, sugar：市工魅力調べ / soil：欠席</p>
                         </div>
                     </div>
                     <div class="note-side-page right-page">
                         <h2 class="page-heading mobile-hide">つづき</h2>
                         <div class="ruled-content">
                             <p><strong>課題😞</strong></p>
-                            <p>• cherryがgemini APIの使用方法を調べて実践したがAPIを習得するのが難しかった</p>
-                            <p>• 今後ラズベリを使うにあたって学校のラズベリを試作品で使うかどうか</p>
-                            <p>• 目玉とAPIの制御を別にするか</p>
-                            <p></p>
-                            <p><strong>今日やったこと、思ったこと😊</strong></p>
-                            <p>• 市工の魅力調べをして学校概要と市川市とのつながり、市工の魅力などを文章化した</p>
-                            <p>• 課題研究の購入品を調べてスプレッドシートに書いたことで使うものが明確になった</p>
-                            <p>• GitHubのWebサイトを作っている</p>
-                            <p>• 5月中には目玉用のモーターを買いたいな</p>
+                            <p>• APIを習得するのが難しかった</p>
+                            <p>• 今後ラズベリを使うにあたって試作品で使うかどうか</p>
+                            <p><strong>今日やったこと😊</strong></p>
+                            <p>• 購入品を調べてスプレッドシートに書いた</p>
                         </div>
                     </div>
                 </section>
 
-                <!-- 5/15 -->
                 <section id="day-0515" class="page-spread">
                     <div class="note-side-page left-page">
                         <h2 class="page-heading">5月15日</h2>
                         <div class="ruled-content">
                             <p>目玉を印刷する段階で止まってます</p>
-                            <p></p>
                             <p><strong>⭐️今日の役割⭐️</strong></p>
-                            <p>cherry：API取得、geminiと接続確認</p>
-                            <p>fire：githubの更新、デザイン案</p>
-                            <p>sea：geminiの音声出力</p>
-                            <p>slope：モーター取り外し</p>
-                            <p>soil：三時間目の途中で来た、20分間デザイン案を考えた</p>
-                            <p>sugar：地図作成</p>
+                            <p>cherry：API取得 / fire：github更新、デザイン案</p>
+                            <p>sea：gemini音声出力 / slope：モーター取り外し</p>
+                            <p>soil：途中出席、デザイン案 / sugar：地図作成</p>
                         </div>
                     </div>
                     <div class="note-side-page right-page">
                         <h2 class="page-heading mobile-hide">つづき</h2>
                         <div class="ruled-content">
                             <p><strong>課題😞</strong></p>
-                            <p>• 部品調達モーターとラズベリ3 shifting Arduinoを調達してネジをどうしようか悩んでいること</p>
+                            <p>• モーターとラズベリ3とArduinoを調達してネジに悩む</p>
                         </div>
                     </div>
                 </section>
 
-                <!-- 5/28 -->
                 <section id="day-0528" class="page-spread">
                     <div class="note-side-page left-page">
                         <h2 class="page-heading">5月28日</h2>
                         <div class="ruled-content">
                             <p>今日は暑く班員の元気があまりなかったです</p>
-                            <p></p>
                             <p><strong>⭐️今日の役割⭐️</strong></p>
-                            <p>cherry：目の部品組み立て</p>
-                            <p>fire：デザイン案</p>
-                            <p>sea：マップ状況を詳しくファイルに起こした。マップを文字で起こしたAIがどう動作するのか</p>
-                            <p>slope：工具を持ってきた 特にはやってない</p>
-                            <p>soil：今日は来なかった</p>
-                            <p>sugar：学校の部屋の配置を考えた</p>
+                            <p>cherry：目の部品組み立て / fire：デザイン案</p>
+                            <p>sea：マップ状況ファイル化 / slope：工具持参</p>
+                            <p>soil：欠席 / sugar：学校の部屋配置考案</p>
                         </div>
                     </div>
                     <div class="note-side-page right-page">
                         <h2 class="page-heading mobile-hide">つづき</h2>
                         <div class="ruled-content">
-                            <p><strong>課題😞</strong></p>
-                            <p>• 部品調達モーターとラズベリ3とArduinoを調達してネジをどうしようか悩んでいること</p>
-                            <p></p>
                             <p><strong>今日やったこと、思ったこと😊</strong></p>
-                            <p>• 目の部品の組み立て</p>
-                            <p>• 学校内のマップ作り</p>
-                            <p>• マップを文字で起こしAIがどう動作するのかをやりマップの状況をファイルに起こした</p>
-                            <p>• デザイン案を考える</p>
-                            <p>• テスト週間の間に目の部品を3Dプリンターで印刷しました</p>
-                            <p>• 特に大きな進捗はなかった</p>
+                            <p>• 目の部品の組み立て / 学校内のマップ作り</p>
+                            <p>• テスト週間の間に目の部品を3Dプリンターで印刷</p>
                         </div>
                     </div>
                 </section>
 
-                <!-- 6/05 -->
                 <section id="day-0605" class="page-spread">
                     <div class="note-side-page left-page">
                         <h2 class="page-heading">6月5日</h2>
                         <div class="ruled-content">
                             <p>大きな進捗はなかったです</p>
-                            <p></p>
                             <p><strong>⭐️今日の役割⭐️</strong></p>
-                            <p>cherry：目の部品組み立て、先生からの課題</p>
-                            <p>fire：デザイン案とその設計図</p>
-                            <p>sea：geminiの情報入れる、notebook LMにも情報を入れた</p>
-                            <p>slope：特にない</p>
-                            <p>soil：今日は来なかった</p>
-                            <p>sugar：各学科の魅力</p>
+                            <p>cherry：目の部品組み立て / fire：デザイン案と設計図</p>
+                            <p>sea：gemini、notebook LM情報入れ / slope：特になし</p>
+                            <p>soil：欠席 / sugar：各学科の魅力</p>
                         </div>
                     </div>
                     <div class="note-side-page right-page">
                         <h2 class="page-heading mobile-hide">つづき</h2>
                         <div class="ruled-content">
-                            <p><strong>課題😞</strong></p>
-                            <p>• 今日の課題は見つけられなかった</p>
-                            <p></p>
                             <p><strong>今日やったこと、思ったこと😊</strong></p>
-                            <p>• 目の部品の組み立て</p>
-                            <p>• 各学科の魅力調べ</p>
-                            <p>• デザイン案と設計図を書いた</p>
                             <p>• 今日は涼しかったがちょっとだるさを感じた</p>
                             <p>• 特に進展はなかったと思います😭</p>
                         </div>
                     </div>
                 </section>
 
-                <!-- 6/12 -->
                 <section id="day-0612" class="page-spread">
                     <div class="note-side-page left-page">
                         <h2 class="page-heading">6月12日</h2>
                         <div class="ruled-content">
                             <p>何を買うにも高くついてしまうのが悩み</p>
-                            <p></p>
                             <p><strong>⭐️今日の役割⭐️</strong></p>
-                            <p>cherry：white先生から代替案を考えて欲しいと言われてたのでそれについて調べた、購入リストの書き込み</p>
-                            <p>fire：設計図を書くために調べた、GitHub大幅更新</p>
-                            <p>sea：iPad上でのArduinoの運用方法を調べた、notebook lm of 試行錯誤、プロンプト改善</p>
-                            <p>slope：目玉の内部作り</p>
-                            <p>soil：今日も来なかった</p>
-                            <p>sugar：学科紹介の文の訂正</p>
+                            <p>cherry：代替案調べ / fire：設計図調べ、Git大幅更新</p>
+                            <p>sea：iPad上Arduino運用調べ / slope：目玉内部作り</p>
+                            <p>soil：欠席 / sugar：学科紹介文訂正</p>
                         </div>
                     </div>
                     <div class="note-side-page right-page">
                         <h2 class="page-heading mobile-hide">つづき</h2>
                         <div class="ruled-content">
                             <p><strong>課題😞</strong></p>
-                            <p>• geminiのAIが回答したものをスピーカーとして音に出す仕組みをパソコンでやるのかラズベリでやるのかgeminiで完結させるのか考えてる</p>
+                            <p>• スピーカーとして音に出す仕組みをどうするか</p>
                             <p>• 何を買うにも費用が高くなってしまう</p>
                         </div>
                     </div>
                 </section>
 
-                <!-- 6/19 -->
                 <section id="day-0619" class="page-spread">
                     <div class="note-side-page left-page">
                         <h2 class="page-heading">6月19日</h2>
                         <div class="ruled-content">
                             <p><strong>⭐️今日の役割⭐️</strong></p>
-                            <p>cherry：ネズミロボの設計図、寸法など</p>
-                            <p>fire：ギットハブ大幅更新</p>
-                            <p>sea：ArduinoのiPadかパソコンで操作可能かどうか調べた</p>
-                            <p>slope：目玉作りのための配線</p>
-                            <p>sugar：目玉作りのための配線</p>
-                            <p>soil：今日も来なかった</p>
+                            <p>cherry：ネズミロボの設計図、寸法など / fire：Git大幅更新</p>
+                            <p>sea：Arduinoの操作方法調査 / slope, sugar：配線</p>
+                            <p>soil：欠席</p>
                         </div>
                     </div>
                     <div class="note-side-page right-page">
@@ -377,8 +295,7 @@
                         <div class="ruled-content">
                             <p><strong>課題😞</strong></p>
                             <p>• 目玉を動かす方法がわからない</p>
-                            <p>• 別案での提案モニターを目にするかどうか</p>
-                            <p>• ArduinoはiPadで全部操作するのは無理だったのでパソコンが必要になってしまう</p>
+                            <p>• ArduinoはiPadで操作無理だったのでPCが必要</p>
                         </div>
                     </div>
                 </section>
