@@ -11,54 +11,66 @@
 </head>
 <body>
 
-    <!-- 🌲 木目調のデスク背景 -->
+    <!-- 🌲 木目調のデスク背景（画面全体） -->
     <div class="wood-desk">
 
-        <!-- 📖 ノート全体（画面内に完全ホールド） -->
-        <div class="notebook-container">
+        <!-- 📦 付箋とノートが絶対に分離しないメインコンテナ -->
+        <div class="notebook-app-zone">
             
-            <!-- ⚡ 画面最上部：文房具ナビ（iPadでもスマホでも絶対に常駐） -->
-            <div class="stationery-nav-group">
-                <!-- 消しゴム（メンバー） -->
-                <a href="#member-page" class="eraser-stationery">
-                    <span class="eraser-case">メンバー</span>
-                </a>
-                <!-- 鉛筆（進捗状況） -->
-                <a href="#progress-page" class="pencil-stationery">進捗状況</a>
-                <!-- 稲妻（目次へ戻る）※スマホ・iPad両方で機能 -->
-                <a href="#index-page" class="thunder-stationery">目次</a>
+            <!-- 📁 上部レイアウト：付箋タブ ＆ リアル文房具の結合地帯 -->
+            <div class="notebook-header-control">
+                <!-- 📑 日記の付箋（ノートの頭に完全密着） -->
+                <nav class="notebook-tabs">
+                    <a href="#index-page" class="tab-item t-idx">目次</a>
+                    <a href="#day-0424" class="tab-item t-0424">4/24</a>
+                    <a href="#day-0508" class="tab-item t-0508">5/8</a>
+                    <a href="#day-0515" class="tab-item t-0515">5/15</a>
+                    <a href="#day-0528" class="tab-item t-0528">5/28</a>
+                    <a href="#day-0605" class="tab-item t-0605">6/5</a>
+                    <a href="#day-0612" class="tab-item t-0612">6/12</a>
+                    <a href="#day-0619" class="tab-item t-0619">6/19</a>
+                </nav>
+
+                <!-- 🧽✏️⚡ クオリティを劇的に上げたリアル文房具ナビ -->
+                <div class="stationery-nav-group">
+                    <!-- 消しゴム（メンバー） -->
+                    <a href="#member-page" class="eraser-stationery" title="メンバー紹介">
+                        <span class="eraser-case">メンバー</span>
+                    </a>
+                    <!-- 鉛筆（進捗状況） -->
+                    <a href="#progress-page" class="pencil-stationery" title="進捗状況">
+                        <span class="pencil-lead"></span>進捗状況
+                    </a>
+                    <!-- 稲妻（目次へ戻るボタン：クオリティUP） -->
+                    <a href="#index-page" class="thunder-stationery" title="目次へ戻る">
+                        <span class="thunder-shape">⚡</span>目次
+                    </a>
+                </div>
             </div>
 
-            <!-- 📑 ページ付箋（日記用タブ：iPad用） -->
-            <nav class="notebook-tabs">
-                <a href="#index-page" class="tab-item t-idx">目次</a>
-                <a href="#day-0424" class="tab-item t-0424">4/24</a>
-                <a href="#day-0508" class="tab-item t-0508">5/8</a>
-                <a href="#day-0515" class="tab-item t-0515">5/15</a>
-                <a href="#day-0528" class="tab-item t-0528">5/28</a>
-                <a href="#day-0605" class="tab-item t-0605">6/5</a>
-                <a href="#day-0612" class="tab-item t-0612">6/12</a>
-                <a href="#day-0619" class="tab-item t-0619">6/19</a>
-            </nav>
-
-            <!-- 📄 ノートの用紙部分（ここに中身が収まる） -->
+            <!-- 📄 ノートの用紙本体 -->
             <div class="notebook-paper">
 
                 <!-- ===================================================
-                     📕 1. 表紙（初期状態。ハッシュがある時は完全消去）
+                     📕 1. 表紙（オシャレな薄紫の学習帳デザイン）
                      =================================================== -->
                 <section id="cover-page" class="page-spread cover-active">
-                    <div class="single-cover-sheet">
-                        <div class="cover-main-title">
-                            <span class="title-sub">市川工業の</span>
-                            <span class="title-sub">E3B 7班</span>
-                            <h1 class="title-main">課題研究日記</h1>
+                    <div class="purple-cover-design">
+                        <div class="cover-border-line">
+                            <div class="cover-inner-box">
+                                <span class="cover-school-tag">千葉県立市川工業高等学校</span>
+                                <div class="cover-main-title">
+                                    <span class="title-sub">E3B 7班</span>
+                                    <h1 class="title-main">課題研究日記</h1>
+                                </div>
+                                <p class="cover-sub-text">目をみて話せる学校案内ロボットの制作記録</p>
+                                
+                                <!-- 目次へ進む直感的な矢印 -->
+                                <a href="#index-page" class="cover-to-index-btn">
+                                    ノートを開く (目次へ) ➔
+                                </a>
+                            </div>
                         </div>
-                        
-                        <!-- 目次へ進むでっかい矢印（君の絵を再現） -->
-                        <a href="#index-page" class="cover-to-index-arrow">
-                            <span>目次</span> <span class="arrow-shape">➔</span>
-                        </a>
                     </div>
                 </section>
 
@@ -93,7 +105,7 @@
                 </section>
 
                 <!-- ===================================================
-                     👥 3. メンバー紹介ページ（消しゴムと連動）
+                     👥 3. メンバー紹介ページ
                      =================================================== -->
                 <section id="member-page" class="page-spread">
                     <div class="note-side-page left-page">
@@ -122,13 +134,12 @@
                 </section>
 
                 <!-- ===================================================
-                     📊 4. 進捗状況ページ（鉛筆と連動・あとで編集しやすい構造）
+                     📊 4. 進捗状況ページ
                      =================================================== -->
                 <section id="progress-page" class="page-spread">
                     <div class="note-side-page left-page">
                         <h2 class="page-heading text-pink">進捗状況</h2>
                         <div class="ruled-content">
-                            <!-- 💡 数字や％はここを書き換えるだけでOK -->
                             <p>現在：<span class="progress-percent-num">15%</span></p>
                             <div class="progress-bar-line">
                                 <div class="progress-bar-fill" style="width: 15%;"></div>
@@ -159,7 +170,7 @@
                 </section>
 
                 <!-- ===================================================
-                     📅 5. 日記各ページ（4/24 〜 6/19）
+                     📅 5. 日記各ページ
                      =================================================== -->
                 <!-- 4/24 -->
                 <section id="day-0424" class="page-spread">
@@ -331,7 +342,7 @@
                             <p><strong>⭐️今日の役割⭐️</strong></p>
                             <p>cherry：white先生から代替案を考えて欲しいと言われてたのでそれについて調べた、購入リストの書き込み</p>
                             <p>fire：設計図を書くために調べた、GitHub大幅更新</p>
-                            <p>sea：iPad上でのArduinoの運用方法を調べた、notebook lmの試行錯誤、プロンプト改善</p>
+                            <p>sea：iPad上でのArduinoの運用方法を調べた、notebook lm of 試行錯誤、プロンプト改善</p>
                             <p>slope：目玉の内部作り</p>
                             <p>soil：今日も来なかった</p>
                             <p>sugar：学科紹介の文の訂正</p>
@@ -343,17 +354,6 @@
                             <p><strong>課題😞</strong></p>
                             <p>• geminiのAIが回答したものをスピーカーとして音に出す仕組みをパソコンでやるのかラズベリでやるのかgeminiで完結させるのか考えてる</p>
                             <p>• 何を買うにも費用が高くなってしまう</p>
-                            <p></p>
-                            <p><strong>今日やったこと、思ったこと😊</strong></p>
-                            <p>• 代替案を調べた</p>
-                            <p>• 購入リストの書き込み</p>
-                            <p>• ロボットの設計図を書くために調べた</p>
-                            <p>• iPad上でのArduinoの運営方法調べ</p>
-                            <p>• notebooklmを活用しようと試行錯誤した</p>
-                            <p>• geminiのプロンプトの改善</p>
-                            <p>• 目玉を動かすためのモーターや部品取り付け</p>
-                            <p>• 学科紹介の文の訂正</p>
-                            <p>• GitHubの更新、今までのデザインがあまり良くなく気に入らなかったので４月２８日から６月１２日までの文章を考えてGitHubのサイトを作ろうとしています</p>
                         </div>
                     </div>
                 </section>
@@ -379,13 +379,6 @@
                             <p>• 目玉を動かす方法がわからない</p>
                             <p>• 別案での提案モニターを目にするかどうか</p>
                             <p>• ArduinoはiPadで全部操作するのは無理だったのでパソコンが必要になってしまう</p>
-                            <p></p>
-                            <p><strong>今日やったこと、思ったこと😊</strong></p>
-                            <p>• 目玉作りが結構進んだ</p>
-                            <p>• 設計図が進んだ</p>
-                            <p>• Arduinoの調べもの</p>
-                            <p>• GitHubの更新、見やすくするために工夫してみた</p>
-                            <p>• iPadでArduinoを全部操作をするのは無理なのでパソコンが必要になってしまう、ラズベリなしで操作するのも難しい</p>
                         </div>
                     </div>
                 </section>
