@@ -1,422 +1,787 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>市川工業 E3B 7班 課題研究日記</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@500;700&family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="Kadai.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>市川工業 E3B 7班 課題研究日誌</title>
+  <link rel="stylesheet" href="Kadai.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- 📕 表紙ページ -->
-    <div id="cover-page" class="notebook-cover">
-        <div class="spine"></div>
-        <div class="cover-content">
-            <div class="pop-text class-name">市川工業の</div>
-            <div class="pop-text group-name">E3B 7班</div>
-            <h1 class="pop-text main-title">課題研究日記</h1>
-            <button class="next-arrow-btn" onclick="openNotebook()">➡</button>
-        </div>
+  <!-- ヘッダーエリア（初期状態では非表示） -->
+  <header class="site-header" id="siteHeader" style="display: none;">
+    <div class="header-inner">
+      <h1 class="site-title" onclick="showSection('top-section', null)" style="cursor: pointer;">
+        市川工業 E3B 7班<br><span>課題研究日誌</span>
+      </h1>
+      <nav class="top-nav">
+        <button class="nav-btn active" id="btnActivityNav" onclick="showSection('activity-section', this)">📖 活動記録</button>
+        <button class="nav-btn" onclick="showSection('task-section', this)">⚠ 課題</button>
+        <button class="nav-btn" onclick="showSection('member-section', this)">👥 メンバー</button>
+      </nav>
     </div>
+  </header>
 
-    <!-- 📖 ノート本体 -->
-    <div id="main-notebook" class="notebook-body hidden">
+  <main class="main-content">
+
+    <!-- 0. トップ表紙セクション -->
+    <section id="top-section" class="content-section active">
+      <div class="cover-card">
+        <div class="cover-badge">市川工業高校 電気科 E3B 7班</div>
+        <h2 class="cover-title">目をみて話せる<br>学校案内ロボットの制作</h2>
+        <div class="cover-actions">
+          <button class="start-btn" onclick="startBrowsing()">
+            📖 日誌を閲覧する →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1. 活動記録セクション -->
+    <section id="activity-section" class="content-section">
+      <div class="activity-controls">
+        <button class="date-picker-trigger" onclick="toggleDateMenu()">
+          日付から探す <span class="arrow">▼</span>
+        </button>
+        <div class="current-filter-status" id="filterStatusText">
+          表示中: 全体タイムライン（最新順）
+        </div>
+        <button class="reset-filter-btn" id="resetFilterBtn" onclick="renderLogs('all')" style="display: none;">
+          🔄 全体表示に戻す
+        </button>
+      </div>
+
+      <!-- 日付・月別フィルターポップアップ -->
+      <div class="date-menu" id="dateMenu">
+        <div class="date-menu-header">
+          <span>表示したい「月」または「日付」を選んでね</span>
+          <button class="close-menu-btn" onclick="toggleDateMenu()">×</button>
+        </div>
         
-        <!-- 🛠️ 付箋の「さらに上」に完全に分離して配置するボタンエリア -->
-        <div class="top-stationery-bar">
-            <button onclick="switchPage('MEMBER')" class="btn-stationery btn-pink">メンバー</button>
-            <button onclick="switchPage('PROGRESS')" class="btn-stationery btn-green">進捗状況</button>
+        <div class="month-filter-row">
+          <span class="filter-label">月別で絞り込み:</span>
+          <button class="month-btn" onclick="renderLogs('month', '11')">11月</button>
+          <button class="month-btn" onclick="renderLogs('month', '10')">10月</button>
+          <button class="month-btn" onclick="renderLogs('month', '09')">9月</button>
+          <button class="month-btn" onclick="renderLogs('month', '06')">6月</button>
+          <button class="month-btn" onclick="renderLogs('month', '05')">5月</button>
+          <button class="month-btn" onclick="renderLogs('month', '04')">4月</button>
         </div>
 
-        <div class="notebook-main-container">
-            <!-- 📁 付箋タブ -->
-            <nav class="sticky-tabs" id="tabs-container"></nav>
+        <hr class="menu-divider">
 
-            <!-- 📄 ノート用紙 -->
-            <div class="pages-container">
-                <div class="inner-pages">
-                    <div class="page-wrapper">
-                        <div class="page left-page" id="left-page" onscroll="updateScrollArrows()">
-                            <div class="notebook-lines" id="left-content"></div>
-                        </div>
-                        <div class="scroll-arrow" id="left-scroll-arrow">🔽</div>
-                    </div>
-                    
-                    <div class="page-wrapper">
-                        <div class="page right-page" id="right-page" onscroll="updateScrollArrows()">
-                            <div class="notebook-lines" id="right-content"></div>
-                        </div>
-                        <div class="scroll-arrow" id="right-scroll-arrow">🔽</div>
-                    </div>
-                </div>
-            </div>
+        <div class="month-group">
+          <div class="month-label">11月の日付</div>
+          <div class="date-tags">
+            <button onclick="renderLogs('date', '2026-11-06')">11/06</button>
+            <button onclick="renderLogs('date', '2026-11-20')">11/20</button>
+          </div>
         </div>
+        <div class="month-group">
+          <div class="month-label">10月の日付</div>
+          <div class="date-tags">
+            <button onclick="renderLogs('date', '2026-10-02')">10/02</button>
+            <button onclick="renderLogs('date', '2026-10-09')">10/09</button>
+          </div>
+        </div>
+        <div class="month-group">
+          <div class="month-label">9月の日付</div>
+          <div class="date-tags">
+            <button onclick="renderLogs('date', '2026-09-04')">09/04</button>
+            <button onclick="renderLogs('date', '2026-09-11')">09/11</button>
+            <button onclick="renderLogs('date', '2026-09-18')">09/18</button>
+            <button onclick="renderLogs('date', '2026-09-25')">09/25</button>
+          </div>
+        </div>
+        <div class="month-group">
+          <div class="month-label">6月の日付</div>
+          <div class="date-tags">
+            <button onclick="renderLogs('date', '2026-06-05')">06/05</button>
+            <button onclick="renderLogs('date', '2026-06-12')">06/12</button>
+            <button onclick="renderLogs('date', '2026-06-19')">06/19</button>
+          </div>
+        </div>
+        <div class="month-group">
+          <div class="month-label">5月の日付</div>
+          <div class="date-tags">
+            <button onclick="renderLogs('date', '2026-05-08')">05/08</button>
+            <button onclick="renderLogs('date', '2026-05-15')">05/15</button>
+            <button onclick="renderLogs('date', '2026-05-28')">05/28</button>
+          </div>
+        </div>
+        <div class="month-group">
+          <div class="month-label">4月の日付</div>
+          <div class="date-tags">
+            <button onclick="renderLogs('date', '2026-04-24')">04/24</button>
+          </div>
+        </div>
+      </div>
 
-        <!-- 👣 フッター -->
-        <footer class="notebook-footer">
-            <div></div>
-            <div class="page-arrows">
-                <span class="footer-arrow" onclick="prevPage()">⬅️ 前へ</span>
-                <span class="footer-arrow" onclick="nextPage()">次へ ➡️</span>
-            </div>
-        </footer>
+      <div class="timeline-list" id="activityList"></div>
+    </section>
+
+    <!-- 2. 課題セクション -->
+    <section id="task-section" class="content-section">
+      <div class="controls-bar">
+        <div class="filter-group">
+          <span class="filter-label">絞り込み:</span>
+          <button class="filter-btn active" onclick="filterTasks('all', this)">すべて</button>
+          <button class="filter-btn text-solved" onclick="filterTasks('solved', this)">解決！</button>
+          <button class="filter-btn text-unsolved" onclick="filterTasks('unsolved', this)">未解決</button>
+          <button class="filter-btn text-changed" onclick="filterTasks('changed', this)">方針変更</button>
+          <button class="filter-btn text-failed" onclick="filterTasks('failed', this)">断念・失敗</button>
+        </div>
+        <button class="add-task-btn" onclick="openTaskModal()">＋ 課題を追加</button>
+      </div>
+
+      <div class="task-list" id="taskList"></div>
+    </section>
+
+    <!-- 3. メンバーセクション -->
+    <section id="member-section" class="content-section">
+      <div class="member-card">
+        <h2>👥 E3B 7班 メンバー紹介</h2>
+        <div class="member-grid">
+          <div class="member-item teacher-item">
+            <span class="role">担当の先生</span>
+            <span class="name">White 先生</span>
+            <span class="detail">指導 & アドバイス</span>
+          </div>
+          <div class="member-item">
+            <span class="role">班長</span>
+            <span class="name">cherry</span>
+            <span class="detail">指示役 & なんでも担当</span>
+          </div>
+          <div class="member-item">
+            <span class="role">班員</span>
+            <span class="name">fire</span>
+            <span class="detail">GitHub & デザイン担当</span>
+          </div>
+          <div class="member-item">
+            <span class="role">班員</span>
+            <span class="name">soil</span>
+            <span class="detail">デザイン担当</span>
+          </div>
+          <div class="member-item">
+            <span class="role">班員</span>
+            <span class="name">slope</span>
+            <span class="detail">組み立て & リサーチ担当</span>
+          </div>
+          <div class="member-item">
+            <span class="role">班員</span>
+            <span class="name">sugar</span>
+            <span class="detail">リサーチ担当</span>
+          </div>
+          <div class="member-item">
+            <span class="role">班員</span>
+            <span class="name">sea</span>
+            <span class="detail">AI活用 & リサーチ担当</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- TOPへ戻るボタン -->
+  <button class="back-to-top-btn" id="backToTopBtn" onclick="scrollToTop()">▲ TOPへ戻る</button>
+
+  <!-- 課題追加モーダル -->
+  <div class="modal-overlay" id="taskModal">
+    <div class="modal-box">
+      <h3>新しい課題を追加する</h3>
+      <div class="form-item">
+        <label>課題のタイトル</label>
+        <input type="text" id="newTitle" placeholder="例：モーターが逆回転する">
+      </div>
+      <div class="form-item">
+        <label>課題の詳細</label>
+        <textarea id="newDesc" rows="3" placeholder="詳細を入力..."></textarea>
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-cancel" onclick="closeTaskModal()">キャンセル</button>
+        <button class="modal-submit" onclick="createNewTask()">追加する</button>
+      </div>
     </div>
+  </div>
 
-    <script>
-        const diaryData = {
-            "INDEX": {
-                title: "目次",
-                left: `
-                    <div class="line-text" style="justify-content: flex-end;"><span class="footer-link" onclick="closeNotebook()">🏠 表紙に戻る</span></div>
-                    <h2 class="page-title">目次</h2>
-                    <div class="line-text"><span class="hint">※日付を押すとそのページにジャンプします</span></div>
-                    <div class="line-text"></div>
-                    <div class="line-text"><a href="#" onclick="switchPage('4/24'); return false;">・4月24日の記録</a></div>
-                    <div class="line-text"><a href="#" onclick="switchPage('5/8'); return false;">・5月8日の記録</a></div>
-                    <div class="line-text"><a href="#" onclick="switchPage('5/15'); return false;">・5月15日の記録</a></div>
-                    <div class="line-text"><a href="#" onclick="switchPage('5/28'); return false;">・5月28日の記録</a></div>
-                    <div class="line-text"><a href="#" onclick="switchPage('6/5'); return false;">・6月5日の記録</a></div>
-                    <div class="line-text"><a href="#" onclick="switchPage('6/12'); return false;">・6月12日の記録</a></div>
-                    <div class="line-text"><a href="#" onclick="switchPage('6/19'); return false;">・6月19日の記録</a></div>
-                `,
-                right: `
-                    <h2 class="page-title">班紹介</h2>
-                    <div class="line-text">【課題研究の内容】</div>
-                    <div class="line-text">『目をみて話せる学校案内ロボットの制作』です！</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">【メンバー】</div>
-                    <div class="line-text">班長：cherry</div>
-                    <div class="line-text">班員：fire, slope, sugar, soil, sea</div>
-                `
-            },
-            "MEMBER": {
-                title: "メンバー",
-                left: `
-                    <h2 class="page-title">メンバー紹介</h2>
-                    <div class="line-text"><strong>担当の先生</strong></div>
-                    <div class="line-text">white 先生</div>
-                    <div class="line-text"><strong>班長（指示役 ＆ なんでも）</strong></div>
-                    <div class="line-text">cherry</div>
-                    <div class="line-text"><strong>班員（GitHub ＆ デザイン担当）</strong></div>
-                    <div class="line-text">fire</div>
-                    <div class="line-text"><strong>班員（デザイン担当）</strong></div>
-                    <div class="line-text">soil</div>
-                `,
-                right: `
-                    <h2 class="page-title">メンバーつづき</h2>
-                    <div class="line-text"><strong>班員（組み立て ＆ リサーチ担当）</strong></div>
-                    <div class="line-text">slope</div>
-                    <div class="line-text"><strong>班員（リサーチ担当）</strong></div>
-                    <div class="line-text">sugar</div>
-                    <div class="line-text"><strong>班員（AI活用 ＆ リサーチ担当）</strong></div>
-                    <div class="line-text">sea</div>
-                `
-            },
-            "PROGRESS": {
-                title: "進捗",
-                left: `
-                    <h2 class="page-title">進捗状況 (15%)</h2>
-                    <div class="line-text">・調べ学習 / デザイン決定 (完了)</div>
-                    <div class="line-text">・部品購入・決定 (完了)</div>
-                    <div class="line-text">・ロボ部品印刷 (完了)</div>
-                    <div class="line-text">・ロボ設計図完成 (完了)</div>
-                    <div class="line-text">□ ロボを3Dにする (進行中)</div>
-                `,
-                right: `
-                    <h2 class="page-title">状況メモ</h2>
-                    <div class="line-text" style="color: #e53e3e;">⚠️ 部品調達が遅れ組み立てはストップ中。</div>
-                    <div class="line-text" style="color: #e53e3e;">今はリサーチやGitを先行しています。</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">【最終調整に向けて準備中】</div>
-                `
-            },
-            "4/24": {
-                title: "4/24",
-                left: `
-                    <h2 class="page-title">4月24日</h2>
-                    <div class="line-text">今日から本格的に課題研究を始めました。</div>
-                    <div class="line-text">ここE3Bの7班の班長はcherryです。班員はfire、slope、sugar、soil、seaの5人です。</div>
-                    <div class="line-text">ここには今日あった出来事や課題、役割などを書き込んでいきます。</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">私たちの課題研究の内容は、『目をみて話せる学校案内ロボットの制作』です！</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">⭐️今日の役割⭐️</div>
-                    <div class="line-text">cherry：市工魅力調べ、課題調べ</div>
-                    <div class="line-text">fire：githubの設定と書き込み</div>
-                    <div class="line-text">sea：市工魅力調べ</div>
-                    <div class="line-text">slope：市工魅力調べ</div>
-                    <div class="line-text">soil：市工魅力調べ</div>
-                    <div class="line-text">sugar：市工魅力調べ</div>
-                `,
-                right: `
-                    <h2 class="page-title">4/24 つづき</h2>
-                    <div class="line-text">課題😞</div>
-                    <div class="line-text">・gemの作成と、gemと接続する音声認識と音声発生方法</div>
-                    <div class="line-text">・geminiを使うことでの弊害</div>
-                    <div class="line-text">・学校案内はどうやって説明するか</div>
-                    <div class="line-text">・パソコンで作りたいが、高くて無理なこと</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">今日やったこと😊</div>
-                    <div class="line-text">・市工の魅力を調べた</div>
-                    <div class="line-text">・gemini APIの使い方</div>
-                    <div class="line-text">・色々試して作ってみた</div>
-                    <div class="line-text">・課題を見つけたこと</div>
-                `
-            },
-            "5/8": {
-                title: "5/8",
-                left: `
-                    <h2 class="page-title">5月8日</h2>
-                    <div class="line-text">今日も調べ学習メインでした</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">⭐️今日の役割⭐️</div>
-                    <div class="line-text">cherry：gemini APIの使用方法調べと実践</div>
-                    <div class="line-text">fire：githubの中身作り</div>
-                    <div class="line-text">sea：市工魅力調べ</div>
-                    <div class="line-text">slope：市工魅力調べ</div>
-                    <div class="line-text">soil：soilは来なかった</div>
-                    <div class="line-text">sugar：市工魅力調べ</div>
-                `,
-                right: `
-                    <h2 class="page-title">5/8 つづき</h2>
-                    <div class="line-text">課題😞</div>
-                    <div class="line-text">・cherryがgemini APIの使用方法を調べて実践したがAPIを習得するのが難しかった</div>
-                    <div class="line-text">・今後ラズベリを使うにあたって学校のラズベリを試作品で使うかどうか</div>
-                    <div class="line-text">・目玉とAPIの制御を別にするか</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">今日やったこと、思ったこと😊</div>
-                    <div class="line-text">・市工の魅力調べをして学校概要と市川市とのつながり、市工の魅力などを文章化した</div>
-                    <div class="line-text">・課題研究の購入品を調べてスプレッドシートに書いたことで使うものが明確になった</div>
-                    <div class="line-text">・GitHubのWebサイトを作っている</div>
-                    <div class="line-text">・5月中には目玉用のモーターを買いたいな</div>
-                `
-            },
-            "5/15": {
-                title: "5/15",
-                left: `
-                    <h2 class="page-title">５月１５日</h2>
-                    <div class="line-text">目玉を印刷する段階で止まってます</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">⭐️今日の役割⭐️</div>
-                    <div class="line-text">cherry：API取得、geminiと接続確認</div>
-                    <div class="line-text">fire：githubの更新、デザイン案</div>
-                    <div class="line-text">sea：geminiの音声出力</div>
-                    <div class="line-text">slope：モーター取り外し</div>
-                    <div class="line-text">soil：三時間目の途中で来た、20分間デザイン案を考えた</div>
-                    <div class="line-text">sugar：地図作成</div>
-                `,
-                right: `
-                    <h2 class="page-title">５月１５日 つづき</h2>
-                    <div class="line-text">課題😞</div>
-                    <div class="line-text">・部品調達モーターとラズベリ3 shifting Arduinoを調達してネジをどうしようか悩んでいること</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">今日やったこと😊</div>
-                    <div class="line-text">・geminiと接続の確認、デプロイ開けなかったから完成はしてない</div>
-                    <div class="line-text">・学校案内の地図作成</div>
-                    <div class="line-text">・何かについていたモーターの部品外し</div>
-                    <div class="line-text">・入力をgemini内で解決する方法を考えた</div>
-                    <div class="line-text">・デザイン案を考える</div>
-                    <div class="line-text">・学校内で部品調達！ラズベリも！</div>
-                `
-            },
-            "5/28": {
-                title: "5/28",
-                left: `
-                    <h2 class="page-title">５月28日</h2>
-                    <div class="line-text">今日は暑く班員の元気があまりなかったです</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">⭐️今日の役割⭐️</div>
-                    <div class="line-text">cherry：目の部品組み立て</div>
-                    <div class="line-text">fire：デザイン案</div>
-                    <div class="line-text">sea：マップ状況を詳しくファイルに起こした。マップを文字で起こしたAIがどう動作するのか</div>
-                    <div class="line-text">slope：工具を持ってきた　特にはやってない</div>
-                    <div class="line-text">soil：今日は来なかった</div>
-                    <div class="line-text">sugar：学校の部屋の配置を考えた</div>
-                `,
-                right: `
-                    <h2 class="page-title">５月28日 つづき</h2>
-                    <div class="line-text">課題😞</div>
-                    <div class="line-text">・部品調達モーターとラズベリ3とArduinoを調達してネジをどうしようか悩んでいること</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">今日やったこと、思ったこと😊</div>
-                    <div class="line-text">・目の部品の組み立て</div>
-                    <div class="line-text">・学校内のマップ作り</div>
-                    <div class="line-text">・マップを文字で起こしAIがどう動作するのかをやりマップの状況をファイルに起こした</div>
-                    <div class="line-text">・デザイン案を考える</div>
-                    <div class="line-text">・テスト週間の間に目の部品を3Dプリンターで印刷しました</div>
-                    <div class="line-text">・特に大きな進捗はなかった</div>
-                `
-            },
-            "6/5": {
-                title: "6/5",
-                left: `
-                    <h2 class="page-title">6月5日</h2>
-                    <div class="line-text">大きな進捗はなかったです</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">⭐️今日の役割⭐️</div>
-                    <div class="line-text">cherry：目の部品組み立て、先生からの課題</div>
-                    <div class="line-text">fire：デザイン案とその設計図</div>
-                    <div class="line-text">sea：geminiの情報入れる、notebook LMにも情報を入れた</div>
-                    <div class="line-text">slope：特にない</div>
-                    <div class="line-text">soil：今日は来なかった</div>
-                    <div class="line-text">sugar：各学科の魅力</div>
-                `,
-                right: `
-                    <h2 class="page-title">6/5 つづき</h2>
-                    <div class="line-text">課題😞</div>
-                    <div class="line-text">・今日の課題は見つけられなかった</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">今日やったこと、思ったこと😊</div>
-                    <div class="line-text">・目の部品の組み立て</div>
-                    <div class="line-text">・各学科の魅力調べ</div>
-                    <div class="line-text">・デザイン案と設計図を書いた</div>
-                    <div class="line-text">・今日は涼しかったがちょっとだるさを感じた</div>
-                    <div class="line-text">・特に進展はなかったと思います😭</div>
-                `
-            },
-            "6/12": {
-                title: "6/12",
-                left: `
-                    <h2 class="page-title">6月12日</h2>
-                    <div class="line-text">何を買うにも高くついてしまうのが悩み</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">⭐️今日の役割⭐️</div>
-                    <div class="line-text">cherry：white先生から代替案を考えて欲しいと言われてたのでそれについて調べた、購入リストの書き込み</div>
-                    <div class="line-text">fire：設計図を書くために調べた、GitHub大幅更新</div>
-                    <div class="line-text">sea：iPad上でのArduinoの運用方法を調べた、notebook lm의 試行錯誤、プロンプト改善</div>
-                    <div class="line-text">slope：目玉の内部作り</div>
-                    <div class="line-text">soil：今日も来なかった</div>
-                    <div class="line-text">sugar：学科紹介の文の訂正</div>
-                `,
-                right: `
-                    <h2 class="page-title">6/12 つづき</h2>
-                    <div class="line-text">課題😞</div>
-                    <div class="line-text">・geminiのAIが回答したものをスピーカーとして音に出す仕組みをパソコンでやるのかラズベリでやるのかgeminiで完結させるのか考えてる</div>
-                    <div class="line-text">・何を買うにも費用が高くなってしまう</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">今日やったこと、思ったこと😊</div>
-                    <div class="line-text">・代替案を調べた</div>
-                    <div class="line-text">・購入リストの書き込み</div>
-                    <div class="line-text">・ロボットの設計図を書くために調べた</div>
-                    <div class="line-text">・iPad上でのArduinoの運営方法調べ</div>
-                    <div class="line-text">・notebooklmを活用しようと試行錯誤した</div>
-                    <div class="line-text">・geminiのプロンプトの改善</div>
-                    <div class="line-text">・目玉を動かすためのモーターや部品取り付け</div>
-                    <div class="line-text">・学科紹介の文の訂正</div>
-                    <div class="line-text">・GitHubの更新、今までのデザインがあまり良くなく気に入らなかったので４月２８日から６月１２日までの文章を考えてGitHubのサイトを作ろうとしています</div>
-                `
-            },
-            "6/19": {
-                title: "6/19",
-                left: `
-                    <h2 class="page-title">6月19日</h2>
-                    <div class="line-text">⭐️今日の役割⭐️</div>
-                    <div class="line-text">cherry:ネズミロボの設計図、寸法など</div>
-                    <div class="line-text">fire：ギットハブ大幅更新</div>
-                    <div class="line-text">sea：ArduinoのiPadかパソコンで操作可能かどうか調べた</div>
-                    <div class="line-text">slope：目玉作りのための配線</div>
-                    <div class="line-text">sugar：目玉作りのための配線</div>
-                    <div class="line-text">soil：今日も来なかった</div>
-                `,
-                right: `
-                    <h2 class="page-title">6/19 つづき</h2>
-                    <div class="line-text">課題😞</div>
-                    <div class="line-text">・目玉を動かす方法がわからない</div>
-                    <div class="line-text">・別案での提案モニターを目にするかどうか</div>
-                    <div class="line-text">・ArduinoはiPadで全部操作するのは無理だったのでパソコンが必要になってしまう</div>
-                    <div class="line-text"></div>
-                    <div class="line-text">今日やったこと、思ったこと😊</div>
-                    <div class="line-text">・目玉作りが結構進んだ</div>
-                    <div class="line-text">・設計図が進んだ</div>
-                    <div class="line-text">・Arduinoの調べもの</div>
-                    <div class="line-text">・GitHubの更新</div>
-                    <div class="line-text">・iPadでArduinoを全部操作をするのは無理なのでパソコンが必要になってしまう、ラズベリなしで操作するのも難しい</div>
-                `
-            }
+  <!-- 追記追加モーダル -->
+  <div class="modal-overlay" id="appendModal">
+    <div class="modal-box">
+      <h3>追記を追加</h3>
+      <div class="form-item">
+        <label>追記内容</label>
+        <textarea id="newAppendText" rows="3" placeholder="進捗やコメントを入力..."></textarea>
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-cancel" onclick="closeAppendModal()">キャンセル</button>
+        <button class="modal-submit" onclick="submitAppend()">追加する</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3段階削除確認モーダル -->
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal-box">
+      <h3 id="deleteStepTitle">消しますか？</h3>
+      <p id="deleteStepDesc" style="margin-bottom: 16px; color: #666; font-size: 0.9rem;">本当に削除する場合は次へ進んでください。</p>
+      
+      <div id="passwordInputContainer" style="display: none; margin-bottom: 16px;">
+        <label style="font-size:0.85rem; font-weight:bold; color:#ff6b6b; display:block; margin-bottom:4px;">パスワードを入力してください</label>
+        <input type="password" id="deletePasswordInput" placeholder="パスワードを入力">
+        <p id="passwordError" style="color:#ff4d4f; font-size:0.8rem; margin-top:4px; display:none;">パスワードが違います！</p>
+      </div>
+
+      <div class="modal-buttons">
+        <button class="modal-cancel" onclick="closeDeleteModal()">いいえ（キャンセル）</button>
+        <button class="modal-submit" id="deleteConfirmBtn" onclick="handleDeleteStep()">はい</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ステータス変更確認モーダル -->
+  <div class="modal-overlay" id="statusModal">
+    <div class="modal-box">
+      <h3>ステータス変更</h3>
+      <p style="margin-bottom: 16px; color: #666; font-size: 0.9rem;">ステータスを変更してもよろしいですか？</p>
+      <div class="modal-buttons">
+        <button class="modal-cancel" onclick="closeStatusModal()">キャンセル</button>
+        <button class="modal-submit" onclick="confirmStatusChange()">変更する</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 活動記録データ（画像から抽出した内容＋9/4以降は「調整中」）
+    let activityData = [
+      { id: 15, date: '2026-11-20', displayDate: '2026.11.20 (金)', month: '11', title: '第15回', desc: '調整中' },
+      { id: 14, date: '2026-11-06', displayDate: '2026.11.06 (金)', month: '11', title: '第14回', desc: '調整中' },
+      { id: 13, date: '2026-10-09', displayDate: '2026.10.09 (金)', month: '10', title: '第13回', desc: '調整中' },
+      { id: 12, date: '2026-10-02', displayDate: '2026.10.02 (金)', month: '10', title: '第12回', desc: '調整中' },
+      { id: 11, date: '2026-09-25', displayDate: '2026.09.25 (金)', month: '09', title: '第11回', desc: '調整中' },
+      { id: 10, date: '2026-09-18', displayDate: '2026.09.18 (金)', month: '09', title: '第10回', desc: '調整中' },
+      { id: 9, date: '2026-09-11', displayDate: '2026.09.11 (金)', month: '09', title: '第9回', desc: '調整中' },
+      { id: 8, date: '2026-09-04', displayDate: '2026.09.04 (金)', month: '09', title: '第8回', desc: '調整中' },
+      { 
+        id: 7, 
+        date: '2026-06-19', 
+        displayDate: '2026.06.19 (金)', 
+        month: '06', 
+        title: '第7回', 
+        desc: `【今日の役割】
+cherry：ネズミロボの設計図、寸法など
+fire：ギットハブ大幅更新
+sea：ArduinoのiPadかパソコンで操作可能かどうか調べた
+slope：目玉作りのための配線
+sugar：目玉作りのための配線
+soil：今日も来なかった
+
+【今日やったこと、思ったこと】
+・目玉作りが結構進んだ
+・設計図が進んだ
+・Arduinoの調べもの
+・GitHubの更新
+・iPadでArduinoを全部操作をするのは無理なのでパソコンが必要になってしまう、ラズベリなしで操作するのも難しい
+
+【課題】
+・目玉を動かす方法がわからない
+・別案での提案モニターを目にするかどうか
+・ArduinoはiPadで全部操作するのは無理だったのでパソコンが必要になってしまう` 
+      },
+      { 
+        id: 6, 
+        date: '2026-06-12', 
+        displayDate: '2026.06.12 (金)', 
+        month: '06', 
+        title: '第6回', 
+        desc: `何を買うにも高くついてしまうのが悩み
+
+【今日の役割】
+cherry：white先生から代替案を考えて欲しいと言われてたのでそれについて調べた、購入リストの書き込み
+fire：設計図を書くために調べた、GitHub大幅更新
+sea：iPad上でのArduinoの運用方法を調べた、notebook lmの試行錯誤、プロンプト改善
+slope：目玉の内部作り
+soil：今日も来なかった
+sugar：学科紹介の文の訂正
+
+【今日やったこと、思ったこと】
+・代替案を調べた
+・購入リストの書き込み
+・ロボットの設計図を書くために調べた
+・iPad上でのArduinoの運営方法調べ
+・notebooklmを活用しようと試行錯誤した
+・geminiのプロンプトの改善
+・目玉を動かすためのモーターや部品取り付け
+・学科紹介の文の訂正
+・GitHubの更新、今までのデザインがあまり良くなく気に入らなかったので4月28日から6月12日までの文章を考えてGitHubのサイトを作ろうとしています
+
+【課題】
+・geminiのAIが回答したものをスピーカーとして音に出す仕組みをパソコンでやるのかラズベリでやるのかgeminiで完結させるのか考えてる
+・何を買うにも費用が高くなってしまう` 
+      },
+      { 
+        id: 5, 
+        date: '2026-06-05', 
+        displayDate: '2026.06.05 (金)', 
+        month: '06', 
+        title: '第5回', 
+        desc: `大きな進捗はなかったです
+
+【今日の役割】
+cherry：目の部品組み立て、先生からの課題
+fire：デザイン案とその設計図
+sea：geminiの情報入れる、notebook LMにも情報を入れた
+slope：特にない
+soil：今日は来なかった
+sugar：各学科の魅力
+
+【今日やったこと、思ったこと】
+・目の部品の組み立て
+・各学科の魅力調べ
+・デザイン案と設計図を書いた
+・今日は涼しかったがちょっとだるさを感じた
+・特に進展はなかったと思います
+
+【課題】
+・今日の課題は見つけられなかった` 
+      },
+      { 
+        id: 4, 
+        date: '2026-05-28', 
+        displayDate: '2026.05.28 (木)', 
+        month: '05', 
+        title: '第4回', 
+        desc: `今日は暑く班員の元気があまりなかったです
+
+【今日の役割】
+cherry：目の部品組み立て
+fire：デザイン案
+sea：マップ状況を詳しくファイルに起こした。マップを文字で起こしたAIがどう動作するのか
+slope：工具を持ってきた 特にはやってない
+soil：今日は来なかった
+sugar：学校の部屋の配置を考えた
+
+【今日やったこと、思ったこと】
+・目の部品の組み立て
+・学校内のマップ作り
+・マップを文字で起こしAIがどう動作するのかをやりマップの状況をファイルに起こした
+・デザイン案を考える
+・テスト週間の間に目の部品を3Dプリンターで印刷しました
+・特に大きな進捗はなかった
+
+【課題】
+・部品調達モーターとラズベリ3とArduinoを調達してネジをどうしようか悩んでいること` 
+      },
+      { 
+        id: 3, 
+        date: '2026-05-15', 
+        displayDate: '2026.05.15 (金)', 
+        month: '05', 
+        title: '第3回', 
+        desc: `目玉を印刷する段階で止まってます
+
+【今日の役割】
+cherry：API取得、geminiと接続確認
+fire：githubの更新、デザイン案
+sea：geminiの音声出力
+slope：モーター取り外し
+soil：三時間目の途中で来た、20分間デザイン案を考えた
+sugar：地図作成
+
+【今日やったこと】
+・geminiと接続の確認、デプロイ開けなかったから完成はしてない
+・学校案内の地図作成
+・何かについていたモーターの部品外し
+・入力をgemini内で解決する方法を考えた
+・デザイン案を考える
+・学校内で部品調達！ラズベリも！
+
+【課題】
+・部品調達モーターとラズベリ3 shifting Arduinoを調達してネジをどうしようか悩んでいること` 
+      },
+      { 
+        id: 2, 
+        date: '2026-05-08', 
+        displayDate: '2026.05.08 (金)', 
+        month: '05', 
+        title: '第2回', 
+        desc: `今日も調べ学習メインでした
+
+【今日の役割】
+cherry：gemini APIの使用方法調べと実践
+fire：githubの中身作り
+sea：市工魅力調べ
+slope：市工魅力調べ
+soil：soilは来なかった
+sugar：市工魅力調べ
+
+【今日やったこと、思ったこと】
+・市工の魅力調べをして学校概要と市川市とのつながり、市工の魅力などを文章化した
+・課題研究の購入品を調べてスプレッドシートに書いたことで使うものが明確になった
+・GitHubのWebサイトを作っている
+・5月中には目玉用のモーターを買いたいな
+
+【課題】
+・cherryがgemini APIの使用方法を調べて実践したがAPIを習得するのが難しかった
+・今後ラズベリを使うにあたって学校のラズベリを試作品で使うかどうか
+・目玉とAPIの制御を別にするか` 
+      },
+      { 
+        id: 1, 
+        date: '2026-04-24', 
+        displayDate: '2026.04.24 (金)', 
+        month: '04', 
+        title: '第1回', 
+        desc: `今日から本格的に課題研究を始めました。
+ここE3Bの7班の班長はcherryです。班員はfire、slope、sugar、soil、seaの5人です。
+ここには今日あった出来事や課題、役割などを書き込んでいきます。
+
+私たちの課題研究の内容は、『目をみて話せる学校案内ロボットの制作』です！
+
+【今日の役割】
+cherry：市工魅力調べ、課題調べ
+fire：githubの設定と書き込み
+sea：市工魅力調べ
+slope：市工魅力調べ
+soil：市工魅力調べ
+sugar：市工魅力調べ
+
+【今日やったこと】
+・市工の魅力を調べた
+・gemini APIの使い方
+・色々試して作ってみた
+・課題を見つけたこと
+
+【課題】
+・gemの作成と、gemと接続する音声認識と音声発生方法
+・geminiを使うことでの弊害
+・学校案内はどうやって説明するか
+・パソコンで作りたいが、高くて無理なこと` 
+      }
+    ];
+
+    // 課題データ
+    let taskData = [
+      {
+        id: 1,
+        title: 'プログラムが動かない',
+        desc: 'マイコンとセンサーの通信部分でエラーが発生してデータが取得できない。',
+        status: 'solved',
+        changedCount: 1,
+        appends: [
+          { id: 1, date: '2026/10/02', text: '配線とピン番号を再確認したら直った！動いたよ！' }
+        ]
+      }
+    ];
+
+    // 表紙の「日誌を閲覧する」ボタンを押したときの処理
+    function startBrowsing() {
+      document.getElementById('siteHeader').style.display = 'block';
+      showSection('activity-section', document.getElementById('btnActivityNav'));
+    }
+
+    // 活動記録の描画（改行を反映する white-space: pre-wrap を適用）
+    function renderLogs(mode, target) {
+      const container = document.getElementById('activityList');
+      const statusText = document.getElementById('filterStatusText');
+      const resetBtn = document.getElementById('resetFilterBtn');
+      container.innerHTML = '';
+
+      let listToRender = [...activityData];
+
+      if (mode === 'all') {
+        listToRender.sort((a, b) => new Date(b.date) - new Date(a.date));
+        statusText.textContent = '表示中: 全体タイムライン（最新順）';
+        resetBtn.style.display = 'none';
+      } else if (mode === 'month') {
+        listToRender = listToRender.filter(item => item.month === target);
+        listToRender.sort((a, b) => new Date(a.date) - new Date(b.date));
+        statusText.textContent = `表示中: ${parseInt(target)}月の記録（日付順）`;
+        resetBtn.style.display = 'inline-block';
+      } else if (mode === 'date') {
+        listToRender = listToRender.filter(item => item.date === target);
+        statusText.textContent = `表示中: ${target.replace('-', '/').replace('-', '/')} のみ`;
+        resetBtn.style.display = 'inline-block';
+      }
+
+      if (listToRender.length === 0) {
+        container.innerHTML = '<p class="no-data">該当する活動記録がありません。</p>';
+        return;
+      }
+
+      listToRender.forEach(item => {
+        const card = document.createElement('article');
+        card.className = 'log-card';
+        card.innerHTML = `
+          <div class="log-header" onclick="toggleAccordion(this)">
+            <span class="log-date">${item.displayDate}</span>
+            <span class="log-title-bold">${escapeHtml(item.title)}</span>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="log-body">
+            <p style="white-space: pre-wrap;">${escapeHtml(item.desc)}</p>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      document.getElementById('dateMenu').classList.remove('active');
+    }
+
+    // 課題の描画
+    function renderTasks() {
+      const container = document.getElementById('taskList');
+      container.innerHTML = '';
+
+      taskData.forEach(task => {
+        const card = document.createElement('article');
+        card.className = 'task-card';
+        card.setAttribute('data-status', task.status);
+
+        let appendsHtml = '';
+        task.appends.forEach((app, index) => {
+          appendsHtml += `
+            <div class="append-item">
+              <span class="append-tag">追記 ${index + 1}</span>
+              <span class="append-date">(${app.date})</span>
+              <span class="append-text">${escapeHtml(app.text)}</span>
+              <button class="delete-mini-btn" onclick="startDeleteProcess(event, 'append', ${task.id}, ${app.id})">×</button>
+            </div>
+          `;
+        });
+
+        const statusMap = {
+          'solved': '解決！',
+          'unsolved': '未解決',
+          'changed': '方針変更',
+          'failed': '断念・失敗'
         };
 
-        const pageKeys = Object.keys(diaryData);
-        let currentPageKey = "INDEX";
+        card.innerHTML = `
+          <div class="card-header">
+            <span class="status-stamp stamp-${task.status}">${statusMap[task.status]}</span>
+            <button class="delete-btn" onclick="startDeleteProcess(event, 'task', ${task.id})">🗑️ 削除</button>
+          </div>
+          <h3 class="task-title">${escapeHtml(task.title)}</h3>
+          <p class="task-desc">${escapeHtml(task.desc)}</p>
+          <div class="append-list">${appendsHtml}</div>
+          <div class="card-actions">
+            <div class="status-selector">
+              <button class="btn-st btn-solved" onclick="requestStatusChange(${task.id}, 'solved', '解決！')">解決！</button>
+              <button class="btn-st btn-unsolved" onclick="requestStatusChange(${task.id}, 'unsolved', '未解決')">未解決</button>
+              <button class="btn-st btn-changed" onclick="requestStatusChange(${task.id}, 'changed', '方針変更')">方針変更</button>
+              <button class="btn-st btn-failed" onclick="requestStatusChange(${task.id}, 'failed', '断念・失敗')">断念・失敗</button>
+            </div>
+            <button class="add-append-btn" onclick="openAppendModal(${task.id})">💬 追記を追加</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
 
-        function generateTabs() {
-            const container = document.getElementById('tabs-container');
-            container.innerHTML = '';
-            pageKeys.forEach(key => {
-                if (key === 'MEMBER' || key === 'PROGRESS') return;
+    // アコーディオン開閉
+    function toggleAccordion(headerEl) {
+      const card = headerEl.closest('.log-card');
+      card.classList.toggle('open');
+    }
 
-                const btn = document.createElement('button');
-                btn.id = "tab-" + key.replace('/', '-');
-                btn.className = 'tab';
-                btn.innerText = diaryData[key].title;
-                btn.onclick = () => switchPage(key);
-                container.appendChild(btn);
-            });
+    // モーダル制御（課題追加）
+    function openTaskModal() { document.getElementById('taskModal').classList.add('active'); }
+    function closeTaskModal() { 
+      document.getElementById('taskModal').classList.remove('active');
+      document.getElementById('newTitle').value = '';
+      document.getElementById('newDesc').value = '';
+    }
+
+    function createNewTask() {
+      const title = document.getElementById('newTitle').value.trim();
+      const desc = document.getElementById('newDesc').value.trim();
+      if (!title) return alert("タイトルを入力してください！");
+
+      const newTask = {
+        id: Date.now(),
+        title: title,
+        desc: desc,
+        status: 'unsolved',
+        changedCount: 0,
+        appends: []
+      };
+
+      taskData.unshift(newTask);
+      renderTasks();
+      closeTaskModal();
+    }
+
+    // モーダル制御（追記追加）
+    let currentTaskForAppend = null;
+    function openAppendModal(taskId) {
+      currentTaskForAppend = taskId;
+      document.getElementById('appendModal').classList.add('active');
+    }
+    function closeAppendModal() {
+      document.getElementById('appendModal').classList.remove('active');
+      document.getElementById('newAppendText').value = '';
+      currentTaskForAppend = null;
+    }
+    function submitAppend() {
+      const text = document.getElementById('newAppendText').value.trim();
+      if (!text) return alert("追記内容を入力してください！");
+
+      const task = taskData.find(t => t.id === currentTaskForAppend);
+      if (task) {
+        task.appends.push({
+          id: Date.now(),
+          date: getTodayString(),
+          text: text
+        });
+        renderTasks();
+      }
+      closeAppendModal();
+    }
+
+    // モーダル制御（ステータス変更）
+    let pendingStatusChange = null;
+    function requestStatusChange(taskId, newStatus, statusText) {
+      const task = taskData.find(t => t.id === taskId);
+      if (!task) return;
+
+      if (task.changedCount === 0) {
+        task.status = newStatus;
+        task.changedCount++;
+        renderTasks();
+      } else {
+        pendingStatusChange = { taskId, newStatus };
+        document.getElementById('statusModal').classList.add('active');
+      }
+    }
+    function closeStatusModal() {
+      document.getElementById('statusModal').classList.remove('active');
+      pendingStatusChange = null;
+    }
+    function confirmStatusChange() {
+      if (pendingStatusChange) {
+        const task = taskData.find(t => t.id === pendingStatusChange.taskId);
+        if (task) {
+          task.status = pendingStatusChange.newStatus;
+          task.changedCount++;
+          renderTasks();
         }
+      }
+      closeStatusModal();
+    }
 
-        function openNotebook() {
-            document.getElementById('cover-page').classList.add('hidden');
-            document.getElementById('main-notebook').classList.remove('hidden');
-            generateTabs();
-            switchPage('INDEX');
-        }
+    // モーダル制御（3段階削除確認）
+    let deleteTarget = null;
+    let deleteStep = 1;
 
-        function closeNotebook() {
-            document.getElementById('main-notebook').classList.add('hidden');
-            document.getElementById('cover-page').classList.remove('hidden');
-        }
+    function startDeleteProcess(event, type, id, appendId = null) {
+      if (event) event.stopPropagation();
+      deleteTarget = { type, id, appendId };
+      deleteStep = 1;
 
-        function switchPage(key) {
-            if (!diaryData[key]) return;
-            currentPageKey = key;
-            
-            document.getElementById('left-content').innerHTML = diaryData[key].left;
-            document.getElementById('right-content').innerHTML = diaryData[key].right;
+      document.getElementById('deleteStepTitle').textContent = "消しますか？";
+      document.getElementById('deleteStepDesc').textContent = "本当に削除する場合は「はい」を押してください。";
+      document.getElementById('passwordInputContainer').style.display = 'none';
+      document.getElementById('passwordError').style.display = 'none';
+      document.getElementById('deletePasswordInput').value = '';
+      
+      document.getElementById('deleteModal').classList.add('active');
+    }
 
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            
-            const tabId = "tab-" + key.replace('/', '-');
-            const activeTab = document.getElementById(tabId);
-            if (activeTab) {
-                activeTab.classList.add('active');
+    function closeDeleteModal() {
+      document.getElementById('deleteModal').classList.remove('active');
+      deleteTarget = null;
+      deleteStep = 1;
+    }
+
+    function handleDeleteStep() {
+      if (deleteStep === 1) {
+        deleteStep = 2;
+        document.getElementById('deleteStepTitle').textContent = "本当にいいですか？";
+        document.getElementById('deleteStepDesc').textContent = "取り消すことはできません。よろしいですか？";
+      } else if (deleteStep === 2) {
+        deleteStep = 3;
+        document.getElementById('deleteStepTitle').textContent = "パスワード確認";
+        document.getElementById('deleteStepDesc').textContent = "本当にいいんですね。パスワードを入力してください。";
+        document.getElementById('passwordInputContainer').style.display = 'block';
+      } else if (deleteStep === 3) {
+        const inputPass = document.getElementById('deletePasswordInput').value.trim();
+        if (inputPass === '3737') {
+          if (deleteTarget.type === 'task') {
+            taskData = taskData.filter(t => t.id !== deleteTarget.id);
+            renderTasks();
+          } else if (deleteTarget.type === 'append') {
+            const task = taskData.find(t => t.id === deleteTarget.id);
+            if (task) {
+              task.appends = task.appends.filter(ap => ap.id !== deleteTarget.appendId);
+              renderTasks();
             }
-
-            setTimeout(updateScrollArrows, 50);
+          }
+          closeDeleteModal();
+        } else {
+          document.getElementById('passwordError').style.display = 'block';
         }
+      }
+    }
 
-        function updateScrollArrows() {
-            const sides = ['left', 'right'];
-            sides.forEach(side => {
-                const pageEl = document.getElementById(`${side}-page`);
-                const arrowEl = document.getElementById(`${side}-scroll-arrow`);
-                if (pageEl && arrowEl) {
-                    const canScroll = pageEl.scrollHeight > pageEl.clientHeight + 12; 
-                    const isAtBottom = pageEl.scrollTop + pageEl.clientHeight >= pageEl.scrollHeight - 12;
-                    
-                    if (canScroll && !isAtBottom) {
-                        arrowEl.style.display = 'flex';
-                    } else {
-                        arrowEl.style.display = 'none';
-                    }
-                }
-            });
-        }
+    // 画面切り替え
+    function showSection(sectionId, btn) {
+      document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+      if (btn) btn.classList.add('active');
+      
+      if (sectionId === 'top-section') {
+        document.getElementById('siteHeader').style.display = 'none';
+      }
 
-        function nextPage() {
-            let index = pageKeys.indexOf(currentPageKey);
-            if (index < pageKeys.length - 1) {
-                switchPage(pageKeys[index + 1]);
-            }
-        }
+      window.scrollTo({ top: 0 });
+      document.getElementById('backToTopBtn').classList.remove('visible');
+    }
 
-        function prevPage() {
-            let index = pageKeys.indexOf(currentPageKey);
-            if (index > 0) {
-                switchPage(pageKeys[index - 1]);
-            }
-        }
-    </script>
+    function toggleDateMenu() {
+      document.getElementById('dateMenu').classList.toggle('active');
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.addEventListener('scroll', () => {
+      const backBtn = document.getElementById('backToTopBtn');
+      const activeSection = document.querySelector('.content-section.active').id;
+      
+      if (activeSection !== 'member-section' && activeSection !== 'top-section' && window.scrollY > 200) {
+        backBtn.classList.add('visible');
+      } else {
+        backBtn.classList.remove('visible');
+      }
+    });
+
+    function filterTasks(status, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.task-card').forEach(card => {
+        card.style.display = (status === 'all' || card.getAttribute('data-status') === status) ? 'block' : 'none';
+      });
+    }
+
+    function getTodayString() {
+      const today = new Date();
+      return `${today.getFullYear()}/${String(today.getMonth() + 1).padStart(2, '0')}/${String(today.getDate()).padStart(2, '0')}`;
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderLogs('all');
+      renderTasks();
+    });
+  </script>
 </body>
 </html>
