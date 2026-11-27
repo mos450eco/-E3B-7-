@@ -25,20 +25,20 @@
     </div>
   </header>
 
-  <main class="main-content">
-
-    <!-- 0. トップ表紙セクション -->
-    <section id="top-section" class="content-section active">
-      <div class="cover-card">
-        <div class="cover-badge">市川工業高校 電気科 E3B 7班</div>
-        <h2 class="cover-title">目をみて話せる<br>学校案内ロボットの制作</h2>
-        <div class="cover-actions">
-          <button class="start-btn" onclick="startBrowsing()">
-            📖 日誌を閲覧する →
-          </button>
-        </div>
+  <!-- 0. トップ表紙セクション（全デバイス画面ぴったり中央配置） -->
+  <section id="top-section" class="content-section active">
+    <div class="cover-card">
+      <div class="cover-badge">市川工業高校 電気科 E3B 7班</div>
+      <h2 class="cover-title">目をみて話せる<br>学校案内ロボットの制作</h2>
+      <div class="cover-actions">
+        <button class="start-btn" onclick="startBrowsing()">
+          📖 日誌を閲覧する →
+        </button>
       </div>
-    </section>
+    </div>
+  </section>
+
+  <main class="main-content" id="mainContainer" style="display: none;">
 
     <!-- 1. 活動記録セクション -->
     <section id="activity-section" class="content-section">
@@ -242,11 +242,18 @@
     </div>
   </div>
 
-  <!-- ステータス変更確認モーダル -->
+  <!-- パスワード付きステータス変更確認モーダル -->
   <div class="modal-overlay" id="statusModal">
     <div class="modal-box">
-      <h3>ステータス変更</h3>
-      <p style="margin-bottom: 16px; color: #666; font-size: 0.9rem;">ステータスを変更してもよろしいですか？</p>
+      <h3>ステータス変更確認</h3>
+      <p id="statusChangeDesc" style="margin-bottom: 12px; color: #666; font-size: 0.9rem;">ステータスを変更するにはパスワードを入力してください。</p>
+      
+      <div style="margin-bottom: 16px;">
+        <label style="font-size:0.85rem; font-weight:bold; color:#ff6b6b; display:block; margin-bottom:4px;">パスワード</label>
+        <input type="password" id="statusPasswordInput" placeholder="パスワードを入力">
+        <p id="statusPasswordError" style="color:#ff4d4f; font-size:0.8rem; margin-top:4px; display:none;">パスワードが違います！</p>
+      </div>
+
       <div class="modal-buttons">
         <button class="modal-cancel" onclick="closeStatusModal()">キャンセル</button>
         <button class="modal-submit" onclick="confirmStatusChange()">変更する</button>
@@ -255,7 +262,7 @@
   </div>
 
   <script>
-    // 活動記録データ（画像から抽出した内容＋9/4以降は「調整中」）
+    // 活動記録データ
     let activityData = [
       { id: 15, date: '2026-11-20', displayDate: '2026.11.20 (金)', month: '11', title: '第15回', desc: '調整中' },
       { id: 14, date: '2026-11-06', displayDate: '2026.11.06 (金)', month: '11', title: '第14回', desc: '調整中' },
@@ -463,27 +470,49 @@ sugar：市工魅力調べ
       }
     ];
 
-    // 課題データ
-    let taskData = [
+    // 初期サンプル課題データ
+    const defaultTaskData = [
       {
         id: 1,
         title: 'プログラムが動かない',
         desc: 'マイコンとセンサーの通信部分でエラーが発生してデータが取得できない。',
         status: 'solved',
-        changedCount: 1,
         appends: [
           { id: 1, date: '2026/10/02', text: '配線とピン番号を再確認したら直った！動いたよ！' }
         ]
       }
     ];
 
-    // 表紙の「日誌を閲覧する」ボタンを押したときの処理
+    // ローカルストレージからデータを読み込む（開き直してもデータが消えないように）
+    const STORAGE_KEY = 'e3b_7han_tasks_v1';
+    let taskData = [];
+
+    function loadTasks() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          taskData = JSON.parse(saved);
+        } catch (e) {
+          taskData = [...defaultTaskData];
+        }
+      } else {
+        taskData = [...defaultTaskData];
+      }
+    }
+
+    function saveTasks() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(taskData));
+    }
+
+    // 表紙から閲覧開始
     function startBrowsing() {
+      document.getElementById('top-section').classList.remove('active');
       document.getElementById('siteHeader').style.display = 'block';
+      document.getElementById('mainContainer').style.display = 'block';
       showSection('activity-section', document.getElementById('btnActivityNav'));
     }
 
-    // 活動記録の描画（改行を反映する white-space: pre-wrap を適用）
+    // 活動記録の描画
     function renderLogs(mode, target) {
       const container = document.getElementById('activityList');
       const statusText = document.getElementById('filterStatusText');
@@ -532,11 +561,14 @@ sugar：市工魅力調べ
     }
 
     // 課題の描画
+    let currentFilter = 'all';
     function renderTasks() {
       const container = document.getElementById('taskList');
       container.innerHTML = '';
 
-      taskData.forEach(task => {
+      const filtered = taskData.filter(t => currentFilter === 'all' || t.status === currentFilter);
+
+      filtered.forEach(task => {
         const card = document.createElement('article');
         card.className = 'task-card';
         card.setAttribute('data-status', task.status);
@@ -606,11 +638,11 @@ sugar：市工魅力調べ
         title: title,
         desc: desc,
         status: 'unsolved',
-        changedCount: 0,
         appends: []
       };
 
       taskData.unshift(newTask);
+      saveTasks();
       renderTasks();
       closeTaskModal();
     }
@@ -637,43 +669,46 @@ sugar：市工魅力調べ
           date: getTodayString(),
           text: text
         });
+        saveTasks();
         renderTasks();
       }
       closeAppendModal();
     }
 
-    // モーダル制御（ステータス変更）
+    // パスワード付きステータス変更モーダル制御
     let pendingStatusChange = null;
     function requestStatusChange(taskId, newStatus, statusText) {
       const task = taskData.find(t => t.id === taskId);
-      if (!task) return;
+      if (!task || task.status === newStatus) return;
 
-      if (task.changedCount === 0) {
-        task.status = newStatus;
-        task.changedCount++;
-        renderTasks();
-      } else {
-        pendingStatusChange = { taskId, newStatus };
-        document.getElementById('statusModal').classList.add('active');
-      }
+      pendingStatusChange = { taskId, newStatus };
+      document.getElementById('statusChangeDesc').textContent = `ステータスを「${statusText}」に変更するにはパスワードを入力してください。`;
+      document.getElementById('statusPasswordInput').value = '';
+      document.getElementById('statusPasswordError').style.display = 'none';
+      document.getElementById('statusModal').classList.add('active');
     }
     function closeStatusModal() {
       document.getElementById('statusModal').classList.remove('active');
       pendingStatusChange = null;
     }
     function confirmStatusChange() {
-      if (pendingStatusChange) {
-        const task = taskData.find(t => t.id === pendingStatusChange.taskId);
-        if (task) {
-          task.status = pendingStatusChange.newStatus;
-          task.changedCount++;
-          renderTasks();
+      const pass = document.getElementById('statusPasswordInput').value.trim();
+      if (pass === '3737') {
+        if (pendingStatusChange) {
+          const task = taskData.find(t => t.id === pendingStatusChange.taskId);
+          if (task) {
+            task.status = pendingStatusChange.newStatus;
+            saveTasks();
+            renderTasks();
+          }
         }
+        closeStatusModal();
+      } else {
+        document.getElementById('statusPasswordError').style.display = 'block';
       }
-      closeStatusModal();
     }
 
-    // モーダル制御（3段階削除確認）
+    // 3段階削除確認モーダル制御
     let deleteTarget = null;
     let deleteStep = 1;
 
@@ -712,14 +747,14 @@ sugar：市工魅力調べ
         if (inputPass === '3737') {
           if (deleteTarget.type === 'task') {
             taskData = taskData.filter(t => t.id !== deleteTarget.id);
-            renderTasks();
           } else if (deleteTarget.type === 'append') {
             const task = taskData.find(t => t.id === deleteTarget.id);
             if (task) {
               task.appends = task.appends.filter(ap => ap.id !== deleteTarget.appendId);
-              renderTasks();
             }
           }
+          saveTasks();
+          renderTasks();
           closeDeleteModal();
         } else {
           document.getElementById('passwordError').style.display = 'block';
@@ -731,11 +766,14 @@ sugar：市工魅力調べ
     function showSection(sectionId, btn) {
       document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById(sectionId).classList.add('active');
-      if (btn) btn.classList.add('active');
       
       if (sectionId === 'top-section') {
         document.getElementById('siteHeader').style.display = 'none';
+        document.getElementById('mainContainer').style.display = 'none';
+        document.getElementById('top-section').classList.add('active');
+      } else {
+        document.getElementById(sectionId).classList.add('active');
+        if (btn) btn.classList.add('active');
       }
 
       window.scrollTo({ top: 0 });
@@ -752,7 +790,9 @@ sugar：市工魅力調べ
 
     window.addEventListener('scroll', () => {
       const backBtn = document.getElementById('backToTopBtn');
-      const activeSection = document.querySelector('.content-section.active').id;
+      const activeSec = document.querySelector('.content-section.active');
+      if (!activeSec) return;
+      const activeSection = activeSec.id;
       
       if (activeSection !== 'member-section' && activeSection !== 'top-section' && window.scrollY > 200) {
         backBtn.classList.add('visible');
@@ -764,9 +804,8 @@ sugar：市工魅力調べ
     function filterTasks(status, btn) {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      document.querySelectorAll('.task-card').forEach(card => {
-        card.style.display = (status === 'all' || card.getAttribute('data-status') === status) ? 'block' : 'none';
-      });
+      currentFilter = status;
+      renderTasks();
     }
 
     function getTodayString() {
@@ -779,6 +818,7 @@ sugar：市工魅力調べ
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      loadTasks();
       renderLogs('all');
       renderTasks();
     });
