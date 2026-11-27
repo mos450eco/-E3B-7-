@@ -20,8 +20,7 @@ body {
   font-family: 'Noto Sans JP', sans-serif;
   background-color: var(--bg-color);
   color: var(--text-color);
-  min-height: 100vh;
-  padding-bottom: 60px;
+  min-height: 100dvh;
 }
 
 /* ヘッダー */
@@ -83,7 +82,7 @@ body {
 .main-content {
   max-width: 900px;
   margin: 24px auto;
-  padding: 0 16px;
+  padding: 0 16px 60px 16px;
 }
 
 .content-section {
@@ -94,42 +93,51 @@ body {
   display: block;
 }
 
-/* --- 0. 表紙カード --- */
+/* --- 0. 全デバイス対応：画面ぴったり中央の表紙カード --- */
+#top-section.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100dvh;
+  padding: 24px 16px;
+}
+
 .cover-card {
   background: white;
-  border-radius: 20px;
-  padding: 48px 24px;
+  border-radius: 24px;
+  padding: clamp(32px, 6vw, 64px) clamp(20px, 5vw, 48px);
   text-align: center;
   border: 2px solid #ffe3e3;
-  box-shadow: 0 8px 24px rgba(255, 142, 142, 0.12);
-  margin-top: 20px;
+  box-shadow: 0 10px 30px rgba(255, 142, 142, 0.14);
+  width: 100%;
+  max-width: 720px;
 }
 
 .cover-badge {
   display: inline-block;
   background: #ffeae8;
   color: #ff6b6b;
-  font-size: 0.85rem;
+  font-size: clamp(0.8rem, 2vw, 0.95rem);
   font-weight: bold;
-  padding: 6px 16px;
+  padding: 6px 18px;
   border-radius: 20px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .cover-title {
   font-family: 'Kiwi Maru', serif;
-  font-size: 2rem;
+  font-size: clamp(1.6rem, 4.5vw, 2.4rem);
   color: #333;
-  line-height: 1.4;
-  margin-bottom: 32px;
+  line-height: 1.45;
+  margin-bottom: 36px;
 }
 
 .start-btn {
   background: #ff6b6b;
   color: white;
   border: none;
-  padding: 14px 32px;
-  font-size: 1.1rem;
+  padding: 15px 36px;
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
   font-weight: bold;
   border-radius: 30px;
   cursor: pointer;
